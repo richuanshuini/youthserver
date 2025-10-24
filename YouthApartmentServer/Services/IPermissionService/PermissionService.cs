@@ -1,6 +1,6 @@
 ﻿namespace YouthApartmentServer.Services.IPermissionService;
 
-public class PermissionService
+public class PermissionService:IPermissionService
 {
     
 }

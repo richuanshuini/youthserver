@@ -19,7 +19,6 @@ public class RoleRepository:BaseRepository<Role,int>,IRoleRepository
 
     public async Task<Role> InsertAsync(Role role)
     {
-        base.Delete(role.RoleId);
         return await base.InsertAsync(role);
     }
 }

@@ -23,7 +23,9 @@ public class PermissionRepository:BaseRepository<Permission,int>,IPermissionRepo
 
     public async Task<int> DeleteByIdAsync(int id)
     {
-        throw new NotImplementedException();
-            
+        var hasRalation = await Orm.Select<RolePermission>().Where(r => r.PermissionId == id).AnyAsync();
+        if(hasRalation)
+            return 0;
+        return await Orm.Delete<Permission>().Where(r=>r.PermissionId == id).ExecuteAffrowsAsync();
     }
 }
