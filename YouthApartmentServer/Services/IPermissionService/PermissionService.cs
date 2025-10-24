@@ -5,30 +5,30 @@ namespace YouthApartmentServer.Services.IPermissionService;
 
 public class PermissionService:IPermissionService
 {
-    private readonly IPermissionRepository _permissionRepository;
+    private readonly IPermissionRepository _ipermissionRepository;
 
-    public PermissionService(IPermissionRepository permissionRepository)
+    public PermissionService(IPermissionRepository ipermissionRepository)
     {
-        _permissionRepository = permissionRepository;
+        _ipermissionRepository = ipermissionRepository;
     }
     public async Task<List<Permission>> GetAllPermissionsAsync()
     {
-        return await _permissionRepository.GetAllAsync();
+        return await _ipermissionRepository.GetAllAsync();
     }
 
     public async Task<Permission?> GetPermissionByIdAsync(int id)
     {
-        return await _permissionRepository.GetByIdAsync(id);
+        return await _ipermissionRepository.GetByIdAsync(id);
     }
     
     public async Task<Permission?> CreatePermissionAsync(Permission permission)
     {
-        return await _permissionRepository.InsertAsync(permission);
+        return await _ipermissionRepository.InsertAsync(permission);
     }
 
     public async Task<int> DeletePermissionAsync(int id)
     {
-        return await _permissionRepository.DeleteByIdAsync(id);
+        return await _ipermissionRepository.DeleteByIdAsync(id);
     }
 }
 

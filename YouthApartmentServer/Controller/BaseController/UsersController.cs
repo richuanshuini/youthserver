@@ -10,11 +10,11 @@ namespace YouthApartmentServer.Controller.BaseController
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IUserService _iuserService;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService iuserService)
         {
-            _userService = userService;
+            _iuserService = iuserService;
         }
         
         /// <summary>
@@ -23,9 +23,8 @@ namespace YouthApartmentServer.Controller.BaseController
         [HttpGet]
         public async Task<ActionResult<List<UserDto>>> GetAllUsers()
         {
-            var users = await _userService.GetAllUsersAsync();
-            var userDtos = users.Adapt<List<UserDto>>();
-            return Ok(userDtos);
+            var users = await _iuserService.GetAllUsersAsync();
+            return Ok(users.Adapt<List<UserDto>>());
         }
         
         /// <summary>
@@ -34,7 +33,7 @@ namespace YouthApartmentServer.Controller.BaseController
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto?>> GetUserById(int id)
         {
-            var user = await _userService.GetUserByIdAsync(id);
+            var user = await _iuserService.GetUserByIdAsync(id);
             if (user == null)
             {
                 return NotFound(new {error = "该用户不存在"});
@@ -50,10 +49,10 @@ namespace YouthApartmentServer.Controller.BaseController
         public async Task<ActionResult<UserDto>> CreateUser([FromBody] InsertUserDto insertUserDto)
         {
             //1、使用 Mapster 将 DTO 转为 User
-            var user = insertUserDto.Adapt<User>(); // 替换为 Mapster 映射
+            var user = insertUserDto.Adapt<User>(); 
 
             //2、执行业务逻辑
-            var newUser = await _userService.CreateUserAsync(user);
+            var newUser = await _iuserService.CreateUserAsync(user);
 
             if (newUser == null)
             {
@@ -84,7 +83,7 @@ namespace YouthApartmentServer.Controller.BaseController
                 // 将传入的数据映射为 User（Mapster）
                 var user = userDto.Adapt<User>(); //Mapster 映射
 
-                var insertUser = await _userService.CreateUserAsync(user);
+                var insertUser = await _iuserService.CreateUserAsync(user);
                 if (insertUser == null)
                     conflictUsernames.Add(userDto.UserName);
                 else

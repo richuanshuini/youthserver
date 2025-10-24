@@ -9,11 +9,11 @@ namespace YouthApartmentServer.Controller.BaseController;
 [Route("api/[controller]")]
 public class RoleController : ControllerBase
 {
-    private readonly IRoleService _roleService;
+    private readonly IRoleService _iroleService;
 
-    public RoleController(IRoleService roleService)
+    public RoleController(IRoleService iroleService)
     {
-        _roleService = roleService;
+        _iroleService = iroleService;
     }
     
     /// <summary>
@@ -22,9 +22,8 @@ public class RoleController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<RoleDto>>> GetAllRoles()
     {
-        var roles = await _roleService.GetAllRolesAsync();
-        var roleDtos = roles.Adapt<List<RoleDto>>();
-        return Ok(roleDtos);
+        var roles = await _iroleService.GetAllRolesAsync();
+        return Ok(roles.Adapt<List<RoleDto>>());
     }
         
     /// <summary>
@@ -33,7 +32,7 @@ public class RoleController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<UserDto?>> GetRoleById(int id)
     {
-        var role = await _roleService.GetRoleByIdAsync(id);
+        var role = await _iroleService.GetRoleByIdAsync(id);
         if (role == null)
         {
             return NotFound(new {error = "该角色不存在"});
