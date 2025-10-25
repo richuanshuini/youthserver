@@ -16,6 +16,12 @@ public class UserDto
     public bool Status { get; set; }
 }
 
+public class UserRoleDto
+{
+    public int UserId { get; set; }
+    public int RoleId { get; set; }
+}
+
 public class RoleDto
 {
     public int RoleId { get; set; }
@@ -36,6 +42,7 @@ public class PermissionDto
     public string? Description { get; set; }
     public string? Module { get; set; }
 }
+
 
 #endregion
 
@@ -90,5 +97,3 @@ public class InsertRoleDto
 
 
 #endregion
-
-

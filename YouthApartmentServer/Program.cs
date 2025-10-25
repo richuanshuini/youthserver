@@ -44,12 +44,12 @@ builder.Services.AddSwaggerGen(options =>
 //接入Freesql
 Func<IServiceProvider, IFreeSql> fsqlFactory = r =>
 {
-    string connectionString = "Data Source=127.0.0.1;Port=3306;User ID=root;Password=123456; Initial Catalog=youth_apartment_db;Charset=utf8mb4; SslMode=none;Min pool size=1";
+    string connectionString = "Server=127.0.0.1;Port=3306;Database=youth_apartment_db;User ID=root;Password=123456;Charset=utf8mb4;SslMode=none;AllowPublicKeyRetrieval=true;Min pool size=1";
     IFreeSql fsql = new FreeSql.FreeSqlBuilder()
         .UseConnectionString(FreeSql.DataType.MySql, connectionString)
         .UseAdoConnectionPool(true)
         .UseMonitorCommand(cmd => Console.WriteLine($"Sql：{cmd.CommandText}"))
-        .UseAutoSyncStructure(true) //仅在开发测试环境使用，每一次运行就自动更新数据库
+        .UseAutoSyncStructure(true)
         .Build();
     return fsql;
 };
