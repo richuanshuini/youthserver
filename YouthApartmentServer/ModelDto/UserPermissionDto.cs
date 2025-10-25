@@ -2,8 +2,7 @@
 #pragma warning disable CS8618
 namespace YouthApartmentServer.ModelDto;
 
-
-//管理员专属DTO
+#region 查询DTO
 public class UserDto
 {
     public int UserId { get; set; }
@@ -17,6 +16,30 @@ public class UserDto
     public bool Status { get; set; }
 }
 
+public class RoleDto
+{
+    public int RoleId { get; set; }
+    public string RoleName { get; set; }
+    public string? Description { get; set; }
+}
+
+public class RolePermissionDto
+{
+    public int RoleId { get; set; }
+    public int PermissionId { get; set; }
+}
+
+public class PermissionDto
+{
+    public int PermissionId { get; set; }
+    public string? PermissionName { get; set; }
+    public string? Description { get; set; }
+    public string? Module { get; set; }
+}
+
+#endregion
+
+#region 插入DTO
 //这个DTO用于从前端获取插入的书籍，首先隐藏ID（主键自增） 然后就是Status（首次注册都默认需要管理员手动更改状态，才能访问系统）
 public class InsertUserDto
 {
@@ -53,13 +76,6 @@ public class InsertUserStatusDto
     public bool? Status { get; set; }
 }
 
-public class RoleDto
-{
-    public int RoleId { get; set; }
-    public string RoleName { get; set; }
-    public string? Description { get; set; }
-}
-
 public class InsertRoleDto
 {
     [Required(ErrorMessage = "角色名称不能为空")]
@@ -67,16 +83,12 @@ public class InsertRoleDto
     public string? Description { get; set; }
 }
 
-public class RolePermissionDto
-{
-    public int RoleId { get; set; }
-    public int PermissionId { get; set; }
-}
+#endregion
 
-public class PermissionDto
-{
-    public int PermissionId { get; set; }
-    public string? PermissionName { get; set; }
-    public string? Description { get; set; }
-    public string? Module { get; set; }
-}
+#region 修改DTO
+
+
+
+#endregion
+
+

@@ -9,21 +9,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a6b10c1a-9665-415a-b172-5e6eb2a741a3" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/RolePermissionController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Profiles/PermissionProfile.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IRolePermission/IRolePermissionRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IRolePermission/RolePermissionRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IRolePermissionService/IRolePermissionService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IRolePermissionService/RolePermissionService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/PermissionController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/PermissionController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/RoleController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/RoleController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UsersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UsersController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Model/UserPermissionModel/RolePermission.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Model/UserPermissionModel/RolePermission.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/UserPermissionDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/UserPermissionDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Services/IPermissionService/PermissionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IPermissionService/PermissionService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Services/IRoleServices/RoleService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IRoleServices/RoleService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserServices/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserServices/UserService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,19 +37,17 @@
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Model/UserPermissionModel/User.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Model/UserPermissionModel/UserRole.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/ModelDto/UserPermissionDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://D:/Code/Push/YouthApartmentServer/YouthApartmentServer/ModelDto/UserPermissionDto.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Profiles/PermissionProfile.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Profiles/RoleProfile.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://D:/Code/Push/YouthApartmentServer/YouthApartmentServer/Program.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Repositories/IPermission/IPermissionRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Repositories/IPermission/PermissionRepository.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://D:/Code/Push/YouthApartmentServer/YouthApartmentServer/Repositories/IPermission/PermissionRepository.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Repositories/IRole/IRoleRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Repositories/IRole/RoleRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Repositories/IRolePermission/IRolePermissionRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Repositories/IRolePermission/RolePermissionRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Services/IPermissionService/IPermissionService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Services/IPermissionService/PermissionService.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://D:/Code/Push/YouthApartmentServer/YouthApartmentServer/Services/IPermissionService/PermissionService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Services/IRolePermissionService/IRolePermissionService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Services/IRolePermissionService/RolePermissionService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Services/IRoleServices/IRoleService.cs" root0="FORCE_HIGHLIGHTING" />
@@ -96,7 +81,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C#&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.postfix.templates&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -158,7 +143,9 @@
       <workItem from="1761189184198" duration="1611000" />
       <workItem from="1761201844298" duration="4125000" />
       <workItem from="1761209154923" duration="5466000" />
-      <workItem from="1761271449807" duration="9402000" />
+      <workItem from="1761271449807" duration="12618000" />
+      <workItem from="1761311449129" duration="2264000" />
+      <workItem from="1761360916269" duration="1523000" />
     </task>
     <task id="LOCAL-00001" summary="更新了一个接口">
       <option name="closed" value="true" />
@@ -176,7 +163,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761274981432</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="重新优化了系统架构，更新了接口注入，而不是实现接口注入">
+      <option name="closed" value="true" />
+      <created>1761294124767</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1761294124767</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -199,7 +194,8 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="更新了一个接口" />
     <MESSAGE value="更新了几个接口" />
-    <option name="LAST_COMMIT_MESSAGE" value="更新了几个接口" />
+    <MESSAGE value="重新优化了系统架构，更新了接口注入，而不是实现接口注入" />
+    <option name="LAST_COMMIT_MESSAGE" value="重新优化了系统架构，更新了接口注入，而不是实现接口注入" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
