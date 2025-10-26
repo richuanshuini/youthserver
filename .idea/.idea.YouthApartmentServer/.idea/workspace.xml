@@ -9,15 +9,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a6b10c1a-9665-415a-b172-5e6eb2a741a3" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UserRoleController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Profiles/UserRoleProfile.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUserRole/IUserRoleRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUserRole/UserRoleRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserRoleServices/IUserRoleService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserRoleServices/UserRoleService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/UserPermissionDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/UserPermissionDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,29 +77,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET 启动设置配置文件.YouthApartmentServer: http.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.postfix.templates",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET 启动设置配置文件.YouthApartmentServer: http.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;npm.lint.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.postfix.templates&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;E:\\Program\\JetBrains Rider 2025.2.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
-  <component name="RunManager" selected=".NET 启动设置配置文件.YouthApartmentServer: http">
+}</component>
+  <component name="RunManager" selected="npm.dev">
     <configuration name="YouthApartmentServer: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/YouthApartmentServer/YouthApartmentServer.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
@@ -139,6 +135,31 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="dev" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/YouthApartmentFrontend/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2">
+        <option name="NpmBeforeRunTask" enabled="true">
+          <package-json value="$PROJECT_DIR$/YouthApartmentFrontend/package.json" />
+          <command value="run" />
+          <scripts>
+            <script value="lint" />
+          </scripts>
+          <node-interpreter value="project" />
+          <envs />
+        </option>
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue=".NET 启动设置配置文件.YouthApartmentServer: http" />
+      <item itemvalue=".NET 启动设置配置文件.YouthApartmentServer: https" />
+      <item itemvalue="npm.dev" />
+    </list>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="默认任务">
@@ -161,7 +182,8 @@
       <workItem from="1761209154923" duration="5466000" />
       <workItem from="1761271449807" duration="12618000" />
       <workItem from="1761311449129" duration="2264000" />
-      <workItem from="1761360916269" duration="5000000" />
+      <workItem from="1761360916269" duration="5820000" />
+      <workItem from="1761444762689" duration="227000" />
     </task>
     <task id="LOCAL-00001" summary="更新了一个接口">
       <option name="closed" value="true" />
@@ -195,7 +217,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761398730267</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="更新了UserRole相关接口">
+      <option name="closed" value="true" />
+      <created>1761407434307</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1761407434307</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -220,7 +250,8 @@
     <MESSAGE value="更新了几个接口" />
     <MESSAGE value="重新优化了系统架构，更新了接口注入，而不是实现接口注入" />
     <MESSAGE value="更新了文件结构" />
-    <option name="LAST_COMMIT_MESSAGE" value="更新了文件结构" />
+    <MESSAGE value="更新了UserRole相关接口" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新了UserRole相关接口" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
