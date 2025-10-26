@@ -9,8 +9,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a6b10c1a-9665-415a-b172-5e6eb2a741a3" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/indexLayout.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/YouthApartmentFrontend/API文档/20251026.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/api/http.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/api/http.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/components/common/Forbidden.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/components/common/Forbidden.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/components/common/NotFound.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/components/common/NotFound.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/layout/AdminLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/layout/AdminLayout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/_template/components/Placeholder.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/_template/components/Placeholder.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/_template/pages/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/_template/pages/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/_template/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/_template/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/permission/pages/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/permission/pages/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/permission/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/permission/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/permission/services.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/permission/services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/role-permission/pages/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/role-permission/pages/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/role-permission/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/role-permission/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/role-permission/services.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/role-permission/services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/role/pages/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/role/pages/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/role/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/role/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/role/services.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/role/services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user-role/pages/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user-role/pages/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user-role/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user-role/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user-role/services.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user-role/services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/pages/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/pages/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/services.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/router/modules-loader.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/router/modules-loader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/vite.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +131,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected="npm.dev">
+  <component name="RunManager" selected=".NET 启动设置配置文件.YouthApartmentServer: http">
     <configuration name="YouthApartmentServer: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/YouthApartmentServer/YouthApartmentServer.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
@@ -184,6 +213,7 @@
       <workItem from="1761311449129" duration="2264000" />
       <workItem from="1761360916269" duration="5820000" />
       <workItem from="1761444762689" duration="227000" />
+      <workItem from="1761445292488" duration="4358000" />
     </task>
     <task id="LOCAL-00001" summary="更新了一个接口">
       <option name="closed" value="true" />
@@ -225,7 +255,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761407434307</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="新增前端">
+      <option name="closed" value="true" />
+      <created>1761445318055</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1761445318055</updated>
+    </task>
+    <task id="LOCAL-00007" summary="更新了前端项目结构，模块化设计">
+      <option name="closed" value="true" />
+      <created>1761447293017</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1761447293017</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -251,7 +297,9 @@
     <MESSAGE value="重新优化了系统架构，更新了接口注入，而不是实现接口注入" />
     <MESSAGE value="更新了文件结构" />
     <MESSAGE value="更新了UserRole相关接口" />
-    <option name="LAST_COMMIT_MESSAGE" value="更新了UserRole相关接口" />
+    <MESSAGE value="新增前端" />
+    <MESSAGE value="更新了前端项目结构，模块化设计" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新了前端项目结构，模块化设计" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
