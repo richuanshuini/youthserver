@@ -34,7 +34,7 @@ const rules = {
   ],
   phone: [
     { required: true, message: '电话号码不能为空', trigger: 'blur' },
-    { pattern: /^1[3-9]\\d{9}$/, message: '请输入有效的11位中国大陆手机号码', trigger: 'blur' },
+    { pattern: /^1[3-9]\d{9}$/, message: '请输入有效的11位中国大陆手机号码', trigger: 'blur' },
   ],
   realName: [{ required: true, message: '真实姓名不能为空', trigger: 'blur' }],
   gender: [
@@ -43,7 +43,7 @@ const rules = {
   ],
   idCard: [
     { required: true, message: '身份证号不能为空', trigger: 'blur' },
-    { pattern: /^[1-9]\\d{5}(19|20)\\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$/, message: '请输入有效的身份证号', trigger: 'blur' }
+    { pattern: /^[1-9]\d{5}(19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/, message: '请输入有效的身份证号', trigger: 'blur' }
   ],
 };
 
@@ -59,8 +59,8 @@ const fetchUsers = async () => {
   loading.value = true;
   try {
     users.value = await listUsers();
-  } catch {
-    ElMessage.error('获取用户列表失败');
+  } catch (error) {
+    ElMessage.error(getErrorMessage(error, '获取用户列表失败'));
   } finally {
     loading.value = false;
   }
@@ -70,8 +70,8 @@ const handleStatusChange = async (row) => {
   try {
     await setUserStatus(row.userId, row.status);
     ElMessage.success('状态更新成功');
-  } catch {
-    ElMessage.error('状态更新失败');
+  } catch (error) {
+    ElMessage.error(getErrorMessage(error, '状态更新失败'));
     row.status = !row.status;
   }
 };
@@ -85,6 +85,25 @@ const openCreate = () => {
   }
   createForm.value = { userName: '', password: '', email: '', phone: '', realName: '', gender: '', idCard: '' };
 };
+
+const getErrorMessage = (error, defaultMessage) => {
+  // ValidationProblemDetails
+  if (error?.response?.data?.errors) {
+    const errors = error.response.data.errors;
+    const messages = Object.values(errors).flat();
+    return messages.join('\n');
+  }
+  // 简单错误字符串
+  if (error?.response?.data?.error) {
+    return error.response.data.error;
+  }
+  // problem+json 兼容（可选）
+  if (error?.response?.data?.title || error?.response?.data?.detail) {
+    return [error.response.data.title, error.response.data.detail].filter(Boolean).join('：');
+  }
+  return defaultMessage;
+};
+
 const submitCreate = () => {
   createFormRef.value.validate(async (valid) => {
     if (!valid) return;
@@ -93,8 +112,8 @@ const submitCreate = () => {
       ElMessage.success('创建成功');
       createDialogVisible.value = false;
       fetchUsers();
-    } catch {
-      ElMessage.error('创建失败');
+    } catch (error) {
+      ElMessage.error(getErrorMessage(error, '创建失败'));
     }
   });
 };
@@ -104,8 +123,8 @@ const openEdit = (row) => {
   if (editFormRef.value) {
     editFormRef.value.resetFields();
   }
-  // Copy row data to editForm, including the password
-  editForm.value = { ...row }; 
+  // 将行数据复制到编辑表单，包括密码字段
+  editForm.value = { ...row };
   editDialogVisible.value = true;
 };
 
@@ -113,13 +132,12 @@ const submitEdit = () => {
   editFormRef.value.validate(async (valid) => {
     if (!valid) return;
     try {
-      // Always send the payload as is, including the password
       await updateUser(editForm.value.userId, editForm.value);
       ElMessage.success('修改成功');
       editDialogVisible.value = false;
       fetchUsers();
-    } catch {
-      ElMessage.error('修改失败');
+    } catch (error) {
+      ElMessage.error(getErrorMessage(error, '修改失败'));
     }
   });
 };

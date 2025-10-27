@@ -101,7 +101,12 @@ namespace YouthApartmentServer.Controller.BaseController
             });
         }
         
-        
+        /// <summary>
+        /// 更新用户的状态
+        /// </summary>
+        /// <param name="id">需要更新用户的ID</param>
+        /// <param name="userStatusDto">需要更新的DTO，仅包含Status</param>
+        /// <returns>204状态码，修改成功</returns>
         [HttpPost("{id}/updateUserStatus")]
         public async Task<IActionResult> SetUserStatus(int id, [FromBody] SetUserStatusDto userStatusDto)
         {
@@ -120,6 +125,16 @@ namespace YouthApartmentServer.Controller.BaseController
         [HttpPost("{id}/replace")]
         public async Task<ActionResult<UserDto>> RepalceUser(int id, [FromBody] UpdateUserDto updateUserDto)
         {
+            // 排除当前用户的唯一性检查
+            if (updateUserDto.UserName != null)
+            {
+                var existed = await _iuserService.ExistUserName(updateUserDto.UserName);
+                if (existed != 0 && existed != id)
+                {
+                    return BadRequest(new { error = "修改后的用户名已经存在，请重新修改" });
+                }
+            }
+
             var result=await _iuserService.UpdateUserAsync(id, updateUserDto);
             if (result == null)
                 return NotFound(new { error = "该用户不存在" });
@@ -135,12 +150,22 @@ namespace YouthApartmentServer.Controller.BaseController
         [HttpPost("{id}/update")]
         public async Task<ActionResult<UserDto>> UpdateUser(int id, [FromBody] UpdateUserDto updateUserDto)
         {
+            // 更新时，必须要检查，当前更新的用户名是否存在数据库中（排除自己）
+            if (updateUserDto.UserName != null)
+            {
+                var existed = await _iuserService.ExistUserName(updateUserDto.UserName);
+                if (existed != 0 && existed != id)
+                {
+                    return BadRequest(new { error = "修改后的用户名已经存在，请重新修改" });
+                }
+            }
+
             var result=await _iuserService.PatchUserAsync(id, updateUserDto);
             if (!result)
                 return NotFound(new { error = "该用户不存在" });
             return NoContent();
         }
-        
+
         
     }
 }

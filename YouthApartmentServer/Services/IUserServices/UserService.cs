@@ -63,5 +63,10 @@ namespace YouthApartmentServer.Services.IUserServices
             //部分更新，直接调用传入id和更新的DTO即可
             return await _iuserRepository.UpdateAsync(id, userDto);
         }
+
+        public async Task<int> ExistUserName(string username)
+        {
+            return await _iuserRepository.ExistUserName(username);
+        }
     }
 }

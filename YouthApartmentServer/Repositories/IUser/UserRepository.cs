@@ -77,9 +77,11 @@ namespace YouthApartmentServer.Repositories.IUser
             return affectedRows > 0;
         }
 
-        
-        
-
-        
+        public async Task<int> ExistUserName(string username)
+        {
+            var user=await Select.Where(u=>u.UserName==username).ToOneAsync();
+            //??是空并运行符，当左边为空时，则返回右边的0，当左边不为空时，则返回左边的值
+            return user?.UserId ?? 0;
+        }
     }
 }

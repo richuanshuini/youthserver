@@ -12,5 +12,8 @@ namespace YouthApartmentServer.Repositories.IUser
         Task<bool> UpdateUserStatusAsync(int id, bool status);
         Task<User> UpdateAsync(User user);
         Task<bool> UpdateAsync(int userId, UpdateUserDto updateUserDto);
+        //检查用户名所对应的id，如果不存在该用户就返回null或者0
+        Task<int> ExistUserName(string username);
+        
     }
 }
