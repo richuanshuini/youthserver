@@ -10,12 +10,11 @@
   <component name="ChangeListManager">
     <list default="true" id="a6b10c1a-9665-415a-b172-5e6eb2a741a3" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/layout/AdminLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/layout/AdminLayout.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/pages/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/pages/Index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/services.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/services.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UsersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UsersController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Model/UserPermissionModel/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Model/UserPermissionModel/User.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/UserPermissionDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/UserPermissionDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Profiles/UserProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Profiles/UserProfile.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/IUserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/IUserRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/UserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/UserRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserServices/IUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserServices/IUserService.cs" afterDir="false" />
@@ -194,6 +193,7 @@
       <workItem from="1761360916269" duration="5820000" />
       <workItem from="1761444762689" duration="227000" />
       <workItem from="1761445292488" duration="9681000" />
+      <workItem from="1761531304619" duration="6514000" />
     </task>
     <task id="LOCAL-00001" summary="更新了一个接口">
       <option name="closed" value="true" />
@@ -259,7 +259,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761471776982</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="更新了前端布局，部分后端接口">
+      <option name="closed" value="true" />
+      <created>1761531329977</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1761531329977</updated>
+    </task>
+    <task id="LOCAL-00010" summary="初始">
+      <option name="closed" value="true" />
+      <created>1761531346666</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1761531346666</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -288,7 +304,9 @@
     <MESSAGE value="新增前端" />
     <MESSAGE value="更新了前端项目结构，模块化设计" />
     <MESSAGE value="新增了一些前端页面" />
-    <option name="LAST_COMMIT_MESSAGE" value="新增了一些前端页面" />
+    <MESSAGE value="更新了前端布局，部分后端接口" />
+    <MESSAGE value="初始" />
+    <option name="LAST_COMMIT_MESSAGE" value="初始" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

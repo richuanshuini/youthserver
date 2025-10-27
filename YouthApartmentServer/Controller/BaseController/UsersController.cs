@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using YouthApartmentServer.Model.UserPermissionModel;
 using YouthApartmentServer.ModelDto;
 using YouthApartmentServer.Services.IUserServices;
+using ZstdSharp.Unsafe;
 
 namespace YouthApartmentServer.Controller.BaseController
 {
@@ -101,13 +102,43 @@ namespace YouthApartmentServer.Controller.BaseController
         }
         
         
-        [HttpPost("{id}/SetUserStatus")]
+        [HttpPost("{id}/updateUserStatus")]
         public async Task<IActionResult> SetUserStatus(int id, [FromBody] SetUserStatusDto userStatusDto)
         {
-            var result = await _iuserService.UpdateUserStaus(id, userStatusDto.Status);
+            var result = await _iuserService.UpdateUserStausAsync(id, userStatusDto.Status);
             if(result)
                 return Ok();
             return NotFound();
+        }
+        
+        /// <summary>
+        /// 全量更新一个用户
+        /// </summary>
+        /// <param name="id">要更新的用户的ID</param>
+        /// <param name="updateUserDto">用户的完整新数据</param>
+        /// <returns>更新后的用户信息</returns>
+        [HttpPost("{id}/replace")]
+        public async Task<ActionResult<UserDto>> RepalceUser(int id, [FromBody] UpdateUserDto updateUserDto)
+        {
+            var result=await _iuserService.UpdateUserAsync(id, updateUserDto);
+            if (result == null)
+                return NotFound(new { error = "该用户不存在" });
+            return Ok(result.Adapt<UserDto>());
+        }
+        
+        /// <summary>
+        /// 部分更新用户
+        /// </summary>
+        /// <param name="id">要更新的用户的ID</param>
+        /// <param name="updateUserDto">用户的部分新数据</param>
+        /// <returns>204状态码，表示更新成功</returns>
+        [HttpPost("{id}/update")]
+        public async Task<ActionResult<UserDto>> UpdateUser(int id, [FromBody] UpdateUserDto updateUserDto)
+        {
+            var result=await _iuserService.PatchUserAsync(id, updateUserDto);
+            if (!result)
+                return NotFound(new { error = "该用户不存在" });
+            return NoContent();
         }
         
         

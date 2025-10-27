@@ -1,4 +1,6 @@
+using Mapster;
 using YouthApartmentServer.Model.UserPermissionModel;
+using YouthApartmentServer.ModelDto;
 using YouthApartmentServer.Repositories.IUser;
 
 namespace YouthApartmentServer.Services.IUserServices
@@ -39,9 +41,27 @@ namespace YouthApartmentServer.Services.IUserServices
 
         }
 
-        public async Task<bool> UpdateUserStaus(int id, bool status)
+        public async Task<bool> UpdateUserStausAsync(int id, bool status)
         {
-            return await _iuserRepository.SetUserStatusAsync(id, status);
+            return await _iuserRepository.UpdateUserStatusAsync(id, status);
+        }
+
+        public async Task<User?> UpdateUserAsync(int id, UpdateUserDto userDto)
+        {
+            //服务层，调用储仓的，和前端传入的id处理全量更新
+            var existingUser = await _iuserRepository.GetByIdAsync(id);
+            if (existingUser == null)
+                return null;
+            //将DTO的更新，映射到已经加载的实体上
+            userDto.Adapt(existingUser);
+            //全量更新
+            return await _iuserRepository.UpdateAsync(existingUser);;
+        }
+
+        public async Task<bool> PatchUserAsync(int id, UpdateUserDto userDto)
+        {
+            //部分更新，直接调用传入id和更新的DTO即可
+            return await _iuserRepository.UpdateAsync(id, userDto);
         }
     }
 }

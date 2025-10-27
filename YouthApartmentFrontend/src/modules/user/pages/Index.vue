@@ -2,14 +2,21 @@
 defineOptions({ name: 'UserIndexPage' });
 import { ref, onMounted } from 'vue';
 import { ElMessage } from 'element-plus';
-import { listUsers, createUser, setUserStatus } from '../services.js';
+import { listUsers, createUser, setUserStatus, updateUser } from '../services.js';
 
 const loading = ref(false);
 const users = ref([]);
 
-const dialogVisible = ref(false);
-const formRef = ref();
-const form = ref({ userName: '', password: '', email: '', phone: '', realName: '', gender: '', idCard: '' });
+// --- Create User Dialog ---
+const createDialogVisible = ref(false);
+const createFormRef = ref();
+const createForm = ref({ userName: '', password: '', email: '', phone: '', realName: '', gender: '', idCard: '' });
+
+// --- Edit User Dialog ---
+const editDialogVisible = ref(false);
+const editFormRef = ref();
+const editForm = ref({ userId: null, userName: '', password: '', email: '', phone: '', realName: '', gender: '', idCard: '' });
+
 const rules = {
   userName: [
     { required: true, message: '用户名不能为空', trigger: 'blur' },
@@ -27,14 +34,25 @@ const rules = {
   ],
   phone: [
     { required: true, message: '电话号码不能为空', trigger: 'blur' },
-    { pattern: /^1[3-9]\d{9}$/, message: '请输入有效的11位中国大陆手机号码', trigger: 'blur' },
+    { pattern: /^1[3-9]\\d{9}$/, message: '请输入有效的11位中国大陆手机号码', trigger: 'blur' },
   ],
   realName: [{ required: true, message: '真实姓名不能为空', trigger: 'blur' }],
-  gender: [{ required: true, message: '性别不能为空', trigger: 'change' }],
+  gender: [
+      { required: true, message: '性别不能为空', trigger: 'change' },
+      { pattern: /^(男|女)$/, message: '性别必须为 \'男\' 或 \'女\'', trigger: 'change' }
+  ],
   idCard: [
     { required: true, message: '身份证号不能为空', trigger: 'blur' },
-    { pattern: /^[1-9]\d{5}(19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/, message: '请输入有效的身份证号', trigger: 'blur' }
+    { pattern: /^[1-9]\\d{5}(19|20)\\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$/, message: '请输入有效的身份证号', trigger: 'blur' }
   ],
+};
+
+const editRules = {
+    ...rules,
+    password: [ // Override password rule for editing
+        { min: 6, max: 20, message: '密码的长度必须在6到20个字符之间', trigger: 'blur' },
+        { pattern: /^[a-zA-Z0-9]+$/, message: '密码只能包含字母和数字', trigger: 'blur' },
+    ]
 };
 
 const fetchUsers = async () => {
@@ -58,21 +76,54 @@ const handleStatusChange = async (row) => {
   }
 };
 
-const openCreate = () => { dialogVisible.value = true; };
+// --- Create User Logic ---
+const openCreate = () => {
+  createDialogVisible.value = true;
+  // Reset form if needed
+  if (createFormRef.value) {
+    createFormRef.value.resetFields();
+  }
+  createForm.value = { userName: '', password: '', email: '', phone: '', realName: '', gender: '', idCard: '' };
+};
 const submitCreate = () => {
-  formRef.value.validate(async (valid) => {
+  createFormRef.value.validate(async (valid) => {
     if (!valid) return;
     try {
-      await createUser({ ...form.value });
+      await createUser({ ...createForm.value });
       ElMessage.success('创建成功');
-      dialogVisible.value = false;
-      form.value = { userName: '', password: '', email: '', phone: '', realName: '', gender: '', idCard: '' };
+      createDialogVisible.value = false;
       fetchUsers();
     } catch {
       ElMessage.error('创建失败');
     }
   });
 };
+
+// --- Edit User Logic ---
+const openEdit = (row) => {
+  if (editFormRef.value) {
+    editFormRef.value.resetFields();
+  }
+  // Copy row data to editForm, including the password
+  editForm.value = { ...row }; 
+  editDialogVisible.value = true;
+};
+
+const submitEdit = () => {
+  editFormRef.value.validate(async (valid) => {
+    if (!valid) return;
+    try {
+      // Always send the payload as is, including the password
+      await updateUser(editForm.value.userId, editForm.value);
+      ElMessage.success('修改成功');
+      editDialogVisible.value = false;
+      fetchUsers();
+    } catch {
+      ElMessage.error('修改失败');
+    }
+  });
+};
+
 
 onMounted(fetchUsers);
 </script>
@@ -105,34 +156,40 @@ onMounted(fetchUsers);
           />
         </template>
       </el-table-column>
+      <el-table-column label="操作" width="120">
+        <template #default="{ row }">
+          <el-button type="primary" plain @click="openEdit(row)">修改</el-button>
+        </template>
+      </el-table-column>
     </el-table>
   </el-card>
 
-  <el-dialog v-model="dialogVisible" title="新增用户" width="680px">
-    <el-form ref="formRef" :model="form" :rules="rules" label-width="90px">
+  <!-- Create User Dialog -->
+  <el-dialog v-model="createDialogVisible" title="新增用户" width="680px">
+    <el-form ref="createFormRef" :model="createForm" :rules="rules" label-width="90px">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="用户名" prop="userName"><el-input v-model="form.userName" /></el-form-item>
+          <el-form-item label="用户名" prop="userName"><el-input v-model="createForm.userName" /></el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="密码" prop="password"><el-input v-model="form.password" type="password" /></el-form-item>
+          <el-form-item label="密码" prop="password"><el-input v-model="createForm.password" type="text" /></el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="邮箱" prop="email"><el-input v-model="form.email" /></el-form-item>
+          <el-form-item label="邮箱" prop="email"><el-input v-model="createForm.email" /></el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="电话" prop="phone"><el-input v-model="form.phone" /></el-form-item>
+          <el-form-item label="电话" prop="phone"><el-input v-model="createForm.phone" /></el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="姓名" prop="realName"><el-input v-model="form.realName" /></el-form-item>
+          <el-form-item label="姓名" prop="realName"><el-input v-model="createForm.realName" /></el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="性别" prop="gender">
-            <el-select v-model="form.gender" placeholder="请选择" style="width: 100%;">
+            <el-select v-model="createForm.gender" placeholder="请选择" style="width: 100%;">
               <el-option label="男" value="男" />
               <el-option label="女" value="女" />
             </el-select>
@@ -141,13 +198,59 @@ onMounted(fetchUsers);
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item label="身份证号" prop="idCard"><el-input v-model="form.idCard" /></el-form-item>
+          <el-form-item label="身份证号" prop="idCard"><el-input v-model="createForm.idCard" /></el-form-item>
         </el-col>
       </el-row>
     </el-form>
     <template #footer>
-      <el-button @click="dialogVisible = false">取消</el-button>
+      <el-button @click="createDialogVisible = false">取消</el-button>
       <el-button type="primary" @click="submitCreate">提交</el-button>
+    </template>
+  </el-dialog>
+
+  <!-- Edit User Dialog -->
+  <el-dialog v-model="editDialogVisible" title="修改用户" width="680px">
+    <el-form ref="editFormRef" :model="editForm" :rules="editRules" label-width="90px">
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="用户名" prop="userName"><el-input v-model="editForm.userName" /></el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="密码" prop="password">
+            <el-input v-model="editForm.password" type="text" placeholder="留空则不修改密码" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="邮箱" prop="email"><el-input v-model="editForm.email" /></el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="电话" prop="phone"><el-input v-model="editForm.phone" /></el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="姓名" prop="realName"><el-input v-model="editForm.realName" /></el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="性别" prop="gender">
+            <el-select v-model="editForm.gender" placeholder="请选择" style="width: 100%;">
+              <el-option label="男" value="男" />
+              <el-option label="女" value="女" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item label="身份证号" prop="idCard"><el-input v-model="editForm.idCard" /></el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+    <template #footer>
+      <el-button @click="editDialogVisible = false">取消</el-button>
+      <el-button type="primary" @click="submitEdit">提交</el-button>
     </template>
   </el-dialog>
 </template>

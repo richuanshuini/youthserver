@@ -78,6 +78,8 @@ public class InsertUserDto
     [Required(ErrorMessage = "性别不能为空")]
     [RegularExpression(@"^(男|女)$",ErrorMessage = "性别必须为 '男' 或 '女' ")]
     public string Gender { get; set; }
+    
+    public string? UserAvatarUrl{get;set;}
 
 }
 
@@ -113,30 +115,33 @@ public class UpdateUserDto
     [Required(ErrorMessage = "用户名不能为空")]
     [StringLength(30,MinimumLength = 3,ErrorMessage = "用户名长度必须在3~20个字符之间")]
     [RegularExpression(@"^[a-zA-Z0-9]+$",ErrorMessage = "用户名只能包含字母和数字")]
-    public string UserName { get; set; }
+    public string? UserName { get; set; }
     
     [Required(ErrorMessage = "密码不能为空")]
     [StringLength(20,MinimumLength = 6,ErrorMessage = "密码的长度必须在6~20个字符之间")]
     [RegularExpression(@"^[a-zA-Z0-9]+$",ErrorMessage = "密码只能包含字母和数字")]
-    public string Password { get; set; }
+    public string? Password { get; set; }
     
     [Required(ErrorMessage = "邮箱不能为空")]
     [EmailAddress(ErrorMessage = "邮箱格式错误")]
-    public string Email { get; set; }
+    public string? Email { get; set; }
 
     [Required(ErrorMessage = "电话号码不能为空")]
     [RegularExpression(@"^1[3-9]\d{9}$",ErrorMessage = "输入有效的11位中国大陆手机号码")]
-    public string Phone { get; set; }
+    public string? Phone { get; set; }
     
     [Required(ErrorMessage = "真实姓名不能为空")]
-    public string RealName { get; set; }
+    public string? RealName { get; set; }
     
     [RegularExpression(@"^[1-9]\d{5}(19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$",ErrorMessage = "请输入有效的身份证号")]
-    public string IdCard{get;set;}
+    public string? IdCard{get;set;}
     
     [Required(ErrorMessage = "性别不能为空")]
     [RegularExpression(@"^(男|女)$",ErrorMessage = "性别必须为 '男' 或 '女' ")]
-    public string Gender { get; set; }
+    public string? Gender { get; set; }
+    
+    public string? UserAvatarUrl{get;set;}
+    public bool Status { get; set; }
 }
 
 
