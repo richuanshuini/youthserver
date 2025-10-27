@@ -19,7 +19,7 @@ onMounted(fetchPermissions);
     <template #header>
       <span>权限管理</span>
     </template>
-    <el-table :data="permissions" v-loading="loading" stripe>
+    <el-table :data="permissions" v-loading="loading" stripe :header-cell-style="{ textAlign: 'center' }" :cell-style="{ textAlign: 'center' }">
       <el-table-column prop="permissionId" label="ID" width="80" />
       <el-table-column prop="permissionName" label="权限名" />
       <el-table-column prop="module" label="模块" />

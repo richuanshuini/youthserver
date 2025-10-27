@@ -10,14 +10,13 @@
   <component name="ChangeListManager">
     <list default="true" id="a6b10c1a-9665-415a-b172-5e6eb2a741a3" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/api/http.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/api/http.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/permission/pages/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/permission/pages/Index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/pages/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/pages/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/services.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/services.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UsersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UsersController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/IUserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/IUserRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/UserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/UserRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserServices/IUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserServices/IUserService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserServices/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserServices/UserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/YouthApartmentServer.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/YouthApartmentServer.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +187,7 @@
       <workItem from="1761360916269" duration="5820000" />
       <workItem from="1761444762689" duration="227000" />
       <workItem from="1761445292488" duration="9681000" />
-      <workItem from="1761531304619" duration="11678000" />
+      <workItem from="1761531304619" duration="17420000" />
     </task>
     <task id="LOCAL-00001" summary="更新了一个接口">
       <option name="closed" value="true" />
@@ -278,7 +277,31 @@
       <option name="project" value="LOCAL" />
       <updated>1761541694752</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="完善了相关逻辑">
+      <option name="closed" value="true" />
+      <created>1761557206780</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1761557206780</updated>
+    </task>
+    <task id="LOCAL-00013" summary="新增用户界面的分页查询">
+      <option name="closed" value="true" />
+      <created>1761557781414</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1761557781414</updated>
+    </task>
+    <task id="LOCAL-00014" summary="init">
+      <option name="closed" value="true" />
+      <created>1761557793759</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1761557793759</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -310,7 +333,10 @@
     <MESSAGE value="更新了前端布局，部分后端接口" />
     <MESSAGE value="初始" />
     <MESSAGE value="更新了修改用户接口，但是目前前端验证手机号码有问题" />
-    <option name="LAST_COMMIT_MESSAGE" value="更新了修改用户接口，但是目前前端验证手机号码有问题" />
+    <MESSAGE value="完善了相关逻辑" />
+    <MESSAGE value="新增用户界面的分页查询" />
+    <MESSAGE value="init" />
+    <option name="LAST_COMMIT_MESSAGE" value="init" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

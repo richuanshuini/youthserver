@@ -13,6 +13,11 @@ namespace YouthApartmentServer.Repositories.IUser
             return await Select.Where(u => u.UserId == userId).ToOneAsync();
         }
 
+        public async Task<List<User>> GetByIdToListAsync(int userId)
+        {
+            return await Select.Where(u => u.UserId == userId).ToListAsync();
+        }
+
         public async Task<List<User>> GetAllAsync()
         {
             return await Select.ToListAsync();
@@ -91,5 +96,7 @@ namespace YouthApartmentServer.Repositories.IUser
             var items = await select.Page(pageNumber, pageSize).ToListAsync();
             return (items, total);
         }
+        
+        
     }
 }

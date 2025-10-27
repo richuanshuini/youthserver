@@ -2,16 +2,21 @@ using Mapster;
 using YouthApartmentServer.Model.UserPermissionModel;
 using YouthApartmentServer.ModelDto;
 using YouthApartmentServer.Repositories.IUser;
+using Microsoft.AspNetCore.Hosting;
+using System.Text.RegularExpressions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace YouthApartmentServer.Services.IUserServices
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _iuserRepository;
+        private readonly IWebHostEnvironment _env;
 
-        public UserService(IUserRepository iuserRepository)
+        public UserService(IUserRepository iuserRepository, IWebHostEnvironment env)
         {
             _iuserRepository = iuserRepository;
+            _env = env;
         }
 
         public Task<List<User>> GetAllUsersAsync()
@@ -35,6 +40,12 @@ namespace YouthApartmentServer.Services.IUserServices
             }
 
             //查不到才执行插入
+            // 若头像是 data URI，保存到 Resources 并替换为静态 URL
+            if (!string.IsNullOrEmpty(user.UserAvatarUrl) && IsDataUri(user.UserAvatarUrl))
+            {
+                var savedUrl = await SaveAvatarFromDataUriAsync(existingUser?.UserId ?? 0, user.UserAvatarUrl!);
+                user.UserAvatarUrl = savedUrl;
+            }
             user.Status = false;
             await _iuserRepository.InsertAsync(user);
             return user;
@@ -54,14 +65,69 @@ namespace YouthApartmentServer.Services.IUserServices
                 return null;
             //将DTO的更新，映射到已经加载的实体上
             userDto.Adapt(existingUser);
+            // 兼容 data URI 头像：保存文件并替换为静态 URL
+            if (!string.IsNullOrEmpty(existingUser.UserAvatarUrl) && IsDataUri(existingUser.UserAvatarUrl))
+            {
+                var savedUrl = await SaveAvatarFromDataUriAsync(id, existingUser.UserAvatarUrl!);
+                existingUser.UserAvatarUrl = savedUrl;
+            }
             //全量更新
             return await _iuserRepository.UpdateAsync(existingUser);;
         }
 
         public async Task<bool> PatchUserAsync(int id, UpdateUserDto userDto)
         {
-            //部分更新，直接调用传入id和更新的DTO即可
+            // 头像字段兼容 Base64：如果是 data URI，则保存到 Resources 并替换为静态 URL
+            if (!string.IsNullOrEmpty(userDto.UserAvatarUrl) && IsDataUri(userDto.UserAvatarUrl))
+            {
+                var savedUrl = await SaveAvatarFromDataUriAsync(id, userDto.UserAvatarUrl!);
+                userDto.UserAvatarUrl = savedUrl;
+            }
+
+            // 部分更新
             return await _iuserRepository.UpdateAsync(id, userDto);
+        }
+
+        private static bool IsDataUri(string value)
+        {
+            return value.StartsWith("data:", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static string GetImageExtensionFromMime(string mime)
+        {
+            return mime switch
+            {
+                "image/png" => ".png",
+                "image/jpeg" => ".jpg",
+                "image/svg+xml" => ".svg",
+                "image/webp" => ".webp",
+                _ => ".bin",
+            };
+        }
+
+        private async Task<string> SaveAvatarFromDataUriAsync(int userId, string dataUri)
+        {
+            // 格式：data:<mime>;base64,<payload>
+            var match = Regex.Match(dataUri, "^data:(?<mime>[^;]+);base64,(?<data>.+)$");
+            if (!match.Success)
+                throw new ArgumentException("Invalid data URI for avatar.");
+
+            var mime = match.Groups["mime"].Value;
+            var b64 = match.Groups["data"].Value;
+            var bytes = Convert.FromBase64String(b64);
+
+            var ext = GetImageExtensionFromMime(mime);
+            // 以时间戳命名，避免前端端口导致的相对路径解析问题，同时确保唯一性
+            var timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            var fileName = $"avatar_{timestamp}{ext}";
+            var folder = Path.Combine(_env.ContentRootPath, "Resources", "UserPermission", "image");
+            Directory.CreateDirectory(folder);
+            var fullPath = Path.Combine(folder, fileName);
+
+            await File.WriteAllBytesAsync(fullPath, bytes);
+
+            // 返回静态资源路径
+            return $"/resources/UserPermission/image/{fileName}";
         }
 
         public async Task<int> ExistUserName(string username)

@@ -2,7 +2,20 @@
 defineOptions({ name: 'UserIndexPage' });
 import { ref, onMounted } from 'vue';
 import { ElMessage } from 'element-plus';
+import { UserFilled } from '@element-plus/icons-vue';
 import { listUsersPaged, createUser, setUserStatus, updateUser } from '../services.js';
+
+// 解析头像地址：
+// - data: URI 直接使用
+// - http(s) 绝对地址直接使用
+// - 以 / 开头的后端相对路径，拼接后端 baseURL
+const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5160';
+const resolveAvatarUrl = (u) => {
+  if (!u) return '';
+  if (typeof u === 'string' && (u.startsWith('data:') || u.startsWith('http'))) return u;
+  if (typeof u === 'string' && u.startsWith('/')) return apiBase + u;
+  return `${apiBase}/${u}`;
+};
 
 const loading = ref(false);
 const users = ref([]);
@@ -13,12 +26,12 @@ const total = ref(0);
 // --- Create User Dialog ---
 const createDialogVisible = ref(false);
 const createFormRef = ref();
-const createForm = ref({ userName: '', password: '', email: '', phone: '', realName: '', gender: '', idCard: '' });
+const createForm = ref({ userName: '', password: '', email: '', phone: '', realName: '', gender: '', idCard: '', userAvatarUrl: '' });
 
 // --- Edit User Dialog ---
 const editDialogVisible = ref(false);
 const editFormRef = ref();
-const editForm = ref({ userId: null, userName: '', password: '', email: '', phone: '', realName: '', gender: '', idCard: '' });
+const editForm = ref({ userId: null, userName: '', password: '', email: '', phone: '', realName: '', gender: '', idCard: '', userAvatarUrl: '' });
 
 const rules = {
   userName: [
@@ -99,7 +112,7 @@ const openCreate = () => {
   if (createFormRef.value) {
     createFormRef.value.resetFields();
   }
-  createForm.value = { userName: '', password: '', email: '', phone: '', realName: '', gender: '', idCard: '' };
+  createForm.value = { userName: '', password: '', email: '', phone: '', realName: '', gender: '', idCard: '', userAvatarUrl: '' };
 };
 
 const getErrorMessage = (error, defaultMessage) => {
@@ -132,6 +145,32 @@ const submitCreate = () => {
       ElMessage.error(getErrorMessage(error, '创建失败'));
     }
   });
+};
+
+// 处理新增用户头像选择（不自动上传，转为 base64 存到表单中）
+const handleCreateAvatarChange = (uploadFile) => {
+  const file = uploadFile.raw;
+  if (!file) return;
+  const isImage = file.type.startsWith('image/');
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isImage) { ElMessage.error('请上传图片文件'); return; }
+  if (!isLt2M) { ElMessage.error('图片大小不能超过2MB'); return; }
+  const reader = new FileReader();
+  reader.onload = () => { createForm.value.userAvatarUrl = reader.result; };
+  reader.readAsDataURL(file);
+};
+
+// 处理编辑用户头像选择（不自动上传，转为 base64 存到表单中）
+const handleEditAvatarChange = (uploadFile) => {
+  const file = uploadFile.raw;
+  if (!file) return;
+  const isImage = file.type.startsWith('image/');
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isImage) { ElMessage.error('请上传图片文件'); return; }
+  if (!isLt2M) { ElMessage.error('图片大小不能超过2MB'); return; }
+  const reader = new FileReader();
+  reader.onload = () => { editForm.value.userAvatarUrl = reader.result; };
+  reader.readAsDataURL(file);
 };
 
 // --- Edit User Logic ---
@@ -171,7 +210,7 @@ onMounted(fetchUsers);
       </div>
     </template>
 
-  <el-table :data="users" v-loading="loading" stripe>
+  <el-table :data="users" v-loading="loading" stripe :header-cell-style="{ textAlign: 'center' }" :cell-style="{ textAlign: 'center' }">
       <el-table-column prop="userId" label="ID" width="80" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="password" label="密码" />
@@ -180,6 +219,13 @@ onMounted(fetchUsers);
       <el-table-column prop="realName" label="姓名" />
       <el-table-column prop="idCard" label="身份证号" />
       <el-table-column prop="gender" label="性别" />
+      <el-table-column prop="userAvatarUrl" label="头像" width="120" align="center" header-align="center" class-name="avatar-col">
+        <template #default="{ row }">
+          <el-avatar :size="64" :src="resolveAvatarUrl(row.userAvatarUrl)">
+            <el-icon><UserFilled /></el-icon>
+          </el-avatar>
+        </template>
+      </el-table-column>
       <el-table-column prop="status" label="状态">
         <template #default="{ row }">
           <el-switch
@@ -212,21 +258,46 @@ onMounted(fetchUsers);
 
   <!-- Create User Dialog -->
   <el-dialog v-model="createDialogVisible" title="新增用户" width="680px">
-    <el-form ref="createFormRef" :model="createForm" :rules="rules" label-width="90px">
+    <el-form
+      class="optimized-form"
+      ref="createFormRef"
+      :model="createForm"
+      :rules="rules"
+      label-position="top"
+      size="large"
+      style="max-width: 600px; margin: 0 auto;"
+    >
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="用户名" prop="userName"><el-input v-model="createForm.userName" /></el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="密码" prop="password"><el-input v-model="createForm.password" type="text" /></el-form-item>
+          <el-form-item label="密码" prop="password"><el-input v-model="createForm.password" type="password" show-password clearable /></el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item label="头像" class="avatar-form-item">
+            <el-upload
+              class="avatar-uploader"
+              action="#"
+              :show-file-list="false"
+              :auto-upload="false"
+              :on-change="handleCreateAvatarChange"
+            >
+              <el-avatar :size="64" :src="resolveAvatarUrl(createForm.userAvatarUrl)">
+                <el-icon><UserFilled /></el-icon>
+              </el-avatar>
+            </el-upload>
+          </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="邮箱" prop="email"><el-input v-model="createForm.email" /></el-form-item>
+          <el-form-item label="邮箱" prop="email"><el-input v-model="createForm.email" clearable /></el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="电话" prop="phone"><el-input v-model="createForm.phone" /></el-form-item>
+          <el-form-item label="电话" prop="phone"><el-input v-model="createForm.phone" clearable /></el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
@@ -235,7 +306,7 @@ onMounted(fetchUsers);
         </el-col>
         <el-col :span="12">
           <el-form-item label="性别" prop="gender">
-            <el-select v-model="createForm.gender" placeholder="请选择" style="width: 100%;">
+            <el-select v-model="createForm.gender" placeholder="请选择" style="width: 100%;" filterable>
               <el-option label="男" value="男" />
               <el-option label="女" value="女" />
             </el-select>
@@ -244,7 +315,7 @@ onMounted(fetchUsers);
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item label="身份证号" prop="idCard"><el-input v-model="createForm.idCard" /></el-form-item>
+          <el-form-item label="身份证号" prop="idCard"><el-input v-model="createForm.idCard" clearable /></el-form-item>
         </el-col>
       </el-row>
     </el-form>
@@ -256,23 +327,48 @@ onMounted(fetchUsers);
 
   <!-- Edit User Dialog -->
   <el-dialog v-model="editDialogVisible" title="修改用户" width="680px">
-    <el-form ref="editFormRef" :model="editForm" :rules="editRules" label-width="90px">
+    <el-form
+      class="optimized-form"
+      ref="editFormRef"
+      :model="editForm"
+      :rules="editRules"
+      label-position="top"
+      size="large"
+      style="max-width: 600px; margin: 0 auto;"
+    >
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="用户名" prop="userName"><el-input v-model="editForm.userName" /></el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="密码" prop="password">
-            <el-input v-model="editForm.password" type="text" placeholder="留空则不修改密码" />
+            <el-input v-model="editForm.password" type="password" show-password placeholder="留空则不修改密码" clearable />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item label="头像" class="avatar-form-item">
+            <el-upload
+              class="avatar-uploader"
+              action="#"
+              :show-file-list="false"
+              :auto-upload="false"
+              :on-change="handleEditAvatarChange"
+            >
+              <el-avatar :size="64" :src="resolveAvatarUrl(editForm.userAvatarUrl)">
+                <el-icon><UserFilled /></el-icon>
+              </el-avatar>
+            </el-upload>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="邮箱" prop="email"><el-input v-model="editForm.email" /></el-form-item>
+          <el-form-item label="邮箱" prop="email"><el-input v-model="editForm.email" clearable /></el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="电话" prop="phone"><el-input v-model="editForm.phone" /></el-form-item>
+          <el-form-item label="电话" prop="phone"><el-input v-model="editForm.phone" clearable /></el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
@@ -281,7 +377,7 @@ onMounted(fetchUsers);
         </el-col>
         <el-col :span="12">
           <el-form-item label="性别" prop="gender">
-            <el-select v-model="editForm.gender" placeholder="请选择" style="width: 100%;">
+            <el-select v-model="editForm.gender" placeholder="请选择" style="width: 100%;" filterable>
               <el-option label="男" value="男" />
               <el-option label="女" value="女" />
             </el-select>
@@ -290,7 +386,7 @@ onMounted(fetchUsers);
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item label="身份证号" prop="idCard"><el-input v-model="editForm.idCard" /></el-form-item>
+          <el-form-item label="身份证号" prop="idCard"><el-input v-model="editForm.idCard" clearable /></el-form-item>
         </el-col>
       </el-row>
     </el-form>
@@ -304,4 +400,14 @@ onMounted(fetchUsers);
 <style scoped>
 .card-header { display: flex; justify-content: space-between; align-items: center; }
 .pagination { margin-top: 16px; display: flex; justify-content: flex-end; }
+/* 头像列表列居中对齐 */
+:deep(.avatar-col .cell) { display: flex; align-items: center; justify-content: center; }
+/* 新增用户对话框头像项内容居中 */
+:deep(.avatar-form-item .el-form-item__content) { display: flex; align-items: center; }
+.avatar-uploader { display: inline-block; }
+/* 表单优化：顶部标签、间距与可读性 */
+.optimized-form :deep(.el-form-item) { margin-bottom: 16px; }
+.optimized-form :deep(.el-form-item__label) { font-weight: 600; }
+.optimized-form :deep(.el-input__wrapper) { min-height: 40px; }
+.optimized-form :deep(.el-select .el-select__wrapper) { min-height: 40px; }
 </style>

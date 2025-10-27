@@ -6,6 +6,7 @@ namespace YouthApartmentServer.Repositories.IUser
     public interface IUserRepository
     {
         Task<User?> GetByIdAsync(int userId);
+        Task<List<User>> GetByIdToListAsync(int userId);
         Task<List<User>> GetAllAsync();
         Task<User> InsertAsync(User user);
         Task<User?> GetByUsernameAsync(string username);
@@ -16,6 +17,7 @@ namespace YouthApartmentServer.Repositories.IUser
         Task<int> ExistUserName(string username);
         // 分页查询用户，返回记录和总数
         Task<(List<User> Items, long Total)> GetPagedAsync(int pageNumber, int pageSize);
+        
         
     }
 }

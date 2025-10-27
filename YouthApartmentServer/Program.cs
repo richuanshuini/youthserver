@@ -3,6 +3,8 @@ using Microsoft.OpenApi.Models;
 using YouthApartmentServer.Repositories.IUser;
 using YouthApartmentServer.Repositories.IRole;
 using Mapster;
+using Microsoft.Extensions.FileProviders;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // 添加控制器服务
@@ -81,6 +83,13 @@ if (app.Environment.IsDevelopment())
 
 // 启用CORS中间件
 app.UseCors("AllowAllOrigins");
+
+// 映射 Resources 目录为静态资源，可通过 /resources/* 访问
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "Resources")),
+    RequestPath = "/resources"
+});
 
 // 配置根路径重定向到Swagger文档（使用中间件）
 app.Use(async (context, next) =>
