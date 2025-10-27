@@ -83,5 +83,13 @@ namespace YouthApartmentServer.Repositories.IUser
             //??是空并运行符，当左边为空时，则返回右边的0，当左边不为空时，则返回左边的值
             return user?.UserId ?? 0;
         }
+
+        public async Task<(List<User> Items, long Total)> GetPagedAsync(int pageNumber, int pageSize)
+        {
+            var select = Select;
+            var total = await select.CountAsync();
+            var items = await select.Page(pageNumber, pageSize).ToListAsync();
+            return (items, total);
+        }
     }
 }

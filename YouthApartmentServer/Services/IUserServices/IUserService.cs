@@ -13,5 +13,6 @@ namespace YouthApartmentServer.Services.IUserServices
         Task<User?> UpdateUserAsync(int id, UpdateUserDto userDto); // 全量更新
         Task<bool> PatchUserAsync(int id, UpdateUserDto userDto); // 部分更新
         Task<int> ExistUserName(string username);
+        Task<PagedResult<User>> GetUsersPagedAsync(int pageNumber, int pageSize);
     }
 }

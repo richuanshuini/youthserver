@@ -27,6 +27,24 @@ namespace YouthApartmentServer.Controller.BaseController
             var users = await _iuserService.GetAllUsersAsync();
             return Ok(users.Adapt<List<UserDto>>());
         }
+
+        /// <summary>
+        /// 分页查询用户
+        /// </summary>
+        [HttpGet("paged")]
+        public async Task<ActionResult<PagedResult<UserDto>>> GetUsersPaged([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            var paged = await _iuserService.GetUsersPagedAsync(pageNumber, pageSize);
+            var dtoItems = paged.Items.Adapt<List<UserDto>>();
+            var dto = new PagedResult<UserDto>
+            {
+                PageNumber = paged.PageNumber,
+                PageSize = paged.PageSize,
+                Total = paged.Total,
+                Items = dtoItems
+            };
+            return Ok(dto);
+        }
         
         /// <summary>
         /// 通过ID查对应的User

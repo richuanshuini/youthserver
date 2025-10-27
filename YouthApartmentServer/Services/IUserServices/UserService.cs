@@ -68,5 +68,17 @@ namespace YouthApartmentServer.Services.IUserServices
         {
             return await _iuserRepository.ExistUserName(username);
         }
+
+        public async Task<PagedResult<User>> GetUsersPagedAsync(int pageNumber, int pageSize)
+        {
+            var (items, total) = await _iuserRepository.GetPagedAsync(pageNumber, pageSize);
+            return new PagedResult<User>
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Total = total,
+                Items = items
+            };
+        }
     }
 }

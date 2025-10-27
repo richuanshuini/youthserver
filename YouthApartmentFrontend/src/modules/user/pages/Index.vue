@@ -2,10 +2,13 @@
 defineOptions({ name: 'UserIndexPage' });
 import { ref, onMounted } from 'vue';
 import { ElMessage } from 'element-plus';
-import { listUsers, createUser, setUserStatus, updateUser } from '../services.js';
+import { listUsersPaged, createUser, setUserStatus, updateUser } from '../services.js';
 
 const loading = ref(false);
 const users = ref([]);
+const currentPage = ref(1);
+const pageSize = ref(10);
+const total = ref(0);
 
 // --- Create User Dialog ---
 const createDialogVisible = ref(false);
@@ -58,12 +61,25 @@ const editRules = {
 const fetchUsers = async () => {
   loading.value = true;
   try {
-    users.value = await listUsers();
+    const res = await listUsersPaged({ pageNumber: currentPage.value, pageSize: pageSize.value });
+    users.value = res.items;
+    total.value = res.total;
   } catch (error) {
     ElMessage.error(getErrorMessage(error, '获取用户列表失败'));
   } finally {
     loading.value = false;
   }
+};
+
+const handleSizeChange = (val) => {
+  pageSize.value = val;
+  currentPage.value = 1;
+  fetchUsers();
+};
+
+const handleCurrentChange = (val) => {
+  currentPage.value = val;
+  fetchUsers();
 };
 
 const handleStatusChange = async (row) => {
@@ -155,7 +171,7 @@ onMounted(fetchUsers);
       </div>
     </template>
 
-    <el-table :data="users" v-loading="loading" stripe>
+  <el-table :data="users" v-loading="loading" stripe>
       <el-table-column prop="userId" label="ID" width="80" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="password" label="密码" />
@@ -179,7 +195,19 @@ onMounted(fetchUsers);
           <el-button type="primary" plain @click="openEdit(row)">修改</el-button>
         </template>
       </el-table-column>
-    </el-table>
+  </el-table>
+  <div class="pagination">
+    <el-pagination
+      v-model:current-page="currentPage"
+      v-model:page-size="pageSize"
+      :page-sizes="[10, 20, 50, 100]"
+      :background="true"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+    />
+  </div>
   </el-card>
 
   <!-- Create User Dialog -->
@@ -275,4 +303,5 @@ onMounted(fetchUsers);
 
 <style scoped>
 .card-header { display: flex; justify-content: space-between; align-items: center; }
+.pagination { margin-top: 16px; display: flex; justify-content: flex-end; }
 </style>
