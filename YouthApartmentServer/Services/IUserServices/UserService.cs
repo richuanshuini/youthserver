@@ -38,5 +38,10 @@ namespace YouthApartmentServer.Services.IUserServices
             return user;
 
         }
+
+        public async Task<bool> UpdateUserStaus(int id, bool status)
+        {
+            return await _iuserRepository.SetUserStatusAsync(id, status);
+        }
     }
 }

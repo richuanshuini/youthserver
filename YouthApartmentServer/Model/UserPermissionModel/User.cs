@@ -17,6 +17,8 @@ public class User
     public string? Phone { get; set; }
     [MaxLength(30)]
     public string? RealName { get; set; }
+    [MaxLength(18)] 
+    public string? IdCard { get; set; }
     [MaxLength(2)]
     public string? Gender { get; set; }
     [MaxLength(500)]

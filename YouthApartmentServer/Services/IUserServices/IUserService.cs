@@ -7,5 +7,6 @@ namespace YouthApartmentServer.Services.IUserServices
         Task<List<User>> GetAllUsersAsync();
         Task<User?> GetUserByIdAsync(int id);
         Task<User?> CreateUserAsync(User user);
+        Task<bool> UpdateUserStaus(int id, bool status);
     }
 }

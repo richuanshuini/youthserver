@@ -26,6 +26,11 @@ namespace YouthApartmentServer.Repositories.IUser
         {
             return await Select.Where(u => u.UserName == username).ToOneAsync();
         }
-        
+
+        public async Task<bool> SetUserStatusAsync(int id, bool status)
+        {
+            var result = await UpdateDiy.Set(s => s.Status, status).Where(i => i.UserId == id).ExecuteAffrowsAsync();
+            return  result > 0;
+        }
     }
 }

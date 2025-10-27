@@ -146,6 +146,12 @@ const pageTitle = computed(() => route.meta?.title || '');
           background-color: #293846;
         }
       }
+
+      &.is-opened {
+        .el-menu {
+          background-color: #293846;
+        }
+      }
     }
   }
 }

@@ -8,5 +8,6 @@ namespace YouthApartmentServer.Repositories.IUser
         Task<List<User>> GetAllAsync();
         Task<User> InsertAsync(User user);
         Task<User?> GetByUsernameAsync(string username);
+        Task<bool> SetUserStatusAsync(int id, bool status);
     }
 }

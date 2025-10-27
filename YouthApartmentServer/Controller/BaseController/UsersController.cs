@@ -101,5 +101,15 @@ namespace YouthApartmentServer.Controller.BaseController
         }
         
         
+        [HttpPost("{id}/SetUserStatus")]
+        public async Task<IActionResult> SetUserStatus(int id, [FromBody] SetUserStatusDto userStatusDto)
+        {
+            var result = await _iuserService.UpdateUserStaus(id, userStatusDto.Status);
+            if(result)
+                return Ok();
+            return NotFound();
+        }
+        
+        
     }
 }
