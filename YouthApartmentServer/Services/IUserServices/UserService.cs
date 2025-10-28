@@ -75,7 +75,7 @@ namespace YouthApartmentServer.Services.IUserServices
             return await _iuserRepository.UpdateAsync(existingUser);;
         }
 
-        public async Task<bool> PatchUserAsync(int id, UpdateUserDto userDto)
+        public async Task<bool> PatchUserAsync(int id, PatchUserDto userDto)
         {
             // 头像字段兼容 Base64：如果是 data URI，则保存到 Resources 并替换为静态 URL
             if (!string.IsNullOrEmpty(userDto.UserAvatarUrl) && IsDataUri(userDto.UserAvatarUrl))

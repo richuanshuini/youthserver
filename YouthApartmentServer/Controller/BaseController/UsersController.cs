@@ -166,7 +166,7 @@ namespace YouthApartmentServer.Controller.BaseController
         /// <param name="updateUserDto">用户的部分新数据</param>
         /// <returns>204状态码，表示更新成功</returns>
         [HttpPost("{id}/update")]
-        public async Task<ActionResult<UserDto>> UpdateUser(int id, [FromBody] UpdateUserDto updateUserDto)
+        public async Task<ActionResult<UserDto>> UpdateUser(int id, [FromBody] PatchUserDto updateUserDto)
         {
             // 更新时，必须要检查，当前更新的用户名是否存在数据库中（排除自己）
             if (updateUserDto.UserName != null)

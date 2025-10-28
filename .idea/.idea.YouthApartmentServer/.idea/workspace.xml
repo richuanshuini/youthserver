@@ -10,13 +10,15 @@
   <component name="ChangeListManager">
     <list default="true" id="a6b10c1a-9665-415a-b172-5e6eb2a741a3" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/permission/pages/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/permission/pages/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/pages/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/pages/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/services.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/RolePermissionController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/RolePermissionController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UsersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UsersController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Model/UserPermissionModel/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Model/UserPermissionModel/User.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/UserPermissionDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/UserPermissionDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/IUserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/IUserRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/UserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/UserRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserServices/IUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserServices/IUserService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserServices/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserServices/UserService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/YouthApartmentServer.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/YouthApartmentServer.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,7 +189,8 @@
       <workItem from="1761360916269" duration="5820000" />
       <workItem from="1761444762689" duration="227000" />
       <workItem from="1761445292488" duration="9681000" />
-      <workItem from="1761531304619" duration="17420000" />
+      <workItem from="1761531304619" duration="19237000" />
+      <workItem from="1761618201981" duration="6244000" />
     </task>
     <task id="LOCAL-00001" summary="更新了一个接口">
       <option name="closed" value="true" />
@@ -301,7 +304,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761557793759</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="优化了部分结构，优化了头像显示">
+      <option name="closed" value="true" />
+      <created>1761569158706</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1761569158706</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -336,7 +347,8 @@
     <MESSAGE value="完善了相关逻辑" />
     <MESSAGE value="新增用户界面的分页查询" />
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="优化了部分结构，优化了头像显示" />
+    <option name="LAST_COMMIT_MESSAGE" value="优化了部分结构，优化了头像显示" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -353,6 +365,19 @@
           <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
           <option name="timeStamp" value="3" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UsersController.cs</url>
+          <line>130</line>
+          <properties documentPath="D:\Code\Push\YouthApartmentServer\YouthApartmentServer\Controller\BaseController\UsersController.cs" containingFunctionPresentation="方法 'SetUserStatus'">
+            <startOffsets>
+              <option value="4414" />
+            </startOffsets>
+            <endOffsets>
+              <option value="4494" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

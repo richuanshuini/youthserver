@@ -3,6 +3,7 @@ using FreeSql.DataAnnotations;
 namespace YouthApartmentServer.Model.UserPermissionModel;
 
 [Index("uk_username", "UserName", true)]
+[Index("uk_IdCard", "IdCard", true)]
 public class User
 {
     [Column(IsPrimary = true,IsIdentity = true)]

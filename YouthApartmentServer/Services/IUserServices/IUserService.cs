@@ -11,7 +11,7 @@ namespace YouthApartmentServer.Services.IUserServices
         Task<User?> CreateUserAsync(User user);
         Task<bool> UpdateUserStausAsync(int id, bool status);
         Task<User?> UpdateUserAsync(int id, UpdateUserDto userDto); // 全量更新
-        Task<bool> PatchUserAsync(int id, UpdateUserDto userDto); // 部分更新
+        Task<bool> PatchUserAsync(int id, PatchUserDto userDto); // 部分更新
         Task<int> ExistUserName(string username);
         Task<PagedResult<User>> GetUsersPagedAsync(int pageNumber, int pageSize);
     }

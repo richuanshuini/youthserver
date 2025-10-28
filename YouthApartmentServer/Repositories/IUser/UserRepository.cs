@@ -12,12 +12,7 @@ namespace YouthApartmentServer.Repositories.IUser
         {
             return await Select.Where(u => u.UserId == userId).ToOneAsync();
         }
-
-        public async Task<List<User>> GetByIdToListAsync(int userId)
-        {
-            return await Select.Where(u => u.UserId == userId).ToListAsync();
-        }
-
+        
         public async Task<List<User>> GetAllAsync()
         {
             return await Select.ToListAsync();
@@ -32,6 +27,8 @@ namespace YouthApartmentServer.Repositories.IUser
         {
             return await Select.Where(u => u.UserName == username).ToOneAsync();
         }
+        
+        
 
         public async Task<bool> UpdateUserStatusAsync(int id, bool status)
         {
@@ -46,37 +43,33 @@ namespace YouthApartmentServer.Repositories.IUser
             return user;
         }
         
-        //部分更新
-        public async Task<bool> UpdateAsync(int userId, UpdateUserDto updateUserDto)
+        //部分更新（新：基于 PatchUserDto 标记位）
+        public async Task<bool> UpdateAsync(int userId, PatchUserDto patchUserDto)
         {
-            //查询是否存在该用户
             var user = await GetByIdAsync(userId);
-            if(user==null)
+            if (user == null)
                 return false;
-            
-            //用UpdateDiy查询要更新的对象
-            var updateUser =  UpdateDiy.Where(u=>u.UserId==userId);
-            
-            //将前端传入的DTO，应用于部分更新
-            if(updateUserDto.UserName!=null)
-                updateUser.Set(u=>u.UserName,updateUserDto.UserName);
-            if(updateUserDto.Password!=null)
-                updateUser.Set(u=>u.Password,updateUserDto.Password);
-            if(updateUserDto.Email!=null)
-                updateUser.Set(u=>u.Email,updateUserDto.Email);
-            if(updateUserDto.Phone!=null)
-                updateUser.Set(u=>u.Phone,updateUserDto.Phone);
-            if(updateUserDto.RealName!=null)
-                updateUser.Set(u=>u.RealName,updateUserDto.RealName);
-            if(updateUserDto.IdCard!=null)
-                updateUser.Set(u=>u.IdCard,updateUserDto.IdCard);
-            if(updateUserDto.Gender!=null)
-                updateUser.Set(u=>u.Gender,updateUserDto.Gender);
-            if(updateUserDto.UserAvatarUrl!=null)
-                updateUser.Set(u=>u.UserAvatarUrl,updateUserDto.UserAvatarUrl);
-            
-            //状态就两个，直接更新就行了
-            updateUser.Set(u=>u.Status,updateUserDto.Status);
+
+            var updateUser = UpdateDiy.Where(u => u.UserId == userId);
+
+            if (patchUserDto.IsUserNameSet)
+                updateUser.Set(u => u.UserName, patchUserDto.UserName);
+            if (patchUserDto.IsPasswdSet)
+                updateUser.Set(u => u.Password, patchUserDto.Password);
+            if (patchUserDto.IsEmailSet)
+                updateUser.Set(u => u.Email, patchUserDto.Email);
+            if (patchUserDto.IsPhoneSet)
+                updateUser.Set(u => u.Phone, patchUserDto.Phone);
+            if (patchUserDto.IsRealNameSet)
+                updateUser.Set(u => u.RealName, patchUserDto.RealName);
+            if (patchUserDto.IsIdCradSet)
+                updateUser.Set(u => u.IdCard, patchUserDto.IdCrad); // 注意：DTO 是 IdCrad，实体是 IdCard
+            if (patchUserDto.IsGenderSet)
+                updateUser.Set(u => u.Gender, patchUserDto.Gender);
+            if (patchUserDto.IsAvatarUrlSet)
+                updateUser.Set(u => u.UserAvatarUrl, patchUserDto.UserAvatarUrl);
+            if (patchUserDto.IsStatusSet)
+                updateUser.Set(u => u.Status, patchUserDto.Status);
 
             var affectedRows = await updateUser.ExecuteAffrowsAsync();
             return affectedRows > 0;

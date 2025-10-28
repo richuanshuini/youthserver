@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 #pragma warning disable CS8618
+using System.Text.Json.Serialization;
+
 namespace YouthApartmentServer.ModelDto;
 
 #region 查询DTO
@@ -110,6 +112,155 @@ public class SetUserStatusDto
 
 #region 更新DTO
 
+
+//user部分更新DTO，用内部变量跟踪是否被更改
+public class PatchUserDto
+{
+    
+    private string _username { get; set; }
+    
+    [Required(ErrorMessage = "用户名不能为空")]
+    [StringLength(30,MinimumLength = 3,ErrorMessage = "用户名长度必须在3~20个字符之间")]
+    [RegularExpression(@"^[a-zA-Z0-9]+$",ErrorMessage = "用户名只能包含字母和数字")]
+    public string UserName
+    {
+        get=>_username;
+        set
+        {
+            _username = value;
+            IsUserNameSet = true;
+        }
+    }
+    
+   
+    private string _password { get; set; }
+
+    [Required(ErrorMessage = "密码不能为空")]
+    [StringLength(20,MinimumLength = 6,ErrorMessage = "密码的长度必须在6~20个字符之间")]
+    [RegularExpression(@"^[a-zA-Z0-9]+$",ErrorMessage = "密码只能包含字母和数字")]
+    public string Password
+    {
+        get => _password;
+        set
+        {
+            _password = value;
+            IsPasswdSet = true;
+        }
+    }
+    
+    private string _email { get; set; }
+    
+    [Required(ErrorMessage = "邮箱不能为空")]
+    [EmailAddress(ErrorMessage = "邮箱格式错误")]
+    public string Email
+    {
+        get => _email;
+        set
+        {
+            _email = value;
+            IsEmailSet = true;
+        }
+    }
+    
+    
+    private string _phone { get; set; }
+    
+    [Required(ErrorMessage = "电话号码不能为空")]
+    [RegularExpression(@"^1[3-9]\d{9}$",ErrorMessage = "输入有效的11位中国大陆手机号码")]
+    public string Phone
+    {
+        get => _phone;
+        set
+        {
+            _phone = value;
+            IsPhoneSet = true;
+        }
+    }
+   
+    private string _realname { get; set; }
+    
+    [Required(ErrorMessage = "真实姓名不能为空")]
+    public string RealName
+    {
+        get => _realname;
+        set
+        {
+            _realname = value;
+            IsRealNameSet = true;
+        }
+    }
+    
+   
+    private string _idcard{get;set;}
+    [RegularExpression(@"^[1-9]\d{5}(19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$",ErrorMessage = "请输入有效的身份证号")]
+    public string IdCrad
+    {
+        get => _idcard;
+        set
+        {
+            _idcard = value;
+            IsIdCradSet = true;
+        }
+    }
+    
+    
+    private string _gender { get; set; }
+    [Required(ErrorMessage = "性别不能为空")]
+    [RegularExpression(@"^(男|女)$",ErrorMessage = "性别必须为 '男' 或 '女' ")]
+    public string Gender
+    {
+        get => _gender;
+        set
+        {
+            _gender = value;
+            IsGenderSet = true;
+        }
+    }
+    
+    private string _useravatarurl{get;set;}
+    public string UserAvatarUrl
+    {
+        get => _useravatarurl;
+        set
+        {
+            _useravatarurl = value;
+            IsAvatarUrlSet = true;
+        }
+    }
+    private bool _status { get; set; }
+    public bool Status
+    {
+        get => _status;
+        set
+        {
+            _status = value;
+            IsStatusSet = true;
+        }
+    }
+    
+    
+    //内部变量跟踪（标记哪些字段被显式设置过）,设置JsonIgnore即不参与反序列化到Json数据，即不在api文档中存在
+    [JsonIgnore]
+    internal bool IsUserNameSet { get; private set; }
+    [JsonIgnore]
+    internal bool IsPasswdSet { get; private set; }
+    [JsonIgnore]
+    internal bool IsEmailSet { get; private set; }
+    [JsonIgnore]
+    internal bool IsPhoneSet { get; private set; }
+    [JsonIgnore]
+    internal bool IsRealNameSet { get; private set; }
+    [JsonIgnore]
+    internal bool IsIdCradSet { get; private set; }
+    [JsonIgnore]
+    internal bool IsGenderSet { get; private set; }
+    [JsonIgnore]
+    internal bool IsAvatarUrlSet { get; private set; }
+    [JsonIgnore]
+    internal bool IsStatusSet { get; private set; }
+}
+
+//user全量更新DTO
 public class UpdateUserDto
 {
     [Required(ErrorMessage = "用户名不能为空")]
@@ -143,6 +294,7 @@ public class UpdateUserDto
     public string? UserAvatarUrl{get;set;}
     public bool Status { get; set; }
 }
+
 
 
 #endregion

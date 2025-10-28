@@ -16,9 +16,9 @@ public class RolePermissionController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<ActionResult<RolePermissionDto>> GetAllRolePermissions()
+    public async Task<ActionResult<List<RolePermissionDto>>> GetAllRolePermissions()
     {
         var rolePermission = await _irolePermissionService.GetAllRolePermissionsAsync();
-        return Ok(rolePermission.Adapt<RolePermissionDto>());
+        return Ok(rolePermission.Adapt<List<RolePermissionDto>>());
     }
 }
