@@ -12,7 +12,6 @@ namespace YouthApartmentServer.Services.IUserServices
     {
         private readonly IUserRepository _iuserRepository;
         private readonly IWebHostEnvironment _env;
-
         public UserService(IUserRepository iuserRepository, IWebHostEnvironment env)
         {
             _iuserRepository = iuserRepository;
@@ -39,17 +38,23 @@ namespace YouthApartmentServer.Services.IUserServices
                 return null;
             }
 
-            //查不到才执行插入
+            //检查身份证号是否存在
+            var existingIdCard = await _iuserRepository.GetByIdCardAsync(user.IdCard!);
+            if (existingIdCard != null)
+            {
+                return null;
+            }
+            
             // 若头像是 data URI，保存到 Resources 并替换为静态 URL
             if (!string.IsNullOrEmpty(user.UserAvatarUrl) && IsDataUri(user.UserAvatarUrl))
             {
                 var savedUrl = await SaveAvatarFromDataUriAsync(existingUser?.UserId ?? 0, user.UserAvatarUrl!);
                 user.UserAvatarUrl = savedUrl;
             }
+
             user.Status = false;
             await _iuserRepository.InsertAsync(user);
             return user;
-
         }
 
         public async Task<bool> UpdateUserStausAsync(int id, bool status)
@@ -71,11 +76,13 @@ namespace YouthApartmentServer.Services.IUserServices
                 var savedUrl = await SaveAvatarFromDataUriAsync(id, existingUser.UserAvatarUrl!);
                 existingUser.UserAvatarUrl = savedUrl;
             }
+
             //全量更新
-            return await _iuserRepository.UpdateAsync(existingUser);;
+            return await _iuserRepository.UpdateAsync(existingUser);
+            ;
         }
 
-        public async Task<bool> PatchUserAsync(int id, PatchUserDto userDto)
+        public async Task<bool> PatchUserAsync(int id, UpdateUserDto userDto)
         {
             // 头像字段兼容 Base64：如果是 data URI，则保存到 Resources 并替换为静态 URL
             if (!string.IsNullOrEmpty(userDto.UserAvatarUrl) && IsDataUri(userDto.UserAvatarUrl))
@@ -145,6 +152,49 @@ namespace YouthApartmentServer.Services.IUserServices
                 Total = total,
                 Items = items
             };
+        }
+
+        public async Task<int> ExistIdCard(string idCard)
+        {
+            return await _iuserRepository.ExistIdCard(idCard);
+        }
+
+        public async Task<List<User>> SearchUserByContain(UserQueryParams userQueryParams)
+        {
+            
+            // 1) 优先使用第一个有值的条件；2) 字符串判空用 IsNullOrWhiteSpace
+            if (!string.IsNullOrWhiteSpace(userQueryParams.UserName))
+            {
+                return await _iuserRepository.SearchUserNameByContain(userQueryParams.UserName);
+            }
+
+            if (!string.IsNullOrWhiteSpace(userQueryParams.RealName))
+            {
+                return await _iuserRepository.SearchRealNameByContain(userQueryParams.RealName);
+            }
+
+            if (!string.IsNullOrWhiteSpace(userQueryParams.Email))
+            {
+                return await _iuserRepository.SearchEmailByContain(userQueryParams.Email);
+            }
+
+            if (!string.IsNullOrWhiteSpace(userQueryParams.Phone))
+            {
+                return await _iuserRepository.SearchPhoneByContain(userQueryParams.Phone);
+            }
+
+            if (!string.IsNullOrWhiteSpace(userQueryParams.Gender))
+            {
+                return await _iuserRepository.SearchGender(userQueryParams.Gender);
+            }
+
+            if (userQueryParams.Status.HasValue)
+            {
+                return await _iuserRepository.SearchStatus(userQueryParams.Status.Value);
+            }
+
+            // 无任何条件：返回全部
+            return await _iuserRepository.GetAllAsync();
         }
     }
 }

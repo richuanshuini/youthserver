@@ -5,11 +5,9 @@ export const listUsersPaged = (params) => http.get('/api/Users/paged', { params 
 export const createUser = (payload) => http.post('/api/Users', payload);
 export const setUserStatus = (id, status) => http.post(`/api/Users/${id}/updateUserStatus`, { Status: status });
 export const updateUser = (id, payload) => {
-  const body = { ...payload };
-  // 将前端的 idCard 映射为后端 PatchUserDto 的 IdCrad（拼写差异）
-  if (body.idCard !== undefined) {
-    body.idCrad = body.idCard;
-    delete body.idCard;
-  }
-  return http.post(`/api/Users/${id}/update`, body);
+  // 直接发送原始 payload，确保包含 idCard
+  return http.post(`/api/Users/${id}/update`, payload);
 };
+
+// 单条件查询：POST /api/Users/search，传入 UserQueryParams 中的一个字段
+export const searchUsers = (payload) => http.post('/api/Users/search', payload);

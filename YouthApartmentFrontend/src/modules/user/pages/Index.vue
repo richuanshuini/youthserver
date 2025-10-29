@@ -3,7 +3,7 @@ defineOptions({ name: 'UserIndexPage' });
 import { ref, onMounted } from 'vue';
 import { ElMessage } from 'element-plus';
 import { UserFilled } from '@element-plus/icons-vue';
-import { listUsersPaged, createUser, setUserStatus, updateUser } from '../services.js';
+import { listUsersPaged, createUser, setUserStatus, updateUser, searchUsers } from '../services.js';
 
 // 解析头像地址：
 // - data: URI 直接使用
@@ -11,10 +11,24 @@ import { listUsersPaged, createUser, setUserStatus, updateUser } from '../servic
 // - 以 / 开头的后端相对路径，拼接后端 baseURL
 const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5160';
 const resolveAvatarUrl = (u) => {
-  if (!u) return '';
-  if (typeof u === 'string' && (u.startsWith('data:') || u.startsWith('http'))) return u;
-  if (typeof u === 'string' && u.startsWith('/')) return apiBase + u;
-  return `${apiBase}/${u}`;
+  if (!u || typeof u !== 'string') return '';
+  const val = u.trim();
+  if (!val) return '';
+
+  // 绝对地址或 data URI
+  if (val.startsWith('data:') || val.startsWith('http')) return val;
+
+  // 以 / 开头的后端相对路径
+  if (val.startsWith('/')) return apiBase + val;
+
+  // 仅当看起来像相对资源路径（包含 / 或 .）时才拼接
+  if (/[/\\.]/.test(val)) {
+    const rel = val.replace(/^\/+/, '');
+    return `${apiBase}/${rel}`;
+  }
+
+  // 像 "string" 这类占位值：不返回 URL，避免触发网络请求
+  return '';
 };
 
 const loading = ref(false);
@@ -22,6 +36,12 @@ const users = ref([]);
 const currentPage = ref(1);
 const pageSize = ref(10);
 const total = ref(0);
+
+// --- Search Module ---
+const searchKey = ref('UserName'); // 默认使用“用户名”以便初始展示输入框
+const searchText = ref(''); // for string fields
+const searchGender = ref('');
+const searchStatus = ref('all'); // all | enabled | disabled
 
 // --- Create User Dialog ---
 const createDialogVisible = ref(false);
@@ -197,11 +217,115 @@ const submitEdit = () => {
   });
 };
 
+// 应用搜索（单条件）
+const applySearch = async () => {
+  // 若未选择条件，或必要值为空，则回到分页列表
+  if (!searchKey.value) {
+    currentPage.value = 1;
+    await fetchUsers();
+    return;
+  }
+
+  let payload = {};
+  if (searchKey.value === 'Status') {
+    if (searchStatus.value === 'enabled') payload = { Status: true };
+    else if (searchStatus.value === 'disabled') payload = { Status: false };
+    else {
+      await fetchUsers();
+      return;
+    }
+  } else if (searchKey.value === 'Gender') {
+    if (!searchGender.value) {
+      await fetchUsers();
+      return;
+    }
+    payload = { Gender: searchGender.value };
+  } else {
+    const text = (searchText.value || '').trim();
+    if (!text) {
+      await fetchUsers();
+      return;
+    }
+    // 其它字符串字段
+    payload = { [searchKey.value]: text };
+  }
+
+  try {
+    loading.value = true;
+    const res = await searchUsers(payload);
+    users.value = Array.isArray(res) ? res : [];
+    total.value = users.value.length;
+    currentPage.value = 1; // 搜索后回到第一页
+  } catch (error) {
+    ElMessage.error(getErrorMessage(error, '查询失败'));
+  } finally {
+    loading.value = false;
+  }
+};
+
+// 重置搜索
+const resetSearch = async () => {
+  searchText.value = '';
+  searchGender.value = '';
+  searchStatus.value = 'all';
+  currentPage.value = 1;
+  await fetchUsers();
+};
+
 
 onMounted(fetchUsers);
 </script>
 
 <template>
+  <!-- 搜索模块（独立 div，置于用户显示表单上方） -->
+  <el-card class="box-card">
+    <div class="search-bar">
+      <el-form class="search-form" label-position="top" size="large">
+        <el-row :gutter="10">
+          <el-col :span="5">
+            <el-form-item>
+              <el-select v-model="searchKey" placeholder="请选择" style="width: 100%;" filterable>
+                <el-option label="用户名" value="UserName" />
+                <el-option label="姓名" value="RealName" />
+                <el-option label="邮箱" value="Email" />
+                <el-option label="电话" value="Phone" />
+                <el-option label="性别" value="Gender" />
+                <el-option label="用户状态" value="Status" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" v-if="searchKey && searchKey !== 'Status' && searchKey !== 'Gender'">
+            <el-form-item>
+              <el-input v-model="searchText" placeholder="请输入查询条件" clearable />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" v-if="searchKey === 'Gender'">
+            <el-form-item>
+              <el-select v-model="searchGender" placeholder="请选择" style="width: 100%;" filterable>
+                <el-option label="男" value="男" />
+                <el-option label="女" value="女" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" v-if="searchKey === 'Status'">
+            <el-form-item>
+              <el-select v-model="searchStatus" placeholder="请选择" style="width: 100%;">
+                <el-option label="全部" value="all" />
+                <el-option label="启用" value="enabled" />
+                <el-option label="禁用" value="disabled" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" class="search-actions">
+            <el-form-item label=" ">
+              <el-button type="primary" @click="applySearch">查询</el-button>
+              <el-button @click="resetSearch">重置</el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+    </div>
+  </el-card>
   <el-card>
     <template #header>
       <div class="card-header">
@@ -209,6 +333,8 @@ onMounted(fetchUsers);
         <el-button type="primary" @click="openCreate">新增用户</el-button>
       </div>
     </template>
+
+
 
   <el-table :data="users" v-loading="loading" stripe :header-cell-style="{ textAlign: 'center' }" :cell-style="{ textAlign: 'center' }">
       <el-table-column prop="userId" label="ID" width="80" />
@@ -399,15 +525,20 @@ onMounted(fetchUsers);
 
 <style scoped>
 .card-header { display: flex; justify-content: space-between; align-items: center; }
+.search-form { max-width: 600px; }
+.search-form{ min-height: 40px; }
+.search-form{ min-height: 40px; }
+.search-actions { display: flex;justify-content:center; height: 40px;align-items: center; margin-top:6px}
 .pagination { margin-top: 16px; display: flex; justify-content: flex-end; }
 /* 头像列表列居中对齐 */
-:deep(.avatar-col .cell) { display: flex; align-items: center; justify-content: center; }
+:deep(.avatar-col) { display: flex; align-items: center; justify-content: center; }
 /* 新增用户对话框头像项内容居中 */
-:deep(.avatar-form-item .el-form-item__content) { display: flex; align-items: center; }
+:deep(.avatar-form-item ) { display: flex; align-items: center; }
 .avatar-uploader { display: inline-block; }
 /* 表单优化：顶部标签、间距与可读性 */
-.optimized-form :deep(.el-form-item) { margin-bottom: 16px; }
-.optimized-form :deep(.el-form-item__label) { font-weight: 600; }
-.optimized-form :deep(.el-input__wrapper) { min-height: 40px; }
-.optimized-form :deep(.el-select .el-select__wrapper) { min-height: 40px; }
+.optimized-form { margin-bottom: 16px; }
+.optimized-form { font-weight: 600; }
+.optimized-form { min-height: 40px; }
+.optimized-form { min-height: 40px; }
+.box-card{margin-bottom: 16px; height: 80px}
 </style>

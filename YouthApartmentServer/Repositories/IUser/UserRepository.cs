@@ -17,7 +17,38 @@ namespace YouthApartmentServer.Repositories.IUser
         {
             return await Select.ToListAsync();
         }
-        
+            
+        //
+        public async Task<List<User>> SearchUserNameByContain(string username)
+        {
+            return await Select.Where(u=>u.UserName!.Contains(username)).ToListAsync()!;
+        }
+
+        public async Task<List<User>> SearchRealNameByContain(string realname)
+        {
+            return await Select.Where(u => u.RealName!.Contains(realname)).ToListAsync();
+        }
+
+        public async Task<List<User>> SearchEmailByContain(string email)
+        {
+            return await Select.Where(u=>u.Email!.Contains(email)).ToListAsync();
+        }
+
+        public async Task<List<User>> SearchPhoneByContain(string phone)
+        {
+            return await Select.Where(u=>u.Phone!.Contains(phone)).ToListAsync();
+        }
+
+        public async Task<List<User>> SearchGender(string gender)
+        {
+            return await Select.Where(u=>u.Gender==gender).ToListAsync();
+        }
+
+        public async Task<List<User>> SearchStatus(bool status)
+        {
+            return await Select.Where(u=>u.Status==status).ToListAsync();
+        }
+
         public async Task<User> InsertAsync(User user)
         {
             return await base.InsertAsync(user);
@@ -27,8 +58,12 @@ namespace YouthApartmentServer.Repositories.IUser
         {
             return await Select.Where(u => u.UserName == username).ToOneAsync();
         }
-        
-        
+
+        public async Task<User?> GetByIdCardAsync(string idCard)
+        {
+            return await Select.Where(u=>u.IdCard==idCard).ToOneAsync();
+        }
+
 
         public async Task<bool> UpdateUserStatusAsync(int id, bool status)
         {
@@ -44,32 +79,76 @@ namespace YouthApartmentServer.Repositories.IUser
         }
         
         //部分更新（新：基于 PatchUserDto 标记位）
-        public async Task<bool> UpdateAsync(int userId, PatchUserDto patchUserDto)
+        public async Task<bool> UpdateAsync(int userId, UpdateUserDto patchUserDto)
         {
             var user = await GetByIdAsync(userId);
             if (user == null)
                 return false;
 
             var updateUser = UpdateDiy.Where(u => u.UserId == userId);
+            var changed = false;
 
-            if (patchUserDto.IsUserNameSet)
+            if (patchUserDto.UserName != null &&
+                !string.Equals(patchUserDto.UserName, user.UserName, StringComparison.Ordinal))
+            {
                 updateUser.Set(u => u.UserName, patchUserDto.UserName);
-            if (patchUserDto.IsPasswdSet)
+                changed = true;
+            }
+
+            if (!string.IsNullOrWhiteSpace(patchUserDto.Password) &&
+                !string.Equals(patchUserDto.Password, user.Password, StringComparison.Ordinal))
+            {
                 updateUser.Set(u => u.Password, patchUserDto.Password);
-            if (patchUserDto.IsEmailSet)
+                changed = true;
+            }
+
+            if (patchUserDto.Email != null &&
+                !string.Equals(patchUserDto.Email, user.Email, StringComparison.Ordinal))
+            {
                 updateUser.Set(u => u.Email, patchUserDto.Email);
-            if (patchUserDto.IsPhoneSet)
+                changed = true;
+            }
+
+            if (patchUserDto.Phone != null &&
+                !string.Equals(patchUserDto.Phone, user.Phone, StringComparison.Ordinal))
+            {
                 updateUser.Set(u => u.Phone, patchUserDto.Phone);
-            if (patchUserDto.IsRealNameSet)
+                changed = true;
+            }
+
+            if (patchUserDto.RealName != null &&
+                !string.Equals(patchUserDto.RealName, user.RealName, StringComparison.Ordinal))
+            {
                 updateUser.Set(u => u.RealName, patchUserDto.RealName);
-            if (patchUserDto.IsIdCradSet)
-                updateUser.Set(u => u.IdCard, patchUserDto.IdCrad); // 注意：DTO 是 IdCrad，实体是 IdCard
-            if (patchUserDto.IsGenderSet)
+                changed = true;
+            }
+
+            if (patchUserDto.IdCard != null &&
+                !string.Equals(patchUserDto.IdCard, user.IdCard, StringComparison.Ordinal))
+            {
+                updateUser.Set(u => u.IdCard, patchUserDto.IdCard);
+                changed = true;
+            }
+
+            if (patchUserDto.Gender != null &&
+                !string.Equals(patchUserDto.Gender, user.Gender, StringComparison.Ordinal))
+            {
                 updateUser.Set(u => u.Gender, patchUserDto.Gender);
-            if (patchUserDto.IsAvatarUrlSet)
+                changed = true;
+            }
+
+            if (patchUserDto.UserAvatarUrl != null &&
+                !string.Equals(patchUserDto.UserAvatarUrl, user.UserAvatarUrl, StringComparison.Ordinal))
+            {
                 updateUser.Set(u => u.UserAvatarUrl, patchUserDto.UserAvatarUrl);
-            if (patchUserDto.IsStatusSet)
-                updateUser.Set(u => u.Status, patchUserDto.Status);
+                changed = true;
+            }
+
+            // Status 不在此方法更新，保持与专用状态接口解耦
+
+            // 若无任何字段变化，认为操作成功（用户存在且无需更新）
+            if (!changed)
+                return true;
 
             var affectedRows = await updateUser.ExecuteAffrowsAsync();
             return affectedRows > 0;
@@ -77,8 +156,13 @@ namespace YouthApartmentServer.Repositories.IUser
 
         public async Task<int> ExistUserName(string username)
         {
-            var user=await Select.Where(u=>u.UserName==username).ToOneAsync();
-            //??是空并运行符，当左边为空时，则返回右边的0，当左边不为空时，则返回左边的值
+            var user = await Select.Where(u => u.UserName == username).ToOneAsync();
+            return user?.UserId ?? 0;
+        }
+
+        public async Task<int> ExistIdCard(string idCard)
+        {
+            var user = await Select.Where(u => u.IdCard == idCard).ToOneAsync();
             return user?.UserId ?? 0;
         }
 

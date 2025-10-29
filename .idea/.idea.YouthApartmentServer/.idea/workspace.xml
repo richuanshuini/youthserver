@@ -10,10 +10,9 @@
   <component name="ChangeListManager">
     <list default="true" id="a6b10c1a-9665-415a-b172-5e6eb2a741a3" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/pages/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/pages/Index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/services.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user/services.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/RolePermissionController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/RolePermissionController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UsersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UsersController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Model/UserPermissionModel/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Model/UserPermissionModel/User.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/UserPermissionDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/UserPermissionDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/IUserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/IUserRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/UserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/UserRepository.cs" afterDir="false" />
@@ -56,6 +55,7 @@
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Repositories/IRole/RoleRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Repositories/IRolePermission/IRolePermissionRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Repositories/IRolePermission/RolePermissionRepository.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://D:/Code/Push/YouthApartmentServer/YouthApartmentServer/Repositories/IUser/UserRepository.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Repositories/IUserRole/IUserRoleRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Repositories/IUserRole/UserRoleRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Services/IPermissionService/IPermissionService.cs" root0="FORCE_HIGHLIGHTING" />
@@ -83,7 +83,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    ".NET 启动设置配置文件.YouthApartmentServer: http.executor": "Run",
+    ".NET 启动设置配置文件.YouthApartmentServer: http.executor": "Debug",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
@@ -190,7 +190,7 @@
       <workItem from="1761444762689" duration="227000" />
       <workItem from="1761445292488" duration="9681000" />
       <workItem from="1761531304619" duration="19237000" />
-      <workItem from="1761618201981" duration="6244000" />
+      <workItem from="1761618201981" duration="20931000" />
     </task>
     <task id="LOCAL-00001" summary="更新了一个接口">
       <option name="closed" value="true" />
@@ -312,7 +312,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761569158706</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="优化了一些逻辑">
+      <option name="closed" value="true" />
+      <created>1761640115368</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1761640115368</updated>
+    </task>
+    <task id="LOCAL-00017" summary="新增了前端多条件查询，修复了一些逻辑错误">
+      <option name="closed" value="true" />
+      <created>1761708912211</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1761708912211</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -348,7 +364,9 @@
     <MESSAGE value="新增用户界面的分页查询" />
     <MESSAGE value="init" />
     <MESSAGE value="优化了部分结构，优化了头像显示" />
-    <option name="LAST_COMMIT_MESSAGE" value="优化了部分结构，优化了头像显示" />
+    <MESSAGE value="优化了一些逻辑" />
+    <MESSAGE value="新增了前端多条件查询，修复了一些逻辑错误" />
+    <option name="LAST_COMMIT_MESSAGE" value="新增了前端多条件查询，修复了一些逻辑错误" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -365,19 +383,6 @@
           <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
           <option name="timeStamp" value="3" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UsersController.cs</url>
-          <line>130</line>
-          <properties documentPath="D:\Code\Push\YouthApartmentServer\YouthApartmentServer\Controller\BaseController\UsersController.cs" containingFunctionPresentation="方法 'SetUserStatus'">
-            <startOffsets>
-              <option value="4414" />
-            </startOffsets>
-            <endOffsets>
-              <option value="4494" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

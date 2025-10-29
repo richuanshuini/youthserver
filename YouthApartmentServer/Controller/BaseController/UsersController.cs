@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using YouthApartmentServer.Model.UserPermissionModel;
 using YouthApartmentServer.ModelDto;
 using YouthApartmentServer.Services.IUserServices;
-using ZstdSharp.Unsafe;
 
 namespace YouthApartmentServer.Controller.BaseController
 {
@@ -70,13 +69,13 @@ namespace YouthApartmentServer.Controller.BaseController
             //1、使用 Mapster 将 DTO 转为 User
             var user = insertUserDto.Adapt<User>(); 
 
-            //2、执行业务逻辑
+            //2、执行业务逻辑，如果返回null，说明服务层拦截了重复的用户名
             var newUser = await _iuserService.CreateUserAsync(user);
-
             if (newUser == null)
             {
-                return BadRequest(new { error = "该用户名已经存在，请重新输入" });
+                return BadRequest(new { error = "该用户名或者身份证号已经存在，请重新输入" });
             }
+            
 
             //3、返回 DTO
             var newUserDto = newUser.Adapt<UserDto>(); // 替换为 Mapster 映射
@@ -114,7 +113,7 @@ namespace YouthApartmentServer.Controller.BaseController
             return Ok(new
             {
                 created = createdDtos,
-                error = conflictUsernames.Count > 0 ? "存在冲突的用户名" : null,
+                error = conflictUsernames.Count > 0 ? "存在冲突的用户名或身份证号" : null,
                 conflicts = conflictUsernames
             });
         }
@@ -139,7 +138,7 @@ namespace YouthApartmentServer.Controller.BaseController
         /// </summary>
         /// <param name="id">要更新的用户的ID</param>
         /// <param name="updateUserDto">用户的完整新数据</param>
-        /// <returns>更新后的用户信息</returns>
+        /// <returns>204状态码，表示更新成功</returns>
         [HttpPost("{id}/replace")]
         public async Task<ActionResult<UserDto>> RepalceUser(int id, [FromBody] UpdateUserDto updateUserDto)
         {
@@ -152,23 +151,32 @@ namespace YouthApartmentServer.Controller.BaseController
                     return BadRequest(new { error = "修改后的用户名已经存在，请重新修改" });
                 }
             }
+            // 身份证唯一性校验（排除自己）
+            if (updateUserDto.IdCard != null)
+            {
+                var ownerId = await _iuserService.ExistIdCard(updateUserDto.IdCard);
+                if (ownerId != 0 && ownerId != id)
+                {
+                    return BadRequest(new { error = "修改后的身份证号已经存在，请重新修改" });
+                }
+            }
 
-            var result=await _iuserService.UpdateUserAsync(id, updateUserDto);
+            var result = await _iuserService.UpdateUserAsync(id, updateUserDto);
             if (result == null)
                 return NotFound(new { error = "该用户不存在" });
-            return Ok(result.Adapt<UserDto>());
+            return NoContent();
         }
-        
+
         /// <summary>
-        /// 部分更新用户
+        /// 部分更新一个用户
         /// </summary>
         /// <param name="id">要更新的用户的ID</param>
-        /// <param name="updateUserDto">用户的部分新数据</param>
+        /// <param name="updateUserDto">用户的完整新数据</param>
         /// <returns>204状态码，表示更新成功</returns>
         [HttpPost("{id}/update")]
-        public async Task<ActionResult<UserDto>> UpdateUser(int id, [FromBody] PatchUserDto updateUserDto)
+        public async Task<ActionResult<UserDto>> UpdateUser(int id, [FromBody] UpdateUserDto updateUserDto)
         {
-            // 更新时，必须要检查，当前更新的用户名是否存在数据库中（排除自己）
+            // 用户名唯一性校验（排除自己）
             if (updateUserDto.UserName != null)
             {
                 var existed = await _iuserService.ExistUserName(updateUserDto.UserName);
@@ -177,13 +185,33 @@ namespace YouthApartmentServer.Controller.BaseController
                     return BadRequest(new { error = "修改后的用户名已经存在，请重新修改" });
                 }
             }
+            // 身份证唯一性校验（排除自己）
+            if (updateUserDto.IdCard != null)
+            {
+                var ownerId = await _iuserService.ExistIdCard(updateUserDto.IdCard);
+                if (ownerId != 0 && ownerId != id)
+                {
+                    return BadRequest(new { error = "修改后的身份证号已经存在，请重新修改" });
+                }
+            }
 
-            var result=await _iuserService.PatchUserAsync(id, updateUserDto);
+            var result = await _iuserService.PatchUserAsync(id, updateUserDto);
             if (!result)
                 return NotFound(new { error = "该用户不存在" });
             return NoContent();
         }
-
+        
+        [HttpPost("search")]
+        public async Task<ActionResult<List<UserDto>>> SearcheUserAny([FromBody]UserQueryParams userQueryParams)
+        {
+            var user= await _iuserService.SearchUserByContain(userQueryParams);
+            //转成DTO
+            var userDto = user.Adapt<List<UserDto>>();
+            
+            return Ok(userDto);
+        }
+        
+        
         
     }
 }
