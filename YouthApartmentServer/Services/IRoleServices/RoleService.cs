@@ -1,4 +1,5 @@
 ﻿using YouthApartmentServer.Model.UserPermissionModel;
+using YouthApartmentServer.ModelDto;
 using YouthApartmentServer.Repositories.IRole;
 
 namespace YouthApartmentServer.Services.IRoleServices;
@@ -21,8 +22,15 @@ public class RoleService:IRoleService
         return await _iroleRepository.GetByIdAsync(id);
     }
 
-    public async Task<Role?> CreateRoleAsync(Role role)
+    public async Task<Role> CreateRoleAsync(Role role)
     {
         return await _iroleRepository.InsertAsync(role);
     }
+
+    public async Task<bool> UpdateRoleAsync(int roleId, UpdateRoleDto patchRoleDto)
+    {
+        return await _iroleRepository.UpdateAsync(roleId, patchRoleDto);
+    }
+    
+    
 }

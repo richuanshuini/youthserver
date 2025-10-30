@@ -158,6 +158,15 @@ public class UpdateUserDto
     public bool Status { get; set; }
 }
 
+//制造一个可空DTO，实现部分更新，即检查到前端没有传入内容，就是没更新的部分，就设置为null
+public class UpdateRoleDto
+{
+    [MaxLength(30)] 
+    public string? RoleName { get; set; }
+    [MaxLength(100)] 
+    public string? Description { get; set; }
+
+}
 
 
 #endregion

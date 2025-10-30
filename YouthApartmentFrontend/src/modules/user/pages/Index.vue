@@ -5,11 +5,26 @@ import { ElMessage } from 'element-plus';
 import { UserFilled } from '@element-plus/icons-vue';
 import { listUsersPaged, createUser, setUserStatus, updateUser, searchUsers } from '../services.js';
 
+/**
+ * @typedef {object} UserRow
+ * @property {number} userId
+ * @property {string} userName
+ * @property {string} password
+ * @property {string} email
+ * @property {string} phone
+ * @property {string} realName
+ * @property {string} idCard
+ * @property {string} gender
+ * @property {string} userAvatarUrl
+ * @property {boolean} status
+ */
+
 // 解析头像地址：
 // - data: URI 直接使用
 // - http(s) 绝对地址直接使用
 // - 以 / 开头的后端相对路径，拼接后端 baseURL
 const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5160';
+
 const resolveAvatarUrl = (u) => {
   if (!u || typeof u !== 'string') return '';
   const val = u.trim();
@@ -32,10 +47,14 @@ const resolveAvatarUrl = (u) => {
 };
 
 const loading = ref(false);
+/** @type {import('vue').Ref<UserRow[]>} */
 const users = ref([]);
 const currentPage = ref(1);
 const pageSize = ref(10);
 const total = ref(0);
+
+const headerCellStyle = () => ({ textAlign: 'center' });
+const cellStyle = () => ({ textAlign: 'center' });
 
 // --- Search Module ---
 const searchKey = ref('UserName'); // 默认使用“用户名”以便初始展示输入框
@@ -134,6 +153,10 @@ const openCreate = () => {
   }
   createForm.value = { userName: '', password: '', email: '', phone: '', realName: '', gender: '', idCard: '', userAvatarUrl: '' };
 };
+
+const openDelete=()=>{
+
+}
 
 const getErrorMessage = (error, defaultMessage) => {
   // ValidationProblemDetails
@@ -330,13 +353,14 @@ onMounted(fetchUsers);
     <template #header>
       <div class="card-header">
         <span>用户管理</span>
-        <el-button type="primary" @click="openCreate">新增用户</el-button>
+        <div class="card-actions">
+          <el-button type="primary" @click="openCreate">新增</el-button>
+          <el-button type="danger" @click="openDelete">删除</el-button>
+        </div>
       </div>
     </template>
 
-
-
-  <el-table :data="users" v-loading="loading" stripe :header-cell-style="{ textAlign: 'center' }" :cell-style="{ textAlign: 'center' }">
+  <el-table :data="users" v-loading="loading" stripe :header-cell-style="headerCellStyle" :cell-style="cellStyle">
       <el-table-column prop="userId" label="ID" width="80" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="password" label="密码" />
@@ -525,6 +549,7 @@ onMounted(fetchUsers);
 
 <style scoped>
 .card-header { display: flex; justify-content: space-between; align-items: center; }
+.card-actions { display: flex; align-items: center;}
 .search-form { max-width: 600px; }
 .search-form{ min-height: 40px; }
 .search-form{ min-height: 40px; }
