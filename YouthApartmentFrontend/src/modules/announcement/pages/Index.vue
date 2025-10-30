@@ -33,7 +33,7 @@ const statusOptions = [
 // 新增
 const createDialogVisible = ref(false);
 const createFormRef = ref();
-const createForm = ref({ title: '', type: 1, status: 0, content: '' });
+const createForm = ref({ title: '', type: 1, status: 0, content: '', publishTime: null, expireTime: null });
 const createRules = {
   title: [
     { required: true, message: '标题不能为空', trigger: 'blur' },
@@ -45,10 +45,33 @@ const createRules = {
     }
   ],
   content: [ { required: true, message: '内容不能为空', trigger: 'change' } ],
+  publishTime: [ { required: true, message: '发布时间不能为空', trigger: 'change' } ],
+  expireTime: [
+    { required: true, message: '结束时间不能为空', trigger: 'change' },
+    {
+      validator: (_r, v, cb) => {
+        if (v && createForm.value.publishTime && new Date(v) < new Date(createForm.value.publishTime)) {
+          cb(new Error('结束时间不能早于发布时间'));
+        } else {
+          cb();
+        }
+      }, trigger: 'change'
+    }
+  ],
 };
 const openCreate = () => {
-  createForm.value = { title: '', type: 1, status: 0, content: '' };
+  createForm.value = { title: '', type: 1, status: 0, content: '', publishTime: null, expireTime: null };
   createDialogVisible.value = true;
+};
+
+const durationText = (start, end) => {
+  if (!start || !end) return '-';
+  const diff = new Date(end) - new Date(start);
+  if (diff < 0) return '时间范围无效';
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  return `${days}天 ${hours}小时 ${minutes}分钟`;
 };
 const submitCreate = () => {
   if (!createFormRef.value) return;
@@ -59,6 +82,8 @@ const submitCreate = () => {
       Content: createForm.value.content ?? '',
       Type: createForm.value.type,
       Status: createForm.value.status,
+      PublishTime: createForm.value.publishTime,
+      ExpireTime: createForm.value.expireTime,
     };
     try {
       await createAnnouncement(payload);
@@ -72,8 +97,8 @@ const submitCreate = () => {
 // 编辑
 const editDialogVisible = ref(false);
 const editFormRef = ref();
-const editForm = ref({ announceMentId: 0, title: '', type: 1, status: 0, content: '' });
-const originalEdit = ref({ title: '', type: 1, status: 0, content: '' });
+const editForm = ref({ announceMentId: 0, title: '', type: 1, status: 0, content: '', publishTime: null, expireTime: null });
+const originalEdit = ref({ title: '', type: 1, status: 0, content: '', publishTime: null, expireTime: null });
 const editRules = {
   title: [
     {
@@ -81,6 +106,17 @@ const editRules = {
         const s = (v ?? '').trim();
         if (s && s.length > 255) cb(new Error('标题最长 255 字')); else cb();
       }, trigger: 'blur'
+    }
+  ],
+  expireTime: [
+    {
+      validator: (_r, v, cb) => {
+        if (v && editForm.value.publishTime && new Date(v) < new Date(editForm.value.publishTime)) {
+          cb(new Error('结束时间不能早于发布时间'));
+        } else {
+          cb();
+        }
+      }, trigger: 'change'
     }
   ]
 };
@@ -92,23 +128,29 @@ const openEdit = (row) => {
     type: copy.type,
     status: copy.status,
     content: copy.content,
+    publishTime: copy.publishTime,
+    expireTime: copy.expireTime,
   };
   originalEdit.value = {
     title: copy.title,
     type: copy.type,
     status: copy.status,
     content: copy.content,
+    publishTime: copy.publishTime,
+    expireTime: copy.expireTime,
   };
   editDialogVisible.value = true;
 };
 const buildPatch = () => {
-  const patch = { Title: null, Content: null, Type: null, Status: null };
+  const patch = { Title: null, Content: null, Type: null, Status: null, PublishTime: null, ExpireTime: null };
   const tNew = (editForm.value.title ?? '').trim();
   const tOld = (originalEdit.value.title ?? '').trim();
   if (tNew !== tOld) patch.Title = tNew || null;
   if ((editForm.value.content ?? '') !== (originalEdit.value.content ?? '')) patch.Content = editForm.value.content ?? null;
   if (editForm.value.type !== originalEdit.value.type) patch.Type = editForm.value.type ?? null;
   if (editForm.value.status !== originalEdit.value.status) patch.Status = editForm.value.status ?? null;
+  if (editForm.value.publishTime !== originalEdit.value.publishTime) patch.PublishTime = editForm.value.publishTime ?? null;
+  if (editForm.value.expireTime !== originalEdit.value.expireTime) patch.ExpireTime = editForm.value.expireTime ?? null;
   return patch;
 };
 const submitEdit = () => {
@@ -154,9 +196,14 @@ const removeRow = async (row) => {
     <el-table :data="rows" class="search-table" v-loading="loading" stripe :header-cell-style="headerCellStyle" :cell-style="cellStyle">
       <el-table-column prop="announceMentId" label="ID" width="80" />
       <el-table-column prop="title" label="标题" />
-      <el-table-column prop="type" label="类型" />
-      <el-table-column prop="status" label="状态" />
+      <el-table-column prop="type" label="类型">
+        <template #default="{ row }">{{ typeOptions.find(it => it.value === row.type)?.label ?? '未知' }}</template>
+      </el-table-column>
+      <el-table-column prop="status" label="状态">
+        <template #default="{ row }">{{ statusOptions.find(it => it.value === row.status)?.label ?? '未知' }}</template>
+      </el-table-column>
       <el-table-column prop="publishTime" label="发布时间" />
+      <el-table-column prop="expireTime" label="结束时间" />
       <el-table-column label="操作" width="220">
         <template #default="{ row }">
           <el-button type="primary" @click="openEdit(row)">修改</el-button>
@@ -181,6 +228,15 @@ const removeRow = async (row) => {
         <el-select v-model="createForm.status" style="width: 240px">
           <el-option v-for="st in statusOptions" :key="st.value" :label="st.label" :value="st.value" />
         </el-select>
+      </el-form-item>
+      <el-form-item label="发布时间" prop="publishTime">
+        <el-date-picker v-model="createForm.publishTime" type="datetime" placeholder="选择发布时间" format="YYYY-MM-DD HH:mm" value-format="YYYY-MM-DDTHH:mm:ss" />
+      </el-form-item>
+      <el-form-item label="结束时间" prop="expireTime">
+        <el-date-picker v-model="createForm.expireTime" type="datetime" placeholder="选择结束时间" format="YYYY-MM-DD HH:mm" value-format="YYYY-MM-DDTHH:mm:ss" />
+      </el-form-item>
+      <el-form-item label="持续时间">
+        <el-input :value="durationText(createForm.publishTime, createForm.expireTime)" disabled />
       </el-form-item>
       <el-form-item label="内容" prop="content">
         <Editor v-model="createForm.content" />
@@ -209,6 +265,15 @@ const removeRow = async (row) => {
         <el-select v-model="editForm.status" style="width: 240px">
           <el-option v-for="st in statusOptions" :key="st.value" :label="st.label" :value="st.value" />
         </el-select>
+      </el-form-item>
+      <el-form-item label="发布时间" prop="publishTime">
+        <el-date-picker v-model="editForm.publishTime" type="datetime" placeholder="选择发布时间" format="YYYY-MM-DD HH:mm" value-format="YYYY-MM-DDTHH:mm:ss" />
+      </el-form-item>
+      <el-form-item label="结束时间" prop="expireTime">
+        <el-date-picker v-model="editForm.expireTime" type="datetime" placeholder="选择结束时间" format="YYYY-MM-DD HH:mm" value-format="YYYY-MM-DDTHH:mm:ss" />
+      </el-form-item>
+      <el-form-item label="持续时间">
+        <el-input :value="durationText(editForm.publishTime, editForm.expireTime)" disabled />
       </el-form-item>
       <el-form-item label="内容">
         <Editor v-model="editForm.content" />

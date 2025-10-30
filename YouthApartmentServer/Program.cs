@@ -68,6 +68,12 @@ YouthApartmentServer.Profiles.UserProfile.Register(TypeAdapterConfig.GlobalSetti
 
 var app = builder.Build();
 
+app.Use(async (context, next) =>
+{
+    context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+    await next();
+});
+
 // 配置HTTP请求管道
 if (app.Environment.IsDevelopment())
 {

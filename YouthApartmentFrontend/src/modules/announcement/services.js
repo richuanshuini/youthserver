@@ -42,3 +42,19 @@ export const updateAnnouncement = (id, payload) => {
 export const deleteAnnouncement = (id) => {
   return http.post(`/api/AnnounceMents/${id}/delete`);
 };
+
+/** 获取回收站公告（仅软删除） */
+export const listDeletedAnnouncements = async () => {
+  const data = await http.get('/api/AnnounceMents/deleted');
+  return Array.isArray(data) ? data : data?.items ?? [];
+};
+
+/** 还原公告 */
+export const restoreAnnouncement = (id) => {
+  return http.post(`/api/AnnounceMents/${id}/restore`);
+};
+
+/** 物理删除公告 */
+export const hardDeleteAnnouncement = (id) => {
+  return http.post(`/api/AnnounceMents/${id}/hard-delete`);
+};

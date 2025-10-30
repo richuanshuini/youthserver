@@ -72,6 +72,17 @@ const pageTitle = computed(() => route.meta?.title || '');
             <span>公告管理</span>
           </el-menu-item>
         </el-sub-menu>
+
+        <el-sub-menu index="recycle-bin">
+          <template #title>
+            <el-icon><BasicInfoIcon /></el-icon>
+            <span>回收站</span>
+          </template>
+          <el-menu-item index="/admin/announcements/recycle-bin">
+            <el-icon><AnnouncementIcon /></el-icon>
+            <span>公告回收站</span>
+          </el-menu-item>
+        </el-sub-menu>
       </el-menu>
     </el-aside>
 

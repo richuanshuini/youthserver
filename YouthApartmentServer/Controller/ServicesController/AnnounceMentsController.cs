@@ -30,6 +30,16 @@ public class AnnounceMentsController : ControllerBase
     }
 
     /// <summary>
+    /// 获取回收站公告列表（仅软删除）
+    /// </summary>
+    [HttpGet("deleted")]
+    public async Task<ActionResult<List<AnnouncementDto>>> GetDeleted()
+    {
+        var list = await _service.GetDeletedAsync();
+        return Ok(list.Adapt<List<AnnouncementDto>>());
+    }
+
+    /// <summary>
     /// 根据ID获取公告
     /// </summary>
     [HttpGet("{id}")]
@@ -75,6 +85,28 @@ public class AnnounceMentsController : ControllerBase
     {
         var ok = await _service.DeleteAsync(id);
         if (!ok) return NotFound(new { error = "该公告不存在或已删除" });
+        return NoContent();
+    }
+
+    /// <summary>
+    /// 恢复公告（从回收站还原）
+    /// </summary>
+    [HttpPost("{id}/restore")]
+    public async Task<ActionResult> Restore(int id)
+    {
+        var ok = await _service.RestoreAsync(id);
+        if (!ok) return NotFound(new { error = "该公告不存在或未被删除" });
+        return NoContent();
+    }
+
+    /// <summary>
+    /// 物理删除公告（永久删除）
+    /// </summary>
+    [HttpPost("{id}/hard-delete")]
+    public async Task<ActionResult> HardDelete(int id)
+    {
+        var ok = await _service.HardDeleteAsync(id);
+        if (!ok) return NotFound(new { error = "该公告不存在" });
         return NoContent();
     }
 

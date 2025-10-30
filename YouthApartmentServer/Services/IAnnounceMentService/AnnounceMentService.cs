@@ -46,4 +46,10 @@ public class AnnounceMentService : IAnnounceMentService
     }
 
     public Task<bool> DeleteAsync(int id) => _repo.SoftDeleteAsync(id);
+
+    public Task<List<AnnounceMent>> GetDeletedAsync() => _repo.GetDeletedAsync();
+
+    public Task<bool> RestoreAsync(int id) => _repo.RestoreAsync(id);
+
+    public Task<bool> HardDeleteAsync(int id) => _repo.HardDeleteAsync(id);
 }

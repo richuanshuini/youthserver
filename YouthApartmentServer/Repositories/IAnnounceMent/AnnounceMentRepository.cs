@@ -9,6 +9,7 @@ public class AnnounceMentRepository : BaseRepository<AnnounceMent, int>, IAnnoun
     public AnnounceMentRepository(IFreeSql fsql) : base(fsql) { }
 
     public ISelect<AnnounceMent> Query() => Select.Where(a => !a.IsDeleted);
+    private ISelect<AnnounceMent> QueryDeleted() => Select.Where(a => a.IsDeleted);
 
     public async Task<List<AnnounceMent>> GetAllAsync()
     {
@@ -47,6 +48,34 @@ public class AnnounceMentRepository : BaseRepository<AnnounceMent, int>, IAnnoun
         var rows = await Orm.Update<AnnounceMent>()
             .Where(a => a.AnnounceMentId == id)
             .Set(a => a.IsDeleted, true)
+            .ExecuteAffrowsAsync();
+        return rows > 0;
+    }
+
+    public async Task<List<AnnounceMent>> GetDeletedAsync()
+    {
+        return await QueryDeleted().OrderByDescending(a => a.PublishTime).ToListAsync();
+    }
+
+    public async Task<AnnounceMent?> GetDeletedByIdAsync(int id)
+    {
+        return await QueryDeleted().Where(a => a.AnnounceMentId == id).FirstAsync();
+    }
+
+    public async Task<bool> RestoreAsync(int id)
+    {
+        var rows = await Orm.Update<AnnounceMent>()
+            .Where(a => a.AnnounceMentId == id)
+            .Set(a => a.IsDeleted, false)
+            .ExecuteAffrowsAsync();
+        return rows > 0;
+    }
+
+    public async Task<bool> HardDeleteAsync(int id)
+    {
+        // 物理删除为单条 DELETE 语句，数据库级保证原子性。
+        var rows = await Orm.Delete<AnnounceMent>()
+            .Where(a => a.AnnounceMentId == id)
             .ExecuteAffrowsAsync();
         return rows > 0;
     }
