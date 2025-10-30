@@ -167,7 +167,7 @@ const removeRow = async (row) => {
   </el-card>
 
   <!-- 新增 -->
-  <el-dialog v-model="createDialogVisible" title="新增公告" width="720px" custom-class="fullscreen-dialog">
+  <el-dialog v-model="createDialogVisible" title="新增公告" width="95%" custom-class="fullscreen-dialog">
     <el-form :model="createForm" :rules="createRules" ref="createFormRef" label-width="100px">
       <el-form-item label="标题" prop="title">
         <el-input v-model="createForm.title" placeholder="最长 255 字" clearable />

@@ -9,20 +9,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a6b10c1a-9665-415a-b172-5e6eb2a741a3" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Controller/ServicesController/AnnounceMentsController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Model/ServersModel/AnnounceMent.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IAnnounceMent/AnnounceMentRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IAnnounceMent/IAnnounceMentRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IAnnounceMentService/AnnounceMentService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IAnnounceMentService/IAnnounceMentService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/eslint.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/eslint.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/layout/AdminLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/layout/AdminLayout.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/role-permission/pages/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/role-permission/pages/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/RoleController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/RoleController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Model/UserPermissionModel/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Model/UserPermissionModel/User.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/announcement/pages/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/announcement/pages/Index.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,7 +188,7 @@
       <workItem from="1761445292488" duration="9681000" />
       <workItem from="1761531304619" duration="19237000" />
       <workItem from="1761618201981" duration="35994000" />
-      <workItem from="1761794452380" duration="8611000" />
+      <workItem from="1761794452380" duration="8917000" />
     </task>
     <task id="LOCAL-00001" summary="更新了一个接口">
       <option name="closed" value="true" />
@@ -355,7 +342,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761794475819</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="新增公告模块">
+      <option name="closed" value="true" />
+      <created>1761832520354</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1761832520354</updated>
+    </task>
+    <task id="LOCAL-00021" summary="新增公告模块">
+      <option name="closed" value="true" />
+      <created>1761832555738</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1761832555738</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -395,7 +398,8 @@
     <MESSAGE value="新增了前端多条件查询，修复了一些逻辑错误" />
     <MESSAGE value="更新了多条件搜索用户" />
     <MESSAGE value="优化了部分逻辑" />
-    <option name="LAST_COMMIT_MESSAGE" value="优化了部分逻辑" />
+    <MESSAGE value="新增公告模块" />
+    <option name="LAST_COMMIT_MESSAGE" value="新增公告模块" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
