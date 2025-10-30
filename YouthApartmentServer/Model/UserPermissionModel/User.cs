@@ -24,7 +24,7 @@ public class User
     public string? Gender { get; set; }
     [MaxLength(500)]
     public string? UserAvatarUrl{get;set;}
-    public bool? Status { get; set; }
+    public bool? Status { get; set; }=false;
 
     //导航属性：UserId一对多UserRole的UserId
     //这里的属性名称，不能跟类型一样，就是UserRoles不能变成UserRole，根据就近原则，nameof会查找最近的UserRole，当前有两个，当前类和类外面的，他会优先查找当前类的，也就是List<UserRole>的方法

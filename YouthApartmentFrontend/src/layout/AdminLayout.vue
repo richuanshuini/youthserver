@@ -8,6 +8,7 @@ import {
   Link as UserRoleIcon,
   Connection as RolePermissionIcon,
   Files as BasicInfoIcon, // 新增图标
+  Bell as AnnouncementIcon,
 } from '@element-plus/icons-vue';
 
 const collapsed = ref(false);
@@ -58,6 +59,17 @@ const pageTitle = computed(() => route.meta?.title || '');
           <el-menu-item index="/admin/role-permission">
             <el-icon><RolePermissionIcon /></el-icon>
             <span>角色-权限</span>
+          </el-menu-item>
+        </el-sub-menu>
+
+        <el-sub-menu index="basic-services">
+          <template #title>
+            <el-icon><BasicInfoIcon /></el-icon>
+            <span>基础服务管理</span>
+          </template>
+          <el-menu-item index="/admin/announcements">
+            <el-icon><AnnouncementIcon /></el-icon>
+            <span>公告管理</span>
           </el-menu-item>
         </el-sub-menu>
       </el-menu>

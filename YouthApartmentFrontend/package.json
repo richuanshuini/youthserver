@@ -11,11 +11,15 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix --cache",
-    "test": "vitest"
+    "test": "vitest",
+    "tinymce:copy": "node scripts/copy-tinymce-assets.js",
+    "postinstall": "npm run tinymce:copy"
   },
   "dependencies": {
+    "@tinymce/tinymce-vue": "^6.3.0",
     "axios": "^1.12.2",
     "element-plus": "^2.11.5",
+    "tinymce": "^8.2.0",
     "vue": "^3.5.22",
     "vue-router": "^4.6.3"
   },

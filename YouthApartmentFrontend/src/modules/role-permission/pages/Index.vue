@@ -4,6 +4,7 @@ import { ref, onMounted } from 'vue';
 import { ElMessage } from 'element-plus';
 import { listRolePermissions } from '../services.js';
 
+
 const loading = ref(false);
 const rolePermissions = ref([]);
 const fetchData = async () => {
@@ -16,6 +17,7 @@ onMounted(fetchData);
 
 <template>
   <el-card>
+    
     <template #header>
       <span>角色-权限映射</span>
     </template>

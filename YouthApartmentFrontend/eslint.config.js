@@ -6,10 +6,19 @@ import pluginVue from 'eslint-plugin-vue'
 export default defineConfig([
   {
     name: 'app/files-to-lint',
-    files: ['**/*.{js,mjs,jsx,vue}'],
+    files: ['src/**/*.{js,mjs,jsx,vue}'],
   },
 
-  globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
+  // 忽略产物与静态资源目录，避免 lint 误扫 vendor 文件
+  globalIgnores([
+    '**/node_modules/**',
+    '**/dist/**',
+    '**/dist-ssr/**',
+    '**/coverage/**',
+    '**/public/**',
+    '**/public/ticymce/**',
+    '**/src/assets/**',
+  ]),
 
   {
     languageOptions: {
@@ -37,4 +46,13 @@ export default defineConfig([
 
   js.configs.recommended,
   ...pluginVue.configs['flat/essential'],
+
+  // Vue 规则覆盖：允许单词组件名（如通用 Editor）
+  {
+    name: 'app/vue-rule-overrides',
+    files: ['src/**/*.vue'],
+    rules: {
+      'vue/multi-word-component-names': 'off',
+    },
+  },
 ])
