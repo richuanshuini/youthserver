@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace YouthApartmentServer.ModelDto;
+namespace YouthApartmentServer.ModelDto.BaseRequest;
 
 // 用于 multipart/form-data 的文件上传表单
 public class TinyMceUploadRequest

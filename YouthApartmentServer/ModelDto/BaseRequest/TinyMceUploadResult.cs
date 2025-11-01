@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace YouthApartmentServer.ModelDto;
+namespace YouthApartmentServer.ModelDto.BaseRequest;
 
 public class TinyMceUploadResult
 {

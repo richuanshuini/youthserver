@@ -1,8 +1,9 @@
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using YouthApartmentServer.ModelDto.BaseRequest;
 using YouthApartmentServer.ModelDto;
 using YouthApartmentServer.Services.IAnnounceMentService;
-using YouthApartmentServer.Model.ServersModel;
+
 
 namespace YouthApartmentServer.Controller.ServicesController;
 

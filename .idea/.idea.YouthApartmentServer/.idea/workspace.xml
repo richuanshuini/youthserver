@@ -9,19 +9,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a6b10c1a-9665-415a-b172-5e6eb2a741a3" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/BaseServiceDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/langs/zh_CN.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/components/common/Editor.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/components/common/Editor.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/layout/AdminLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/layout/AdminLayout.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/announcement/pages/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/announcement/pages/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/announcement/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/announcement/routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/announcement/services.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/announcement/services.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Controller/ServicesController/AnnounceMentsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Controller/ServicesController/AnnounceMentsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IAnnounceMent/AnnounceMentRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IAnnounceMent/AnnounceMentRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IAnnounceMent/IAnnounceMentRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IAnnounceMent/IAnnounceMentRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Services/IAnnounceMentService/AnnounceMentService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IAnnounceMentService/AnnounceMentService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Services/IAnnounceMentService/IAnnounceMentService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IAnnounceMentService/IAnnounceMentService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/AnnouncementDto.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/TinyMceUploadRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/BaseRequest/TinyMceUploadRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/TinyMceUploadResult.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/BaseRequest/TinyMceUploadResult.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +44,7 @@
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Model/UserPermissionModel/Role.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Model/UserPermissionModel/User.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Model/UserPermissionModel/UserRole.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/YouthApartmentServer/ModelDto/BaseServiceDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/ModelDto/UserPermissionDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Profiles/PermissionProfile.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Profiles/RoleProfile.cs" root0="FORCE_HIGHLIGHTING" />
@@ -92,7 +86,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;.NET 启动设置配置文件.YouthApartmentServer: http.executor&quot;: &quot;Run&quot;,
+    &quot;.NET 启动设置配置文件.YouthApartmentServer: http.executor&quot;: &quot;Debug&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
@@ -201,6 +195,7 @@
       <workItem from="1761531304619" duration="19237000" />
       <workItem from="1761618201981" duration="35994000" />
       <workItem from="1761794452380" duration="14192000" />
+      <workItem from="1761880703257" duration="1922000" />
     </task>
     <task id="LOCAL-00001" summary="更新了一个接口">
       <option name="closed" value="true" />
