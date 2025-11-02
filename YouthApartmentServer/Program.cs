@@ -63,8 +63,13 @@ builder.Services.AddFreeRepository(typeof(UserRepository).Assembly);
 // 为 *Service / *Repository 自动注册
 builder.Services.AddConventionServices(Assembly.GetExecutingAssembly());
 
+
+#region Mapster
 // 使用 Mapster：注册全局映射配置（替代 AutoMapper/ServiceMapper）
 YouthApartmentServer.Profiles.UserProfile.Register(TypeAdapterConfig.GlobalSettings);
+// 注册 UserRole 的映射配置
+YouthApartmentServer.Profiles.UserRoleProfile.Register(TypeAdapterConfig.GlobalSettings);
+#endregion
 
 var app = builder.Build();
 

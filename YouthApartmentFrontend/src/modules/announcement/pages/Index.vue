@@ -11,6 +11,10 @@ const cellStyle = () => ({ textAlign: 'center' });
 const loading = ref(false);
 /** @type {import('../services.js').AnnouncementDto[]} */
 const rows = ref([]);
+/** 选择的公告行 */
+/** @type {import('../services.js').AnnouncementDto[]} */
+const selectedRows = ref([]);
+const handleSelectionChange = (selection) => { selectedRows.value = selection; };
 const fetchList = async () => {
   loading.value = true;
   try { rows.value = await listAnnouncements(); } catch { ElMessage.error('获取公告失败'); }
@@ -169,12 +173,15 @@ const submitEdit = () => {
   });
 };
 
-// 删除
-const removeRow = async (row) => {
+// 批量删除（选择项）
+const removeSelected = async () => {
+  if (!selectedRows.value || selectedRows.value.length === 0) return;
   try {
-    await ElMessageBox.confirm(`确认删除公告: ${row.title}?`, '提示', { type: 'warning' });
-    await deleteAnnouncement(row.announceMentId);
+    await ElMessageBox.confirm(`确认删除选中的 ${selectedRows.value.length} 条公告？`, '提示', { type: 'warning' });
+    const ids = selectedRows.value.map(r => r.announceMentId);
+    await Promise.all(ids.map(id => deleteAnnouncement(id)));
     ElMessage.success('删除成功');
+    selectedRows.value = [];
     await fetchList();
   } catch (e) {
     if (e !== 'cancel') ElMessage.error('删除失败');
@@ -189,11 +196,13 @@ const removeRow = async (row) => {
         <span>公告管理</span>
         <div class="card-actions">
           <el-button type="primary" @click="openCreate">新增</el-button>
+          <el-button type="danger" :disabled="selectedRows.length === 0" @click="removeSelected">删除</el-button>
         </div>
       </div>
     </template>
 
-    <el-table :data="rows" class="search-table" v-loading="loading" stripe :header-cell-style="headerCellStyle" :cell-style="cellStyle">
+    <el-table :data="rows" class="search-table" v-loading="loading" stripe :header-cell-style="headerCellStyle" :cell-style="cellStyle" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55" />
       <el-table-column prop="announceMentId" label="ID" width="80" />
       <el-table-column prop="title" label="标题" />
       <el-table-column prop="type" label="类型">
@@ -207,7 +216,7 @@ const removeRow = async (row) => {
       <el-table-column label="操作" width="220">
         <template #default="{ row }">
           <el-button type="primary" @click="openEdit(row)">修改</el-button>
-          <el-button type="danger" @click="removeRow(row)">删除</el-button>
+
         </template>
       </el-table-column>
     </el-table>

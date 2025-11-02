@@ -355,12 +355,13 @@ onMounted(fetchUsers);
         <span>用户管理</span>
         <div class="card-actions">
           <el-button type="primary" @click="openCreate">新增</el-button>
-          <el-button type="danger" @click="openDelete">删除</el-button>
+          <el-button type="danger" @click="openDelete" disabled>删除</el-button>
         </div>
       </div>
     </template>
 
   <el-table :data="users" v-loading="loading" stripe :header-cell-style="headerCellStyle" :cell-style="cellStyle">
+      <el-table-column type="selection" width="55" />
       <el-table-column prop="userId" label="ID" width="80" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="password" label="密码" />

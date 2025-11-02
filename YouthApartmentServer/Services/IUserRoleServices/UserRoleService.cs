@@ -14,6 +14,6 @@ public class UserRoleService:IUserRoleService
     
     public async Task<List<UserRole>> GetAllUserRoleAsync()
     {
-        return await _iuserRoleRepository.GetAllUserRoleasync();
+        return await _iuserRoleRepository.GetAllUserRoleAsync();
     }
 }

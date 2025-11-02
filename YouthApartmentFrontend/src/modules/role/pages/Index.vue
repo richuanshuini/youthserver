@@ -154,17 +154,18 @@ const submitCreate = () => {
         <span>角色管理</span>
         <div class="card-actions">
           <el-button type="primary" @click="openCreate">新增</el-button>
-          <el-button type="danger">删除</el-button>
+          <el-button type="danger" disabled>删除</el-button>
         </div>
       </div>
     </template>
 
 
     <el-table :data="roles" class="search-table" v-loading="loading" stripe :header-cell-style="headerCellStyle" :cell-style="cellStyle">
+      <el-table-column type="selection" width="55" />
       <el-table-column prop="roleId" label="ID" width="80" />
       <el-table-column prop="roleName" label="角色名" />
       <el-table-column prop="description" label="描述" />
-      <el-table-column label="修改">
+      <el-table-column label="操作">
         <template #default="{ row }">
           <el-button type="primary" @click="openEdit(row)">修改</el-button>
         </template>

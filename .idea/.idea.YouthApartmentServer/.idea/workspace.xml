@@ -9,12 +9,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a6b10c1a-9665-415a-b172-5e6eb2a741a3" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/BaseServiceDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Controller/ServicesController/AnnounceMentsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Controller/ServicesController/AnnounceMentsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/AnnouncementDto.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/TinyMceUploadRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/BaseRequest/TinyMceUploadRequest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/TinyMceUploadResult.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/BaseRequest/TinyMceUploadResult.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +23,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///Immediate 窗口" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/96eae0a949f54cf8984ea959c2178701ac00/4a/579c62c1/0200001Bpdb1Low.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/d2941277c7264f689339754fbd3e3ad02a200/9c/fa66a79f/02000015pdb24High.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/b95edcc1c50e44ebbf7efbbca83c493ee8e928/33/7ae8931a/String.cs" root0="FORCE_HIGHLIGHTING" />
@@ -39,6 +35,7 @@
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/RolePermissionController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UserRoleController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Controller/ServicesController/AnnounceMentsController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Model/BaseModel/Appointment.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Model/ServersModel/AnnounceMent.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Model/UserPermissionModel/Permission.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Model/UserPermissionModel/Role.cs" root0="FORCE_HIGHLIGHTING" />
@@ -86,7 +83,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;.NET 启动设置配置文件.YouthApartmentServer: http.executor&quot;: &quot;Debug&quot;,
+    &quot;.NET 启动设置配置文件.YouthApartmentServer: http.executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
@@ -196,6 +193,8 @@
       <workItem from="1761618201981" duration="35994000" />
       <workItem from="1761794452380" duration="14192000" />
       <workItem from="1761880703257" duration="1922000" />
+      <workItem from="1761984994899" duration="5529000" />
+      <workItem from="1762071699272" duration="4724000" />
     </task>
     <task id="LOCAL-00001" summary="更新了一个接口">
       <option name="closed" value="true" />
@@ -373,7 +372,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761832839749</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="优化了DTO结构">
+      <option name="closed" value="true" />
+      <created>1761985045196</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1761985045196</updated>
+    </task>
+    <task id="LOCAL-00024" summary="优化部分逻辑">
+      <option name="closed" value="true" />
+      <created>1762084869873</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1762084869873</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -415,7 +430,9 @@
     <MESSAGE value="优化了部分逻辑" />
     <MESSAGE value="新增公告模块" />
     <MESSAGE value="优化了部分显示" />
-    <option name="LAST_COMMIT_MESSAGE" value="优化了部分显示" />
+    <MESSAGE value="优化了DTO结构" />
+    <MESSAGE value="优化部分逻辑" />
+    <option name="LAST_COMMIT_MESSAGE" value="优化部分逻辑" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -434,6 +451,11 @@
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="Type#YouthApartmentServer.Model.UserPermissionModel.UserRole" memberName="User" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

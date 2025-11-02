@@ -7,6 +7,8 @@ public class UserRoleProfile
 {
     public static void Register(Mapster.TypeAdapterConfig config)
     {
-        config.NewConfig<UserRole, UserRoleDto>();
+        config.NewConfig<UserRole, UserRoleDto>()
+            .Map(dest=>dest.UserName,src=>src.User!.UserName)
+            .Map(dest=>dest.RoleName,src=>src.Role!.RoleName);
     }
 }
