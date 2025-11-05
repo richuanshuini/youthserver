@@ -59,16 +59,20 @@ const usersTotal = ref(0);
 const usersPageNumber = ref(1);
 const usersPageSize = ref(10);
 const usersTableRef = ref();
+// 选择同步保护：在数据更新或程序化切换期间，暂时忽略 selection-change 事件
+const isSyncingSelection = ref(false);
 
 // 选择持久化：跨分页保留选中用户
 const selectedUserIds = ref(new Set());
 const toggleRowSelectionSync = async () => {
+  isSyncingSelection.value = true;
   await nextTick();
   const table = usersTableRef.value;
-  if (!table) return;
+  if (!table) { isSyncingSelection.value = false; return; }
   for (const row of usersNoRole.value) {
     table.toggleRowSelection(row, selectedUserIds.value.has(row.userId));
   }
+  isSyncingSelection.value = false;
 };
 
 // 顶部查询条件 Select + 高级筛选
@@ -91,6 +95,7 @@ const buildSearchPayload = () => {
 
 const fetchUsersNoRoles = async () => {
   usersNoRoleLoading.value = true;
+  isSyncingSelection.value = true;
   try {
     const hasAnyCondition = !!searchInput.value || Object.values(adv.value).some(v => (v || '').trim());
     const res = hasAnyCondition
@@ -102,6 +107,7 @@ const fetchUsersNoRoles = async () => {
   } catch (error) {
     ElMessage.error(getErrorMessage(error, '获取未分配角色的用户失败'));
   } finally {
+    isSyncingSelection.value = false;
     usersNoRoleLoading.value = false;
   }
 };
@@ -118,6 +124,7 @@ const handleUsersPageChange = (val) => {
 
 // 表格选择事件：维护 selectedUserIds
 const onSelectionChange = (selection) => {
+  if (isSyncingSelection.value) return;
   // Rebuild set from full selection
   const set = new Set(selectedUserIds.value);
   // Ensure any deselected from current page are removed
@@ -191,6 +198,8 @@ const submitAssign = async () => {
   }
 };
 
+const closeDrawer = () => { drawerVisible.value = false; };
+
 watch(drawerVisible, (v) => { if (!v) { selectedUserIds.value = new Set(); selectedRoleIds.value = []; } });
 </script>
 
@@ -231,103 +240,277 @@ watch(drawerVisible, (v) => { if (!v) { selectedUserIds.value = new Set(); selec
     </el-table>
   </el-card>
 
-  <!-- 右侧抽屉：批量分配角色 -->
-  <el-drawer v-model="drawerVisible" title="批量分配角色" direction="rtl" size="60%">
-    <el-row class="drawer-grid" :gutter="16">
-      <!-- 左侧：角色池（1） -->
-      <el-col :span="8">
-        <el-card shadow="never" style="height: 100%">
-          <template #header>
-            <div>角色池</div>
-          </template>
-          <el-skeleton v-if="rolesLoading" :rows="5" animated />
-          <el-transfer
-            v-else
-            v-model="selectedRoleIds"
-            :data="rolesData"
-            filterable
-            :titles="['可选角色', '已选角色']"
-          />
-        </el-card>
-      </el-col>
-
-      <!-- 右侧：用户列表（2） -->
-      <el-col :span="16">
-        <el-card shadow="never" style="height: 100%">
-          <template #header>
-            <div class="flex-row">
-              <el-select v-model="searchKey" placeholder="选择字段" style="width: 160px; margin-right: 8px;">
-                <el-option label="用户名" value="UserName" />
-                <el-option label="邮箱" value="Email" />
-                <el-option label="电话" value="Phone" />
-                <el-option label="姓名" value="RealName" />
-                <el-option label="身份证号" value="IdCard" />
-                <el-option label="性别" value="Gender" />
-              </el-select>
-              <el-input v-if="searchKey !== 'Gender'" v-model="searchInput" placeholder="请输入查询值" clearable style="width: 220px; margin-right: 8px;" />
-              <el-select v-else v-model="adv.Gender" placeholder="选择性别" style="width: 220px; margin-right: 8px;">
-                <el-option label="男" value="男" />
-                <el-option label="女" value="女" />
-              </el-select>
-              <el-button type="primary" @click="fetchUsersNoRoles">查询</el-button>
-              <el-button text @click="advVisible = !advVisible">高级筛选</el-button>
+  <!-- 右侧抽屉：批量分配角色 (V2.0 Optimized Layout) -->
+  <el-drawer
+    v-model="drawerVisible"
+    title="批量分配角色"
+    direction="rtl"
+    size="70%"
+    class="user-role-drawer"
+  >
+    <div class="drawer-content">
+      <el-row class="drawer-grid" :gutter="16">
+        <!-- 左侧：角色池 -->
+        <el-col :xs="24" :sm="24" :md="8">
+          <el-card shadow="never" class="full-height-card">
+            <template #header>
+              <div class="card-header-step">
+                <span class="step-number">1</span>
+                <span>选择角色</span>
+              </div>
+            </template>
+            <div class="card-body-content">
+              <el-skeleton v-if="rolesLoading" :rows="5" animated />
+              <el-transfer
+                v-else
+                v-model="selectedRoleIds"
+                :data="rolesData"
+                filterable
+                :titles="['可选角色', '已选角色']"
+                class="full-height-transfer"
+              />
             </div>
-          </template>
+          </el-card>
+        </el-col>
 
-          <div v-show="advVisible" class="adv-bar">
-            <el-input v-model="adv.Email" placeholder="邮箱" clearable style="width: 180px; margin-right: 8px;" />
-            <el-input v-model="adv.Phone" placeholder="电话" clearable style="width: 180px; margin-right: 8px;" />
-            <el-input v-model="adv.RealName" placeholder="姓名" clearable style="width: 160px; margin-right: 8px;" />
-            <el-input v-model="adv.IdCard" placeholder="身份证号" clearable style="width: 220px; margin-right: 8px;" />
-          </div>
+        <!-- 右侧：用户列表 -->
+        <el-col :xs="24" :sm="24" :md="16">
+          <el-card shadow="never" class="full-height-card">
+            <template #header>
+              <div class="card-header-step">
+                <span class="step-number">2</span>
+                <span>选择用户</span>
+              </div>
+            </template>
+            <div class="card-body-content">
+              <div class="user-search-bar">
+                <el-select v-model="searchKey" placeholder="选择字段" class="search-field-select">
+                  <el-option label="用户名" value="UserName" />
+                  <el-option label="邮箱" value="Email" />
+                  <el-option label="电话" value="Phone" />
+                  <el-option label="姓名" value="RealName" />
+                  <el-option label="身份证号" value="IdCard" />
+                  <el-option label="性别" value="Gender" />
+                </el-select>
+                <el-input v-if="searchKey !== 'Gender'" v-model="searchInput" placeholder="请输入查询值" clearable class="search-input" />
+                <el-select v-else v-model="adv.Gender" placeholder="选择性别" class="search-input">
+                  <el-option label="男" value="男" />
+                  <el-option label="女" value="女" />
+                </el-select>
+                <el-button type="primary" @click="fetchUsersNoRoles">查询</el-button>
+                <el-button text @click="advVisible = !advVisible">高级筛选</el-button>
+              </div>
 
-          <el-table
-            ref="usersTableRef"
-            :data="usersNoRole"
-            v-loading="usersNoRoleLoading"
-            stripe
-            row-key="userId"
-            :reserve-selection="true"
-            @selection-change="onSelectionChange"
-            @row-click="onRowClick"
-          >
-            <el-table-column type="selection" width="50" />
-            <el-table-column prop="userId" label="ID" width="90" />
-            <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
-            <el-table-column prop="email" label="邮箱" show-overflow-tooltip />
-            <el-table-column prop="phone" label="电话" show-overflow-tooltip />
-            <el-table-column prop="realName" label="姓名" show-overflow-tooltip />
-            <el-table-column prop="idCard" label="身份证号码" show-overflow-tooltip />
-            <el-table-column prop="gender" label="性别" width="80" />
-          </el-table>
-          <div class="pagination-bar">
-            <el-pagination
-              background
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="usersTotal"
-              :page-sizes="[10, 20, 50]"
-              :page-size="usersPageSize"
-              :current-page="usersPageNumber"
-              @size-change="handleUsersSizeChange"
-              @current-change="handleUsersPageChange"
-            />
-          </div>
+              <div v-show="advVisible" class="adv-bar">
+                <el-input v-model="adv.Email" placeholder="邮箱" clearable />
+                <el-input v-model="adv.Phone" placeholder="电话" clearable />
+                <el-input v-model="adv.RealName" placeholder="姓名" clearable />
+                <el-input v-model="adv.IdCard" placeholder="身份证号" clearable />
+              </div>
 
-          <div class="assign-bar">
-            <el-button type="primary" :loading="assigning" @click="submitAssign">分配所选角色到所选用户</el-button>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
+              <div class="user-table-container">
+                <el-table
+                  ref="usersTableRef"
+                  :data="usersNoRole"
+                  height="100%"
+                  v-loading="usersNoRoleLoading"
+                  stripe
+                  row-key="userId"
+                  :reserve-selection="true"
+                  @selection-change="onSelectionChange"
+                  @row-click="onRowClick"
+                >
+                  <el-table-column type="selection" width="50" fixed />
+                  <el-table-column prop="userId" label="ID" width="90" />
+                  <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
+                  <el-table-column prop="email" label="邮箱" show-overflow-tooltip />
+                  <el-table-column prop="phone" label="电话" show-overflow-tooltip />
+                  <el-table-column prop="realName" label="姓名" show-overflow-tooltip />
+                  <el-table-column prop="idCard" label="身份证号码" show-overflow-tooltip />
+                  <el-table-column prop="gender" label="性别" width="80" />
+                </el-table>
+              </div>
+              <div class="pagination-bar">
+                <el-pagination
+                  background
+                  small
+                  layout="total, sizes, prev, pager, next"
+                  :total="usersTotal"
+                  :page-sizes="[10, 20, 50]"
+                  :page-size="usersPageSize"
+                  :current-page="usersPageNumber"
+                  @size-change="handleUsersSizeChange"
+                  @current-change="handleUsersPageChange"
+                />
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+    </div>
+    <template #footer>
+      <div class="drawer-footer">
+        <el-button @click="closeDrawer">取消</el-button>
+        <el-button type="primary" :loading="assigning" @click="submitAssign">分配</el-button>
+      </div>
+    </template>
   </el-drawer>
 </template>
 
 <style scoped>
+/* --- Main Card --- */
 .card-header { display: flex; justify-content: space-between; align-items: center; }
-.flex-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.adv-bar { padding: 8px 0; }
-.pagination-bar { display: flex; justify-content: flex-end; padding-top: 8px; }
-.assign-bar { display: flex; justify-content: flex-end; padding-top: 12px; }
-.drawer-grid { height: 100%; align-items: stretch; }
-:deep(.el-card__body) { display: flex; flex-direction: column; height: 100%; }
+
+/* --- Drawer General --- */
+.user-role-drawer .drawer-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 16px;
+}
+.user-role-drawer .drawer-grid {
+  flex-grow: 1;
+  /* height: 100%; */ /* Let flexbox determine height */
+  min-height: 0; /* Allow grid to shrink */
+  align-items: flex-start; /* Prevent left column from stretching */
+}
+
+/*
+  With flex-start alignment, columns are no longer equal height.
+  We need the right column (which contains the scrollable table) to fill the
+  available vertical space of the drawer.
+*/
+:deep(.drawer-grid .el-col:last-child) {
+  height: 100%;
+}
+.user-role-drawer .drawer-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.pagination-bar {
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0; /* Prevent pagination from shrinking */
+}
+
+/* --- Full Height Card Layout --- */
+.full-height-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+:deep(.full-height-card .el-card__header) {
+  flex-shrink: 0;
+}
+:deep(.full-height-card .el-card__body) {
+  flex-grow: 1;
+  padding: 16px;
+  min-height: 0; /* Add this to allow shrinking */
+  display: flex; /* Make the card body a flex container */
+}
+.card-body-content {
+  flex-grow: 1; /* Let this content area grow to fill the card body */
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* A more standard gap */
+  min-height: 0; /* Ensure children like table container can shrink and scroll */
+}
+
+/* --- Step Header --- */
+.card-header-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+}
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--el-color-primary);
+  color: #fff;
+  font-size: 12px;
+}
+
+/* --- Role Transfer --- */
+.full-height-transfer {
+  flex-grow: 1;
+  display: flex;
+  align-items: center; /* Vertically center buttons */
+}
+:deep(.full-height-transfer .el-transfer__buttons) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+:deep(.full-height-transfer .el-transfer__button) {
+  margin: 0;
+}
+:deep(.full-height-transfer .el-transfer__button + .el-transfer__button) {
+  margin-top: 8px;
+}
+:deep(.full-height-transfer .el-transfer-panel) {
+  height: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+:deep(.full-height-transfer .el-transfer-panel__body) {
+  flex-grow: 1;
+  height: auto; /* Override fixed height */
+  min-height: 0; /* Allow shrinking and scrolling */
+  overflow: auto; /* Enable scrolling for long role lists */
+}
+
+/* Ensure long role names in transfer don't break layout */
+:deep(.el-transfer-panel__item .el-checkbox__label) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- User Search Bar --- */
+.user-search-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.search-field-select {
+  width: 120px;
+}
+.search-input {
+  flex-grow: 1;
+  min-width: 180px;
+}
+
+/* --- Advanced Search Bar --- */
+.adv-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 8px;
+  padding: 8px;
+  background-color: var(--el-fill-color-lighter);
+  border-radius: 4px;
+}
+
+/* --- User Table & Pagination --- */
+.user-table-container {
+  flex-grow: 1;
+  min-height: 0;
+}
+
+
+
+/* Tighten spacing between content and drawer footer for a compact bottom area */
+:deep(.user-role-drawer .el-drawer__body) {
+  padding-bottom: 8px;
+}
+:deep(.user-role-drawer .el-drawer__footer) {
+  padding-top: 8px;
+}
 </style>
