@@ -233,7 +233,7 @@ watch(drawerVisible, (v) => { if (!v) { selectedUserIds.value = new Set(); selec
 
   <!-- 右侧抽屉：批量分配角色 -->
   <el-drawer v-model="drawerVisible" title="批量分配角色" direction="rtl" size="60%">
-    <el-row :gutter="16">
+    <el-row class="drawer-grid" :gutter="16">
       <!-- 左侧：角色池（1） -->
       <el-col :span="8">
         <el-card shadow="never" style="height: 100%">
@@ -324,8 +324,10 @@ watch(drawerVisible, (v) => { if (!v) { selectedUserIds.value = new Set(); selec
 
 <style scoped>
 .card-header { display: flex; justify-content: space-between; align-items: center; }
-.flex-row { display: flex; align-items: center; }
+.flex-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .adv-bar { padding: 8px 0; }
 .pagination-bar { display: flex; justify-content: flex-end; padding-top: 8px; }
 .assign-bar { display: flex; justify-content: flex-end; padding-top: 12px; }
+.drawer-grid { height: 100%; align-items: stretch; }
+:deep(.el-card__body) { display: flex; flex-direction: column; height: 100%; }
 </style>
