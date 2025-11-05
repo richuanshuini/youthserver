@@ -1,4 +1,4 @@
-﻿using YouthApartmentServer.Model.UserPermissionModel;
+using YouthApartmentServer.Model.UserPermissionModel;
 using YouthApartmentServer.Repositories.IRole;
 using YouthApartmentServer.Repositories.IUser;
 using YouthApartmentServer.Repositories.IUserRole;
@@ -43,5 +43,28 @@ public class UserRoleService:IUserRoleService
         }
         
         return await _iuserRoleRepository.InsertAsync(userRole);
+    }
+
+    public async Task<int> BatchAssignUserRolesAsync(List<int> userIds, List<int> roleIds)
+    {
+        var validUserIds = new HashSet<int>((await _iuserRepository.GetByIdsAsync(userIds)).Select(u => u.UserId));
+        var validRoleIds = new HashSet<int>((await _iroleRepository.GetByIdsAsync(roleIds)).Select(r => r.RoleId));
+        if (validUserIds.Count == 0 || validRoleIds.Count == 0) return 0;
+
+        var existing = await _iuserRoleRepository.GetByUserIdsAndRoleIdsAsync(validUserIds.ToList(), validRoleIds.ToList());
+        var existingSet = new HashSet<(int uid, int rid)>(existing.Select(e => (e.UserId, e.RoleId)));
+
+        var created = 0;
+        foreach (var uid in validUserIds)
+        {
+            foreach (var rid in validRoleIds)
+            {
+                var key = (uid, rid);
+                if (existingSet.Contains(key)) continue;
+                await _iuserRoleRepository.InsertAsync(new UserRole { UserId = uid, RoleId = rid });
+                created++;
+            }
+        }
+        return created;
     }
 }

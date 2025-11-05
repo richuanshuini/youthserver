@@ -172,6 +172,42 @@ namespace YouthApartmentServer.Repositories.IUser
             return await Select.Where(u=>!u.UserRoles.Any()).ToListAsync();
         }
 
+        public async Task<(List<User> Items, long Total)> GetNoRolePagedAsync(int pageNumber, int pageSize)
+        {
+            var select = Select.Where(u => !u.UserRoles.Any());
+            var total = await select.CountAsync();
+            var items = await select.Page(pageNumber, pageSize).ToListAsync();
+            return (items, total);
+        }
+
+        public async Task<(List<User> Items, long Total)> SearchNoRoleUsersPagedAsync(UserNoRoleSearchParams query)
+        {
+            var select = Select.Where(u => !u.UserRoles.Any());
+            if (!string.IsNullOrWhiteSpace(query.UserName))
+                select = select.Where(u => u.UserName!.Contains(query.UserName));
+            if (!string.IsNullOrWhiteSpace(query.Email))
+                select = select.Where(u => u.Email!.Contains(query.Email));
+            if (!string.IsNullOrWhiteSpace(query.Phone))
+                select = select.Where(u => u.Phone!.Contains(query.Phone));
+            if (!string.IsNullOrWhiteSpace(query.RealName))
+                select = select.Where(u => u.RealName!.Contains(query.RealName));
+            if (!string.IsNullOrWhiteSpace(query.IdCard))
+                select = select.Where(u => u.IdCard!.Contains(query.IdCard));
+            if (!string.IsNullOrWhiteSpace(query.Gender))
+                select = select.Where(u => u.Gender == query.Gender);
+
+            var total = await select.CountAsync();
+            var items = await select.Page(query.PageNumber, query.PageSize).ToListAsync();
+            return (items, total);
+        }
+
+        public async Task<List<User>> GetByIdsAsync(IEnumerable<int> ids)
+        {
+            var idList = ids?.ToList() ?? new List<int>();
+            if (idList.Count == 0) return new List<User>();
+            return await Select.Where(u => idList.Contains(u.UserId)).ToListAsync();
+        }
+
         public async Task<(List<User> Items, long Total)> GetPagedAsync(int pageNumber, int pageSize)
         {
             var select = Select;

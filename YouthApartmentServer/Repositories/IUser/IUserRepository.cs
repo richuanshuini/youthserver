@@ -15,6 +15,8 @@ namespace YouthApartmentServer.Repositories.IUser
         
         //查找没有被分配角色的用户
         Task<List<User>> GetUserWithNoRoleAsync();
+        Task<(List<User> Items, long Total)> GetNoRolePagedAsync(int pageNumber, int pageSize);
+        Task<(List<User> Items, long Total)> SearchNoRoleUsersPagedAsync(UserNoRoleSearchParams query);
         
         // 分页查询用户，返回记录和总数
         Task<(List<User> Items, long Total)> GetPagedAsync(int pageNumber, int pageSize);
@@ -31,6 +33,7 @@ namespace YouthApartmentServer.Repositories.IUser
         Task<bool> UpdateUserStatusAsync(int id, bool status);
         Task<User> UpdateAsync(User user);
         Task<bool> UpdateAsync(int userId, UpdateUserDto patchUserDto);
+        Task<List<User>> GetByIdsAsync(IEnumerable<int> ids);
         #endregion
         
     }

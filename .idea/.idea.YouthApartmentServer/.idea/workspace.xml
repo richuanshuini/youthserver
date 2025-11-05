@@ -11,6 +11,20 @@
     <list default="true" id="a6b10c1a-9665-415a-b172-5e6eb2a741a3" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user-role/pages/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user-role/pages/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user-role/services.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user-role/services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UserRoleController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UserRoleController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UsersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UsersController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/UserPermissionDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/UserPermissionDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IRole/IRoleRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IRole/IRoleRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IRole/RoleRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IRole/RoleRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/IUserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/IUserRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/UserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/UserRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUserRole/IUserRoleRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUserRole/IUserRoleRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUserRole/UserRoleRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUserRole/UserRoleRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserRoleServices/IUserRoleService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserRoleServices/IUserRoleService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserRoleServices/UserRoleService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserRoleServices/UserRoleService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserServices/IUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserServices/IUserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserServices/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserServices/UserService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -198,7 +212,7 @@
       <workItem from="1762071699272" duration="4724000" />
       <workItem from="1762085000925" duration="328000" />
       <workItem from="1762265782503" duration="3568000" />
-      <workItem from="1762326508995" duration="6911000" />
+      <workItem from="1762326508995" duration="8298000" />
     </task>
     <task id="LOCAL-00001" summary="更新了一个接口">
       <option name="closed" value="true" />
@@ -408,7 +422,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762335642287</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="更新了用户-角色的显示效果">
+      <option name="closed" value="true" />
+      <created>1762338637954</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1762338637954</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -452,7 +474,8 @@
     <MESSAGE value="优化了DTO结构" />
     <MESSAGE value="优化部分逻辑" />
     <MESSAGE value="优化了部分逻辑" />
-    <option name="LAST_COMMIT_MESSAGE" value="优化了部分逻辑" />
+    <MESSAGE value="更新了用户-角色的显示效果" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新了用户-角色的显示效果" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -218,5 +218,41 @@ namespace YouthApartmentServer.Controller.BaseController
             return Ok(user.Adapt<List<UserDto>>());
         }
         
+        /// <summary>
+        /// 分页查询：未分配角色的用户
+        /// </summary>
+        [HttpGet("NoRoles/paged")]
+        public async Task<ActionResult<PagedResult<UserDto>>> GetUsersNoRolesPaged([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            var paged = await _iuserService.GetUsersNoRolesPagedAsync(pageNumber, pageSize);
+            var dtoItems = paged.Items.Adapt<List<UserDto>>();
+            var dto = new PagedResult<UserDto>
+            {
+                PageNumber = paged.PageNumber,
+                PageSize = paged.PageSize,
+                Total = paged.Total,
+                Items = dtoItems
+            };
+            return Ok(dto);
+        }
+
+        /// <summary>
+        /// 模糊查询（多条件）+ 分页：未分配角色的用户
+        /// </summary>
+        [HttpPost("search/NoRoles/paged")]
+        public async Task<ActionResult<PagedResult<UserDto>>> SearchUsersNoRolesPaged([FromBody] UserNoRoleSearchParams query)
+        {
+            var paged = await _iuserService.SearchUsersNoRolesPagedAsync(query);
+            var dtoItems = paged.Items.Adapt<List<UserDto>>();
+            var dto = new PagedResult<UserDto>
+            {
+                PageNumber = paged.PageNumber,
+                PageSize = paged.PageSize,
+                Total = paged.Total,
+                Items = dtoItems
+            };
+            return Ok(dto);
+        }
+        
     }
 }

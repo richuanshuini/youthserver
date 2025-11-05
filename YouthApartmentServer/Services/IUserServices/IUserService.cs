@@ -18,5 +18,7 @@ namespace YouthApartmentServer.Services.IUserServices
         Task<List<User>> SearchUserByContain(UserQueryParams userQueryParams); // 新增：多条件 OR 查询，只能单条件查询，存在多个字段查询时，按优先级查询，且只能查询一个条件
         //查询没有被分配角色的用户
         Task<List<User>> GetUserWithNoRoleAsync();
+        Task<PagedResult<User>> GetUsersNoRolesPagedAsync(int pageNumber, int pageSize);
+        Task<PagedResult<User>> SearchUsersNoRolesPagedAsync(UserNoRoleSearchParams query);
     }
 }

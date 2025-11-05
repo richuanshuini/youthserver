@@ -1,4 +1,4 @@
-﻿using FreeSql;
+using FreeSql;
 using YouthApartmentServer.Model.UserPermissionModel;
 using YouthApartmentServer.ModelDto;
 
@@ -39,6 +39,11 @@ public class RoleRepository:BaseRepository<Role,int>,IRoleRepository
         var affectedRows = await updateRole.ExecuteAffrowsAsync();
         return affectedRows > 0;
     }
-
+    public async Task<List<Role>> GetByIdsAsync(IEnumerable<int> ids)
+    {
+        var idList = ids?.ToList() ?? new List<int>();
+        if (idList.Count == 0) return new List<Role>();
+        return await Select.Where(r => idList.Contains(r.RoleId)).ToListAsync();
+    }
     
 }

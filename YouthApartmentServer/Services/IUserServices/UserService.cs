@@ -201,5 +201,29 @@ namespace YouthApartmentServer.Services.IUserServices
         {
             return await _iuserRepository.GetUserWithNoRoleAsync();
         }
+
+        public async Task<PagedResult<User>> GetUsersNoRolesPagedAsync(int pageNumber, int pageSize)
+        {
+            var (items, total) = await _iuserRepository.GetNoRolePagedAsync(pageNumber, pageSize);
+            return new PagedResult<User>
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Total = total,
+                Items = items
+            };
+        }
+
+        public async Task<PagedResult<User>> SearchUsersNoRolesPagedAsync(UserNoRoleSearchParams query)
+        {
+            var (items, total) = await _iuserRepository.SearchNoRoleUsersPagedAsync(query);
+            return new PagedResult<User>
+            {
+                PageNumber = query.PageNumber,
+                PageSize = query.PageSize,
+                Total = total,
+                Items = items
+            };
+        }
     }
 }

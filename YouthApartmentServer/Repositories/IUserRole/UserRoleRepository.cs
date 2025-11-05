@@ -1,4 +1,4 @@
-﻿using FreeSql;
+using FreeSql;
 using YouthApartmentServer.Model.UserPermissionModel;
 namespace YouthApartmentServer.Repositories.IUserRole;
 
@@ -19,5 +19,12 @@ public class UserRoleRepository:BaseRepository<UserRole>,IUserRoleRepository
     public async Task<UserRole> InsertAsync(UserRole userRole)
     {
         return await base.InsertAsync(userRole);
+    }
+
+    public async Task<List<UserRole>> GetByUserIdsAndRoleIdsAsync(List<int> userIds, List<int> roleIds)
+    {
+        if (userIds == null || userIds.Count == 0 || roleIds == null || roleIds.Count == 0)
+            return new List<UserRole>();
+        return await Select.Where(ur => userIds.Contains(ur.UserId) && roleIds.Contains(ur.RoleId)).ToListAsync();
     }
 }

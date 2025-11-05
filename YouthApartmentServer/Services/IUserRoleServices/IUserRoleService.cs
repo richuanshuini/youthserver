@@ -1,4 +1,4 @@
-﻿using YouthApartmentServer.Model.UserPermissionModel;
+using YouthApartmentServer.Model.UserPermissionModel;
 
 namespace YouthApartmentServer.Services.IUserRoleServices;
 
@@ -6,5 +6,6 @@ public interface IUserRoleService
 {
     Task<List<UserRole>> GetAllUserRoleAsync();
     Task<UserRole?> CreateUserRoleAsync(UserRole userRole);
+    Task<int> BatchAssignUserRolesAsync(List<int> userIds, List<int> roleIds);
     
 }

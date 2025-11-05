@@ -1,4 +1,4 @@
-﻿using Mapster;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using YouthApartmentServer.Model.UserPermissionModel;
 using YouthApartmentServer.ModelDto;
@@ -31,5 +31,15 @@ public class UserRoleController : ControllerBase
         if(existUserRole == null)
             return BadRequest(new {error="存在重复的数据或该用户或者角色不存在"});
         return Ok();
+    }
+
+    /// <summary>
+    /// 批量分配用户-角色
+    /// </summary>
+    [HttpPost("assign/batch")]
+    public async Task<ActionResult> BatchAssignUserRoles([FromBody] BatchAssignUserRolesDto payload)
+    {
+        var created = await _iuserRoleService.BatchAssignUserRolesAsync(payload.UserIds, payload.RoleIds);
+        return Ok(new { created });
     }
 }
