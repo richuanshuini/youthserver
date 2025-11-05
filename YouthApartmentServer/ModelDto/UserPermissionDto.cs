@@ -24,7 +24,6 @@ public class UserRoleDto
     public int UserId { get; set; }
     public string UserName{get;set;}
     public int RoleId { get; set; }
-    
     public string RoleName{get;set;}
 }
 
@@ -110,6 +109,15 @@ public class InsertRoleDto
     [Required(ErrorMessage = "角色名称不能为空")]
     public string RoleName { get; set; }
     public string? Description { get; set; }
+}
+
+public class InsertUserRoleDto
+{
+    [Required(ErrorMessage = "用户ID不能为空")]
+    public int UserId { get; set; }
+    [Required(ErrorMessage = "角色ID不能为空")]
+    public int RoleId { get; set; }
+    
 }
 
 #endregion

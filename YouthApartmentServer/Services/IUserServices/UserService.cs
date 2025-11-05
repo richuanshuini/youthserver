@@ -196,5 +196,10 @@ namespace YouthApartmentServer.Services.IUserServices
             // 无任何条件：返回全部
             return await _iuserRepository.GetAllAsync();
         }
+
+        public async Task<List<User>> GetUserWithNoRoleAsync()
+        {
+            return await _iuserRepository.GetUserWithNoRoleAsync();
+        }
     }
 }

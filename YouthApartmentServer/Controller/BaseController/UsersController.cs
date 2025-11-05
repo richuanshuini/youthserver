@@ -210,8 +210,13 @@ namespace YouthApartmentServer.Controller.BaseController
             
             return Ok(userDto);
         }
-        
-        
+
+        [HttpGet("search/NoRoles")]
+        public async Task<ActionResult<List<UserDto>>> SearchUserWithNoRole()
+        {
+            var user = await _iuserService.GetUserWithNoRoleAsync();
+            return Ok(user.Adapt<List<UserDto>>());
+        }
         
     }
 }

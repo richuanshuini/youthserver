@@ -5,6 +5,7 @@ namespace YouthApartmentServer.Repositories.IUserRole;
 
 public interface IUserRoleRepository
 {
-    Task<List<UserRole>> GetAllUserRoleAsync();
+    Task<List<UserRole>> GetAllAsync();
+    Task<UserRole?> GetByIdAsync(int userId,int roleId);
     Task<UserRole> InsertAsync(UserRole userRole);
 }

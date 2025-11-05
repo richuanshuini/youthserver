@@ -166,6 +166,12 @@ namespace YouthApartmentServer.Repositories.IUser
             return user?.UserId ?? 0;
         }
 
+        public async Task<List<User>> GetUserWithNoRoleAsync()
+        {
+            //freesql可直接通过导航属性加载相关联的表，!.any相当于是不存在这个集合
+            return await Select.Where(u=>!u.UserRoles.Any()).ToListAsync();
+        }
+
         public async Task<(List<User> Items, long Total)> GetPagedAsync(int pageNumber, int pageSize)
         {
             var select = Select;

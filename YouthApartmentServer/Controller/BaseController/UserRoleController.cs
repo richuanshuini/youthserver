@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using YouthApartmentServer.Model.UserPermissionModel;
 using YouthApartmentServer.ModelDto;
 using YouthApartmentServer.Services.IUserRoleServices;
 
@@ -20,5 +21,15 @@ public class UserRoleController : ControllerBase
     {
         var userRole = await _iuserRoleService.GetAllUserRoleAsync();
         return Ok(userRole.Adapt<List<UserRoleDto>>());
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<InsertUserRoleDto>> CreateUserRole([FromBody] InsertUserRoleDto insertUserRoleDto)
+    {
+        var userRole=insertUserRoleDto.Adapt<UserRole>();
+        var existUserRole = await _iuserRoleService.CreateUserRoleAsync(userRole);
+        if(existUserRole == null)
+            return BadRequest(new {error="存在重复的数据或该用户或者角色不存在"});
+        return Ok();
     }
 }

@@ -11,4 +11,5 @@ public interface IRoleRepository
     Task<Role> InsertAsync(Role role);
     Task<bool> UpdateAsync(int roleId, UpdateRoleDto patchRoleDto);
     
+    
 }

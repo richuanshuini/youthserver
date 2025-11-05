@@ -12,6 +12,10 @@ namespace YouthApartmentServer.Repositories.IUser
         Task<User?> GetByUsernameAsync(string username);
         Task<User?> GetByIdCardAsync(string idCard);
         Task<int> ExistIdCard(string idCard);
+        
+        //查找没有被分配角色的用户
+        Task<List<User>> GetUserWithNoRoleAsync();
+        
         // 分页查询用户，返回记录和总数
         Task<(List<User> Items, long Total)> GetPagedAsync(int pageNumber, int pageSize);
         Task<List<User>> SearchUserNameByContain(string username);
