@@ -214,16 +214,6 @@ namespace YouthApartmentServer.Services.IUserServices
             };
         }
 
-        public async Task<PagedResult<User>> SearchUsersNoRolesPagedAsync(UserNoRoleSearchParams query)
-        {
-            var (items, total) = await _iuserRepository.SearchNoRoleUsersPagedAsync(query);
-            return new PagedResult<User>
-            {
-                PageNumber = query.PageNumber,
-                PageSize = query.PageSize,
-                Total = total,
-                Items = items
-            };
-        }
+        // 高级筛选已移除：不再提供未分配角色的多条件分页查询
     }
 }

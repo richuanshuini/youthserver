@@ -236,23 +236,7 @@ namespace YouthApartmentServer.Controller.BaseController
             return Ok(dto);
         }
 
-        /// <summary>
-        /// 模糊查询（多条件）+ 分页：未分配角色的用户
-        /// </summary>
-        [HttpPost("search/NoRoles/paged")]
-        public async Task<ActionResult<PagedResult<UserDto>>> SearchUsersNoRolesPaged([FromBody] UserNoRoleSearchParams query)
-        {
-            var paged = await _iuserService.SearchUsersNoRolesPagedAsync(query);
-            var dtoItems = paged.Items.Adapt<List<UserDto>>();
-            var dto = new PagedResult<UserDto>
-            {
-                PageNumber = paged.PageNumber,
-                PageSize = paged.PageSize,
-                Total = paged.Total,
-                Items = dtoItems
-            };
-            return Ok(dto);
-        }
+        
         
     }
 }

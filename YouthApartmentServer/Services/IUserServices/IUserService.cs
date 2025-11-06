@@ -19,6 +19,6 @@ namespace YouthApartmentServer.Services.IUserServices
         //查询没有被分配角色的用户
         Task<List<User>> GetUserWithNoRoleAsync();
         Task<PagedResult<User>> GetUsersNoRolesPagedAsync(int pageNumber, int pageSize);
-        Task<PagedResult<User>> SearchUsersNoRolesPagedAsync(UserNoRoleSearchParams query);
+        // 高级筛选已移除：不再提供未分配角色的多条件分页查询
     }
 }

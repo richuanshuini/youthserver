@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 #pragma warning disable CS8618
 using System.Text.Json.Serialization;
 
@@ -58,20 +58,6 @@ public class UserQueryParams
     public string? Gender { get; set; }
     public bool? Status { get; set; }
 }
-
-// 未分配角色的用户——模糊查询与分页参数
-public class UserNoRoleSearchParams
-{
-    public string? UserName { get; set; }
-    public string? Email { get; set; }
-    public string? Phone { get; set; }
-    public string? RealName { get; set; }
-    public string? IdCard { get; set; }
-    public string? Gender { get; set; }
-    public int PageNumber { get; set; } = 1;
-    public int PageSize { get; set; } = 10;
-}
-
 
 #endregion
 

@@ -16,7 +16,7 @@ namespace YouthApartmentServer.Repositories.IUser
         //查找没有被分配角色的用户
         Task<List<User>> GetUserWithNoRoleAsync();
         Task<(List<User> Items, long Total)> GetNoRolePagedAsync(int pageNumber, int pageSize);
-        Task<(List<User> Items, long Total)> SearchNoRoleUsersPagedAsync(UserNoRoleSearchParams query);
+        // 高级筛选已移除：不再提供未分配角色的多条件分页查询
         
         // 分页查询用户，返回记录和总数
         Task<(List<User> Items, long Total)> GetPagedAsync(int pageNumber, int pageSize);
