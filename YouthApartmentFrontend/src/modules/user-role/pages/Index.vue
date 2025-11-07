@@ -4,6 +4,7 @@ import {ref, onMounted, computed, watch} from 'vue';
 import { ElMessage } from 'element-plus';
 import { listUserRoles } from '../services.js';
 import {listUsersNoRolesPaged} from "../services.js";
+import {searchUsers} from "@/modules/user/services.js";
 
 const loading = ref(false);
 const userRoles = ref([]);
@@ -13,15 +14,16 @@ const drawerVisible =ref(false);
 const drawerUsers=ref([]);
 const drawerLoading=ref(false);
 const drawerPage=ref(1);
-const drawerPageSize=ref(10);
+const drawerPageSize=ref(20);
 const drawerTotal=ref(0);
 
 //模糊多条件查询
 //存储选项
-const filterOptions=[{label:'用户名',value:'userName'}
+const filterOptions=[
+  {label:'用户名',value:'userName'}
+  ,{label: '真实姓名',value: 'realName'}
   ,{label: '邮箱',value: 'email'}
   ,{label: '电话',value: 'phone'}
-  ,{label: '真实姓名',value: 'realName'}
   ,{label:'性别',value:'gender'}
 ]
 //存储被选中的值，用于更新到前端，默认是数组第一个，必须要后声明
@@ -96,7 +98,7 @@ const fetchDrawerUsers=async ()=>{
 watch(drawerVisible,(visible)=>{
   if(visible){
     drawerPage.value=1;
-    drawerPageSize.value=10;
+    drawerPageSize.value=20;
     fetchDrawerUsers();
   }
 });
@@ -111,6 +113,38 @@ const handleDrawerSizeChange =(val)=>{
 const handleDrawerCurrentChange=(val)=>{
   drawerPage.value=val;
   fetchDrawerUsers();
+}
+
+//调用单条件查询api
+const applySearch=async ()=>{
+  //处理空的情况
+  const InputKey=filterKey.value;
+  //处理查询条件词，每次只构造一个，仅考虑两种情况，性别和其他
+  let payload={};
+  if(InputKey==='gender'){
+    payload={gender:GenderKey.value};
+  }else{
+    const keyword=(filterInput.value|| '').trim();
+    if(!keyword){
+      ElMessage.warning('请输入查询条件');
+      return;
+    }
+    payload={[InputKey]:keyword};
+  }
+  //拿出前面构造的单个条件，调用api接口
+  try{
+    drawerLoading.value=true;
+    const res=await searchUsers(payload);
+    drawerUsers.value=Array.isArray(res)? res:[];
+    drawerTotal.value=drawerUsers.value.length;//搜索结果不分页，直接展示所有结果
+    drawerPage.value=1;
+  }catch{
+    ElMessage.error('查询失败，请稍后重试');
+  }finally {
+    drawerLoading.value=false;
+  }
+
+
 }
 
 </script>
@@ -160,23 +194,28 @@ const handleDrawerCurrentChange=(val)=>{
       </div>
       <div class="panel is-right">
         <el-card class="box-card" >
-          <div style="display: flex;">
-            <el-select v-model="filterKey" @change="handelFilterKeyChange" style="width: 100px;">
-              <el-option v-for="item in filterOptions" :key="item.value" :label="item.label" :value="item.value" />
-            </el-select>
-            <el-input v-if="!showGenderSelect" placeholder="请输入查询条件" v-model="filterInput" style="width: 150px; margin-left: 10px;"/>
-            <el-select v-else v-model="GenderKey"  style="width: 150px; margin-left: 10px;">
-              <el-option v-for="item in GenderOptions" :key="item.value" :label="item.label" :value="item.value" style="align-items: center;"/>
-            </el-select>
-          </div>
-          <div style="display: flex;">
-            <el-button type="primary">分配</el-button>
-            <el-button type="default">取消</el-button>
+          <div class="box-content">
+            <div class="box-left">
+              <el-select v-model="filterKey" @change="handelFilterKeyChange" style="width: 100px;">
+                <el-option v-for="item in filterOptions" :key="item.value" :label="item.label" :value="item.value" />
+              </el-select>
+              <el-input v-if="!showGenderSelect" placeholder="请输入查询条件" v-model="filterInput" style="width: 150px; margin-left: 10px;"/>
+              <el-select v-else v-model="GenderKey"  style="width: 150px; margin-left: 10px;">
+                <el-option v-for="item in GenderOptions" :key="item.value" :label="item.label" :value="item.value" style="align-items: center;"/>
+              </el-select>
+              <el-button type="primary" @click="applySearch" style="margin-left: 10px">查询</el-button>
+              <el-button type="default" @click="fetchDrawerUsers" style="margin-left: 10px">重置</el-button>
+            </div>
+            <div class="box-right">
+              <el-button type="primary">分配</el-button>
+              <el-button type="default">取消</el-button>
+            </div>
           </div>
         </el-card>
-
-        <el-table class="tb-user" :data="drawerUsers" border stripe v-loading="drawerLoading" :header-cell-style="userTableHeaderStyle" :cell-style="userTableCellStyle">
-          <el-table-column type="selection"  width="55" />
+        <el-table class="tb-user" :data="drawerUsers" border stripe v-loading="drawerLoading" :header-cell-style="userTableHeaderStyle" :cell-style="userTableCellStyle"
+        style="height: 100%"
+        >
+          <el-table-column fixed  type="selection"  width="55" />
           <el-table-column prop="userId" label="用户ID" />
           <el-table-column prop="userName" label="用户名"/>
           <el-table-column prop="email" label="邮箱" show-overflow-tooltip />
@@ -192,7 +231,7 @@ const handleDrawerCurrentChange=(val)=>{
         v-model:current-page="drawerPage"
         v-model:page-size="drawerPageSize"
         :total="drawerTotal"
-        :page-sizes="[10, 20, 50, 100]"
+        :page-sizes="[20, 50, 100]"
         layout="total, sizes, prev, pager, next, jumper"
         :background="true"
         @size-change="handleDrawerSizeChange"
@@ -218,16 +257,34 @@ const handleDrawerCurrentChange=(val)=>{
 }
 .panel .is-right{
   display: flex;
+  flex-direction: column;
+  flex: 2;
 }
 .tb-user{
   width: 95%;
   margin:10px auto 0;
-
+  flex: 1;
 }
 .box-card{
   width: 95%;
   margin: 10px auto 0;
+  box-shadow: none;
 }
+.box-content{
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /*两个div撑开*/
+}
+.box-left{
+  display: flex;
+  align-items: center;
+
+}
+.box-right{
+  display: flex;
+  align-items: center;
+}
+
 
 
 
