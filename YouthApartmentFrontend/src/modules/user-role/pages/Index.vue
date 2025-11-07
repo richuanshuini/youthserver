@@ -1,10 +1,13 @@
 <script setup>
+import {ArrowDown, ArrowUp} from "@element-plus/icons-vue";
+
 defineOptions({ name: 'UserRoleIndexPage' });
 import {ref, onMounted, computed, watch} from 'vue';
 import { ElMessage } from 'element-plus';
 import { listUserRoles } from '../services.js';
 import {listUsersNoRolesPaged} from "../services.js";
 import {searchUsers} from "@/modules/user/services.js";
+import {listRoles} from "../services.js";
 
 const loading = ref(false);
 const userRoles = ref([]);
@@ -16,6 +19,12 @@ const drawerLoading=ref(false);
 const drawerPage=ref(1);
 const drawerPageSize=ref(20);
 const drawerTotal=ref(0);
+
+//角色列表相关数据
+const drawerRoles=ref([]);
+const drawRoleLoading=ref(false);
+
+
 
 //模糊多条件查询
 //存储选项
@@ -79,6 +88,7 @@ const closeDrawer=()=>{
 }
 */
 
+//加载抽屉里面的用户列表
 const fetchDrawerUsers=async ()=>{
   drawerLoading.value=true;
   try{
@@ -94,12 +104,13 @@ const fetchDrawerUsers=async ()=>{
     drawerLoading.value=false;
   }
 }
-//监听初次打开抽屉时，默认加载第1页，10行用户数据
+//监听初次打开抽屉时，默认加载第1页，10行用户数据，同时加载需要加载的数据
 watch(drawerVisible,(visible)=>{
   if(visible){
     drawerPage.value=1;
     drawerPageSize.value=20;
     fetchDrawerUsers();
+    fetchRoleDate();
   }
 });
 
@@ -143,8 +154,17 @@ const applySearch=async ()=>{
   }finally {
     drawerLoading.value=false;
   }
+}
 
-
+//加载抽屉的角色列表
+const fetchRoleDate=async ()=>{
+  drawRoleLoading.value=true;
+  try{
+    drawerRoles.value= await listRoles();//调用role api接口，查询角色
+  }catch{
+    ElMessage.error('获取角色列表失败');
+  }
+  drawRoleLoading.value=false;
 }
 
 </script>
@@ -157,7 +177,6 @@ const applySearch=async ()=>{
         <div class="card-actions">
           <el-button type="primary" @click="openDrawer">新增</el-button>
           <el-button type="danger" disabled>删除</el-button>
-
         </div>
       </div>
     </template>
@@ -167,13 +186,7 @@ const applySearch=async ()=>{
       <el-table-column label="角色">
         <template #default="{ row }">
           <el-space wrap>
-            <el-tag
-              v-for="role in row.roles"
-              :key="role.roleId"
-              type="info"
-              effect="plain"
-              size="small"
-            >
+            <el-tag v-for="role in row.roles" :key="role.roleId" type="info" effect="plain" size="small">
               {{ role.roleName }}
             </el-tag>
           </el-space>
@@ -187,10 +200,27 @@ const applySearch=async ()=>{
     </el-table>
   </el-card>
 
-  <el-drawer title="用户角色分配" v-model="drawerVisible" size="70%">
+  <el-drawer class="Top-drawer" title="用户角色分配" v-model="drawerVisible" size="70%">
     <div class="drawer-panels">
       <div class="panel is-left">
-
+        <div class="left-top">
+          <el-text size="large" style="font-weight: bold">待分配角色</el-text>
+          <div class="left-top-table">
+            <el-table title="角色分配池" :data="drawerRoles" v-loading="drawRoleLoading"
+                      :header-cell-style="userTableHeaderStyle" :cell-style="userTableCellStyle"
+                      style="width: 90%;margin: 20px auto 0; height: 85%;">
+              <el-table-column fixed type="selection"  width="25" />
+              <el-table-column prop="roleName" label="角色名"/>
+            </el-table>
+          </div>
+        </div>
+        <div class="left-middle">
+          <el-button type="primary" style="width: 100px"><el-icon><ArrowUp /></el-icon></el-button>
+          <el-button type="primary" style="width: 100px"><el-icon><ArrowDown /></el-icon></el-button>
+        </div>
+        <div class="left-bottom">
+          <el-text size="large" style="font-weight: bold">已分配角色</el-text>
+        </div>
       </div>
       <div class="panel is-right">
         <el-card class="box-card" >
@@ -213,8 +243,7 @@ const applySearch=async ()=>{
           </div>
         </el-card>
         <el-table class="tb-user" :data="drawerUsers" border stripe v-loading="drawerLoading" :header-cell-style="userTableHeaderStyle" :cell-style="userTableCellStyle"
-        style="height: 100%"
-        >
+        style="height: 100%">
           <el-table-column fixed  type="selection"  width="55" />
           <el-table-column prop="userId" label="用户ID" />
           <el-table-column prop="userName" label="用户名"/>
@@ -260,6 +289,11 @@ const applySearch=async ()=>{
   flex-direction: column;
   flex: 2;
 }
+.is-left{
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+}
 .tb-user{
   width: 95%;
   margin:10px auto 0;
@@ -278,7 +312,6 @@ const applySearch=async ()=>{
 .box-left{
   display: flex;
   align-items: center;
-
 }
 .box-right{
   display: flex;
@@ -286,6 +319,55 @@ const applySearch=async ()=>{
 }
 
 
+.left-top {
+  width: 90%;
+  height: 45%;
+  flex: 1;
+  margin:10px auto 10px auto;
+  border-style: solid;border-width: 1px; border-color: #e0e0e0;border-radius:15px;
+
+  display: flex;
+  flex-direction: column;
+}
+/*去掉表格底部线条*/
+.left-top :deep(.el-table__inner-wrapper::before){
+  height: 0;
+}
+
+.left-top :deep(.el-table){
+  flex: 1;
+  width: 100%;
+}
+
+.left-top-table{
+  flex: 1;
+  width: 80%;
+  height: 90%;
+  margin:10px auto 10px auto;
+  border-style: solid;border-width: 1px; border-color: #e0e0e0;border-radius:15px;
+}
+.left-middle{
+  display: flex;                /* 启用 flex 布局 */
+  flex-direction:row;       /* 水平堆叠两个按钮 */
+  align-items: center;          /* 水平居中 */
+  justify-content: center;      /* 垂直居中 */
+  gap: 50px;
+}
+
+.left-bottom{
+  width: 90%;
+  height: 45%;
+  flex: 1;
+  margin:10px auto 10px auto;
+  border-style: solid;border-width: 1px; border-color: #e0e0e0;border-radius:15px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.Top-drawer :deep(.el-drawer){
+  font-weight: bold;
+}
 
 
 </style>

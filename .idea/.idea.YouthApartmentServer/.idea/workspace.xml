@@ -10,14 +10,10 @@
   <component name="ChangeListManager">
     <list default="true" id="a6b10c1a-9665-415a-b172-5e6eb2a741a3" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user-role/pages/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user-role/pages/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user-role/services.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user-role/services.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UsersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UsersController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/UserPermissionDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/UserPermissionDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/IUserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/IUserRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/UserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Repositories/IUser/UserRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserServices/IUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserServices/IUserService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserServices/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Services/IUserServices/UserService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,32 +85,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET 启动设置配置文件.YouthApartmentServer: http.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
-    &quot;npm.lint.executor&quot;: &quot;Run&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.vue&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;E:\\Program\\JetBrains Rider 2025.2.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET 启动设置配置文件.YouthApartmentServer: http.executor": "Run",
+    "JavaScript 调试.前端-Debug.executor": "Debug",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "npm.dev.executor": "Run",
+    "npm.lint.executor": "Run",
+    "settings.editor.selected.configurable": "debugger.stepping",
+    "ts.external.directory.path": "E:\\Program\\JetBrains Rider 2025.2.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
-  <component name="RunManager" selected="npm.dev">
+}]]></component>
+  <component name="RunManager" selected="JavaScript 调试.前端-Debug">
+    <configuration name="前端-Debug" type="JavascriptDebugType" engineId="37cae5b9-e8b2-4949-9172-aafa37fbc09c" uri="http://localhost:5173" useFirstLineBreakpoints="true">
+      <method v="2" />
+    </configuration>
     <configuration name="YouthApartmentServer: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/YouthApartmentServer/YouthApartmentServer.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
@@ -170,6 +171,7 @@
     <list>
       <item itemvalue=".NET 启动设置配置文件.YouthApartmentServer: http" />
       <item itemvalue=".NET 启动设置配置文件.YouthApartmentServer: https" />
+      <item itemvalue="JavaScript 调试.前端-Debug" />
       <item itemvalue="npm.dev" />
     </list>
   </component>
@@ -207,7 +209,8 @@
       <workItem from="1762265782503" duration="3568000" />
       <workItem from="1762326508995" duration="8978000" />
       <workItem from="1762352620952" duration="2437000" />
-      <workItem from="1762398196888" duration="19381000" />
+      <workItem from="1762398196888" duration="21036000" />
+      <workItem from="1762481872895" duration="15250000" />
     </task>
     <task id="LOCAL-00001" summary="更新了一个接口">
       <option name="closed" value="true" />
@@ -449,7 +452,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762357888375</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="重新优化了新增用户-角色的表单">
+      <option name="closed" value="true" />
+      <created>1762440963197</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1762440963197</updated>
+    </task>
+    <task id="LOCAL-00032" summary="重新优化了新增用户-角色抽屉样式">
+      <option name="closed" value="true" />
+      <created>1762506860799</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1762506860799</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -470,8 +489,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="重新优化了系统架构，更新了接口注入，而不是实现接口注入" />
-    <MESSAGE value="更新了文件结构" />
     <MESSAGE value="更新了UserRole相关接口" />
     <MESSAGE value="新增前端" />
     <MESSAGE value="更新了前端项目结构，模块化设计" />
@@ -495,7 +512,9 @@
     <MESSAGE value="更新了用户-角色分配的新增功能" />
     <MESSAGE value="优化了布局" />
     <MESSAGE value="优化了部分页面" />
-    <option name="LAST_COMMIT_MESSAGE" value="优化了部分页面" />
+    <MESSAGE value="重新优化了新增用户-角色的表单" />
+    <MESSAGE value="重新优化了新增用户-角色抽屉样式" />
+    <option name="LAST_COMMIT_MESSAGE" value="重新优化了新增用户-角色抽屉样式" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -512,6 +531,18 @@
           <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
           <option name="timeStamp" value="3" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>mock://http://localhost:5173/src/modules/user-role/pages/Index.vue</url>
+          <line>134</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>mock://http://localhost:5173/src/modules/user-role/pages/Index.vue</url>
+          <line>135</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>

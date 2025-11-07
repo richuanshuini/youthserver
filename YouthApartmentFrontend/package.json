@@ -16,6 +16,7 @@
     "postinstall": "npm run tinymce:copy"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.2",
     "@tinymce/tinymce-vue": "^6.3.0",
     "axios": "^1.12.2",
     "element-plus": "^2.11.5",
