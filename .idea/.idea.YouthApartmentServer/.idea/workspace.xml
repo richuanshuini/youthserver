@@ -209,7 +209,7 @@
       <workItem from="1762398196888" duration="21036000" />
       <workItem from="1762481872895" duration="15564000" />
       <workItem from="1762571774668" duration="607000" />
-      <workItem from="1762573831600" duration="4542000" />
+      <workItem from="1762573831600" duration="7710000" />
     </task>
     <task id="LOCAL-00001" summary="更新了一个接口">
       <option name="closed" value="true" />
@@ -475,7 +475,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762531636267</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="更新一点点">
+      <option name="closed" value="true" />
+      <created>1762588888925</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1762588888925</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -496,7 +504,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="新增前端" />
     <MESSAGE value="更新了前端项目结构，模块化设计" />
     <MESSAGE value="新增了一些前端页面" />
     <MESSAGE value="更新了前端布局，部分后端接口" />
@@ -521,7 +528,8 @@
     <MESSAGE value="重新优化了新增用户-角色的表单" />
     <MESSAGE value="重新优化了新增用户-角色抽屉样式" />
     <MESSAGE value="新增了图标包，优化了部分显示" />
-    <option name="LAST_COMMIT_MESSAGE" value="新增了图标包，优化了部分显示" />
+    <MESSAGE value="更新一点点" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新一点点" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -1,13 +1,10 @@
 <script setup>
 import {ArrowDown, ArrowUp} from "@element-plus/icons-vue";
-
 defineOptions({ name: 'UserRoleIndexPage' });
-import {ref, onMounted, computed, watch} from 'vue';
+import {ref, onMounted, computed, watch, nextTick} from 'vue';
 import { ElMessage } from 'element-plus';
-import { listUserRoles } from '../services.js';
-import {listUsersNoRolesPaged} from "../services.js";
+import { listUserRoles, listUsersNoRolesPaged, listRoles, assignUserRolesBatch } from '../services.js';
 import {searchUsers} from "@/modules/user/services.js";
-import {listRoles} from "../services.js";
 
 const loading = ref(false);
 const userRoles = ref([]);
@@ -23,8 +20,14 @@ const drawerTotal=ref(0);
 //角色列表相关数据
 const drawerRoles=ref([]);
 const drawRoleLoading=ref(false);
-
-
+const availableRoles=ref([])//底部表格数据存储
+//存储被上下两个表格被勾选的行，存在多个，用数组
+const TopSelection=ref([]);
+const BottonSelection=ref([]);
+//通过vue的ref分别拿到两个表格的table实例，用来清空
+const TopTableRef=ref();
+const BottomTableRef=ref();
+const userTableRef=ref();
 
 //模糊多条件查询
 //存储选项
@@ -43,6 +46,51 @@ const GenderOptions=[{label:'男',value:'男'},{label: '女',value: '女'}]
 const GenderKey=ref(GenderOptions[0].value);
 const filterInput=ref('');
 const showGenderSelect=computed(()=>filterKey.value === 'gender'); //当false，不显示，ture显示性别下拉列表
+
+//分配用户角色：在抽屉里跨页记住勾选的用户
+const selectedUsers = ref([]); // 全局缓存所有被勾选的用户
+const suppressUserSelectionEvent = ref(false); // 避免翻页/恢复时清空缓存
+
+const handleUserSelection = (rows) => {
+  if (suppressUserSelectionEvent.value) return;
+  syncUserSelection(rows); // Element Plus 会把当前页的勾选行传进来
+};
+
+const syncUserSelection = (rows) => {
+  const currentIds = new Set(drawerUsers.value.map((user) => user.userId));
+  const selectedIds = new Set(rows.map((row) => row.userId));
+
+  // 1) 移除当前页里被取消勾选的用户（其他页保持不变）
+  selectedUsers.value = selectedUsers.value.filter((user) => {
+    if (currentIds.has(user.userId)) {
+      return selectedIds.has(user.userId);
+    }
+    return true;
+  });
+
+  // 2) 把当前页新勾选的补进缓存
+  rows.forEach((row) => {
+    if (!selectedUsers.value.some((item) => item.userId === row.userId)) {
+      selectedUsers.value.push(row);
+    }
+  });
+};
+
+const restoreUserSelection = () => {
+  if (!userTableRef.value) return;
+  suppressUserSelectionEvent.value = true;
+  userTableRef.value.clearSelection();
+  const selectedIds = new Set(selectedUsers.value.map((user) => user.userId));
+  drawerUsers.value.forEach((user) => {
+    if (selectedIds.has(user.userId)) {
+      userTableRef.value.toggleRowSelection(user, true);
+    }
+  });
+  suppressUserSelectionEvent.value = false;
+};
+
+
+
 const handelFilterKeyChange=(value)=>{
   if(value==='gender')
     filterInput.value=''; //切换到性别时，清空原输入框内容
@@ -81,24 +129,60 @@ const groupedRows = computed(() => {
 const openDrawer = () =>{
   drawerVisible.value=true;
 };
+//核心逻辑：分配用户角色
+const allocation = async () => {
+  // 1) 基础校验：必须至少选中 1 个用户，且下方要有准备好的角色
+  if (!selectedUsers.value.length) {
+    ElMessage.warning('请先选择需要分配的用户');
+    return;
+  }
+  if (!availableRoles.value.length) {
+    ElMessage.warning('请先把角色移到「已分配角色」列表');
+    return;
+  }
 
-/*
+  // 2) 抽取 userId / roleId 列表，符合 assignUserRolesBatch 的入参格式
+  const userIds = selectedUsers.value.map((user) => user.userId);
+  const roleIds = availableRoles.value.map((role) => role.roleId);
+
+  // 3) 调用批量分配接口
+  try {
+    await assignUserRolesBatch({ userIds, roleIds });
+    ElMessage.success('分配成功');
+
+    // 4) 可选的收尾：刷新列表、关闭抽屉、清空勾选
+    await fetchData();              // 重新加载「用户-角色映射」主表
+    drawerVisible.value = false;    // 视情况决定是否立即收起抽屉
+    selectedUsers.value = [];
+    suppressUserSelectionEvent.value = true;
+    userTableRef.value?.clearSelection();
+    suppressUserSelectionEvent.value = false;
+  } catch (error) {
+    console.error(error);
+    ElMessage.error('分配失败，请稍后重试');
+  }
+};
+
 const closeDrawer=()=>{
   drawerVisible.value=false;
 }
-*/
 
 //加载抽屉里面的用户列表
 const fetchDrawerUsers=async ()=>{
   drawerLoading.value=true;
   try{
+    suppressUserSelectionEvent.value = true;
     const res=await listUsersNoRolesPaged({
       pageNumber:drawerPage.value,
       pageSize:drawerPageSize.value,
     });
     drawerUsers.value=res.items || [];
     drawerTotal.value=res.total || 0;
+    await nextTick();
+    restoreUserSelection();
+    suppressUserSelectionEvent.value = false;
   }catch{
+    suppressUserSelectionEvent.value = false;
     ElMessage.error('获取用户列表失败');
   }finally {
     drawerLoading.value=false;
@@ -109,8 +193,19 @@ watch(drawerVisible,(visible)=>{
   if(visible){
     drawerPage.value=1;
     drawerPageSize.value=20;
+    selectedUsers.value=[];
+    nextTick(()=>{
+      suppressUserSelectionEvent.value = true;
+      userTableRef.value?.clearSelection();
+      suppressUserSelectionEvent.value = false;
+    });
     fetchDrawerUsers();
     fetchRoleDate();
+  }else{
+    selectedUsers.value=[];
+    suppressUserSelectionEvent.value = true;
+    userTableRef.value?.clearSelection();
+    suppressUserSelectionEvent.value = false;
   }
 });
 
@@ -125,6 +220,42 @@ const handleDrawerCurrentChange=(val)=>{
   drawerPage.value=val;
   fetchDrawerUsers();
 }
+
+//监听上下两个表格的勾选变换，获取被勾选的行
+const handelTopSelection=(rows)=>{
+  TopSelection.value=rows;
+}
+const handelBottomSelection=(rows)=>{
+  BottonSelection.value=rows;
+}
+//上下表格移动
+// 向下移动：把上表勾选项复制一份后追加到底部表格，再从上表移除
+const moveTopToBottom = () => {
+  if (!TopSelection.value.length) {
+    ElMessage.warning('请选择要下移的角色');
+    return;
+  }
+  const selected = TopSelection.value.map((item) => ({ ...item })); // 复制数据，避免引用同一对象
+  availableRoles.value = [...availableRoles.value, ...selected];    // 先塞到底部
+  const selectedIds = new Set(selected.map((item) => item.roleId));
+  drawerRoles.value = drawerRoles.value.filter((item) => !selectedIds.has(item.roleId)); // 再从顶部移除
+  TopSelection.value = [];
+  TopTableRef.value?.clearSelection();
+};
+
+// 向上移动：把下表勾选项复制一份后追加到顶部表格，再从下表移除
+const moveBottomToTop = () => {
+  if (!BottonSelection.value.length) {
+    ElMessage.warning('请选择要上移的角色');
+    return;
+  }
+  const selected = BottonSelection.value.map((item) => ({ ...item }));
+  drawerRoles.value = [...drawerRoles.value, ...selected];
+  const selectedIds = new Set(selected.map((item) => item.roleId));
+  availableRoles.value = availableRoles.value.filter((item) => !selectedIds.has(item.roleId));
+  BottonSelection.value = [];
+  BottomTableRef.value?.clearSelection();
+};
 
 //调用单条件查询api
 const applySearch=async ()=>{
@@ -145,11 +276,16 @@ const applySearch=async ()=>{
   //拿出前面构造的单个条件，调用api接口
   try{
     drawerLoading.value=true;
+    suppressUserSelectionEvent.value = true;
     const res=await searchUsers(payload);
     drawerUsers.value=Array.isArray(res)? res:[];
     drawerTotal.value=drawerUsers.value.length;//搜索结果不分页，直接展示所有结果
     drawerPage.value=1;
+    await nextTick();
+    restoreUserSelection();
+    suppressUserSelectionEvent.value = false;
   }catch{
+    suppressUserSelectionEvent.value = false;
     ElMessage.error('查询失败，请稍后重试');
   }finally {
     drawerLoading.value=false;
@@ -161,6 +297,7 @@ const fetchRoleDate=async ()=>{
   drawRoleLoading.value=true;
   try{
     drawerRoles.value= await listRoles();//调用role api接口，查询角色
+    availableRoles.value=[];//初始时下面表格数据为空
   }catch{
     ElMessage.error('获取角色列表失败');
   }
@@ -180,7 +317,7 @@ const fetchRoleDate=async ()=>{
         </div>
       </div>
     </template>
-    <el-table :data="groupedRows" v-loading="loading" stripe>
+    <el-table :data="groupedRows" v-loading="loading" stripe :header-cell-style="userTableHeaderStyle" :cell-style="userTableCellStyle">
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="姓名" />
       <el-table-column label="角色">
@@ -206,7 +343,7 @@ const fetchRoleDate=async ()=>{
         <div class="left-top">
           <el-text size="large" style="font-weight: bold">待分配角色</el-text>
           <div class="left-top-table">
-            <el-table title="角色分配池" :data="drawerRoles" v-loading="drawRoleLoading"
+            <el-table @selection-change="handelTopSelection" ref="TopTableRef" :data="drawerRoles" v-loading="drawRoleLoading"
                       :header-cell-style="userTableHeaderStyle" :cell-style="userTableCellStyle"
                       style="width: 90%;margin: 20px auto 0; height: 85%;">
               <el-table-column fixed type="selection"  width="25" />
@@ -215,16 +352,16 @@ const fetchRoleDate=async ()=>{
           </div>
         </div>
         <div class="left-middle">
-          <el-button type="primary" style="width: 100px"><el-icon><ArrowUp /></el-icon></el-button>
-          <el-button type="primary" style="width: 100px"><el-icon><ArrowDown /></el-icon></el-button>
+          <el-button @click="moveBottomToTop" type="primary" style="width: 100px"><el-icon><ArrowUp /></el-icon></el-button>
+          <el-button @click="moveTopToBottom" type="primary" style="width: 100px"><el-icon><ArrowDown /></el-icon></el-button>
         </div>
         <div class="left-bottom">
           <el-text size="large" style="font-weight: bold">已分配角色</el-text>
           <div class="left-bottom-table" >
-            <el-table style="width: 90%;margin: 20px auto 0; height: 85%;"
+            <el-table :data="availableRoles" @selection-change="handelBottomSelection" ref="BottomTableRef" style="width: 90%;margin: 20px auto 0; height: 85%;"
                       :header-cell-style="userTableHeaderStyle" :cell-style="userTableCellStyle">
               <el-table-column fixed type="selection"  width="25" />
-              <el-table-column label="已分配角色"/>
+              <el-table-column prop="roleName" label="已分配角色"/>
             </el-table>
           </div>
         </div>
@@ -244,12 +381,14 @@ const fetchRoleDate=async ()=>{
               <el-button type="default" @click="fetchDrawerUsers" style="margin-left: 10px">重置</el-button>
             </div>
             <div class="box-right">
-              <el-button type="primary">分配</el-button>
-              <el-button type="default">取消</el-button>
+              <el-button @click="allocation" type="primary">分配</el-button>
+              <el-button @click="closeDrawer" type="default">取消</el-button>
             </div>
           </div>
         </el-card>
-        <el-table class="tb-user" :data="drawerUsers" border stripe v-loading="drawerLoading" :header-cell-style="userTableHeaderStyle" :cell-style="userTableCellStyle"
+        <el-table ref="userTableRef" class="tb-user" :data="drawerUsers" border stripe v-loading="drawerLoading"
+                  :header-cell-style="userTableHeaderStyle" :cell-style="userTableCellStyle"
+                  @selection-change="handleUserSelection"
         style="height: 100%">
           <el-table-column fixed  type="selection"  width="55" />
           <el-table-column prop="userId" label="用户ID" />
