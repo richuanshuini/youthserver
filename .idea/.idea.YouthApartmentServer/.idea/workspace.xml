@@ -10,9 +10,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a6b10c1a-9665-415a-b172-5e6eb2a741a3" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user-role/pages/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user-role/pages/Index.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,12 +30,12 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d2941277c7264f689339754fbd3e3ad02a200/f5/cf633c71/BaseRepository`2.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/de588c8173094289b7a7eb77dc92fe64183600/c5/5d62dd52/ISelect0`2.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a6c219b73da6a756826d6f821ab5b17a8b360de1c49f95d7fc9481fa04c8a/BaseRepository.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://D:/Code/Push/YouthApartmentServer/YouthApartmentFrontend/package.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/PermissionController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/RoleController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/RolePermissionController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UserRoleController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Controller/ServicesController/AnnounceMentsController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://D:/Code/Push/YouthApartmentServer/YouthApartmentServer/Model/BaseModel/Appointment.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Model/BaseModel/Appointment.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Model/ServersModel/AnnounceMent.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Model/UserPermissionModel/Permission.cs" root0="FORCE_HIGHLIGHTING" />
@@ -85,34 +82,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET 启动设置配置文件.YouthApartmentServer: http.executor": "Run",
-    "JavaScript 调试.前端-Debug.executor": "Debug",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "node",
-    "nodejs_package_manager_path": "npm",
-    "npm.dev.executor": "Run",
-    "npm.lint.executor": "Run",
-    "settings.editor.selected.configurable": "debugger.stepping",
-    "ts.external.directory.path": "E:\\Program\\JetBrains Rider 2025.2.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET 启动设置配置文件.YouthApartmentServer: http.executor&quot;: &quot;Run&quot;,
+    &quot;JavaScript 调试.前端-Debug.executor&quot;: &quot;Debug&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;npm.lint.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;debugger.stepping&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;E:\\Program\\JetBrains Rider 2025.2.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
-  <component name="RunManager" selected="JavaScript 调试.前端-Debug">
+}</component>
+  <component name="RunManager" selected="npm.dev">
     <configuration name="前端-Debug" type="JavascriptDebugType" engineId="37cae5b9-e8b2-4949-9172-aafa37fbc09c" uri="http://localhost:5173" useFirstLineBreakpoints="true">
       <method v="2" />
     </configuration>
@@ -210,7 +207,9 @@
       <workItem from="1762326508995" duration="8978000" />
       <workItem from="1762352620952" duration="2437000" />
       <workItem from="1762398196888" duration="21036000" />
-      <workItem from="1762481872895" duration="15250000" />
+      <workItem from="1762481872895" duration="15564000" />
+      <workItem from="1762571774668" duration="607000" />
+      <workItem from="1762573831600" duration="4542000" />
     </task>
     <task id="LOCAL-00001" summary="更新了一个接口">
       <option name="closed" value="true" />
@@ -468,7 +467,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762506860799</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="新增了图标包，优化了部分显示">
+      <option name="closed" value="true" />
+      <created>1762531636267</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1762531636267</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -489,7 +496,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="更新了UserRole相关接口" />
     <MESSAGE value="新增前端" />
     <MESSAGE value="更新了前端项目结构，模块化设计" />
     <MESSAGE value="新增了一些前端页面" />
@@ -514,7 +520,8 @@
     <MESSAGE value="优化了部分页面" />
     <MESSAGE value="重新优化了新增用户-角色的表单" />
     <MESSAGE value="重新优化了新增用户-角色抽屉样式" />
-    <option name="LAST_COMMIT_MESSAGE" value="重新优化了新增用户-角色抽屉样式" />
+    <MESSAGE value="新增了图标包，优化了部分显示" />
+    <option name="LAST_COMMIT_MESSAGE" value="新增了图标包，优化了部分显示" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -534,13 +541,11 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>mock://http://localhost:5173/src/modules/user-role/pages/Index.vue</url>
           <line>134</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>mock://http://localhost:5173/src/modules/user-role/pages/Index.vue</url>
           <line>135</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>

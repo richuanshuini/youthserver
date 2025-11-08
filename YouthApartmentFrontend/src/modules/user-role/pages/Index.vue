@@ -220,6 +220,13 @@ const fetchRoleDate=async ()=>{
         </div>
         <div class="left-bottom">
           <el-text size="large" style="font-weight: bold">已分配角色</el-text>
+          <div class="left-bottom-table" >
+            <el-table style="width: 90%;margin: 20px auto 0; height: 85%;"
+                      :header-cell-style="userTableHeaderStyle" :cell-style="userTableCellStyle">
+              <el-table-column fixed type="selection"  width="25" />
+              <el-table-column label="已分配角色"/>
+            </el-table>
+          </div>
         </div>
       </div>
       <div class="panel is-right">
@@ -334,6 +341,10 @@ const fetchRoleDate=async ()=>{
   height: 0;
 }
 
+.left-bottom :deep(.el-table__inner-wrapper::before){
+  height: 0;
+}
+
 .left-top :deep(.el-table){
   flex: 1;
   width: 100%;
@@ -346,6 +357,15 @@ const fetchRoleDate=async ()=>{
   margin:10px auto 10px auto;
   border-style: solid;border-width: 1px; border-color: #e0e0e0;border-radius:15px;
 }
+
+.left-bottom-table{
+  flex: 1;
+  width: 80%;
+  height: 90%;
+  margin:10px auto 10px auto;
+  border-style: solid;border-width: 1px; border-color: #e0e0e0;border-radius:15px;
+}
+
 .left-middle{
   display: flex;                /* 启用 flex 布局 */
   flex-direction:row;       /* 水平堆叠两个按钮 */
