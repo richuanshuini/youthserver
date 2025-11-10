@@ -180,8 +180,6 @@ namespace YouthApartmentServer.Repositories.IUser
             return (items, total);
         }
 
-        // 高级筛选已移除：不再提供未分配角色的多条件分页查询
-
         public async Task<List<User>> GetByIdsAsync(IEnumerable<int> ids)
         {
             var idList = ids?.ToList() ?? new List<int>();

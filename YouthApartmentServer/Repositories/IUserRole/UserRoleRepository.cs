@@ -11,9 +11,14 @@ public class UserRoleRepository:BaseRepository<UserRole>,IUserRoleRepository
         return await Select.Include(x=>x.User).Include(x=>x.Role).ToListAsync();
     }
 
-    public async Task<UserRole?> GetByIdAsync(int userId,int roleId)
+    public async Task<UserRole?> GetByIdAsync(int userId, int roleId)
     {
         return await Select.Where(u=>u.UserId==userId).Where(u=>u.RoleId==roleId).ToOneAsync();
+    }
+
+    public async Task<UserRole?> GetByIdAsync(int userId)
+    {
+        return await Select.Where(u=>u.UserId==userId).ToOneAsync();
     }
 
     public async Task<UserRole> InsertAsync(UserRole userRole)
@@ -23,8 +28,21 @@ public class UserRoleRepository:BaseRepository<UserRole>,IUserRoleRepository
 
     public async Task<List<UserRole>> GetByUserIdsAndRoleIdsAsync(List<int> userIds, List<int> roleIds)
     {
-        if (userIds == null || userIds.Count == 0 || roleIds == null || roleIds.Count == 0)
+        if (userIds.Count == 0 || roleIds.Count == 0)
             return new List<UserRole>();
         return await Select.Where(ur => userIds.Contains(ur.UserId) && roleIds.Contains(ur.RoleId)).ToListAsync();
     }
+
+    public async Task<int> DeleteByUserIdAsync(int userId)
+    {
+        return await base.DeleteAsync(u=>u.UserId==userId);
+    }
+
+    public async Task<int> InsertRangeAsync(IEnumerable<UserRole> userRoles)
+    {
+        var userRole=await base.InsertAsync(userRoles);
+        return userRole.Count;
+    }
+    
+    
 }

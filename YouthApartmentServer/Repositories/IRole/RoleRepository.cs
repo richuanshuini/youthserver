@@ -45,5 +45,16 @@ public class RoleRepository:BaseRepository<Role,int>,IRoleRepository
         if (idList.Count == 0) return new List<Role>();
         return await Select.Where(r => idList.Contains(r.RoleId)).ToListAsync();
     }
-    
+
+    public async Task<bool> VaildRoleIds(IEnumerable<int> roleIds)
+    {
+       //处理枚举对象
+       var ids = roleIds?.Distinct().ToArray();
+       //如果长度为0，则说明不存在需要验证的ids
+       if(ids!.Length == 0) return true;
+       
+       //通过contains验证
+       var existCount = await Select.Where(r => ids.Contains(r.RoleId)).CountAsync();
+       return existCount == ids.Length;
+    }
 }

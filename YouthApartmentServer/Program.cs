@@ -1,4 +1,5 @@
 using System.Reflection;
+using FreeSql;
 using Microsoft.OpenApi.Models;
 using YouthApartmentServer.Repositories.IUser;
 using YouthApartmentServer.Repositories.IRole;
@@ -56,6 +57,8 @@ Func<IServiceProvider, IFreeSql> fsqlFactory = r =>
     return fsql;
 };
 builder.Services.AddSingleton<IFreeSql>(fsqlFactory);
+builder.Services.AddScoped<UnitOfWorkManager>(sp =>
+    new UnitOfWorkManager(sp.GetRequiredService<IFreeSql>()));
 
 // 注册仓储（FreeSql 的基类仓储）
 builder.Services.AddFreeRepository(typeof(UserRepository).Assembly);

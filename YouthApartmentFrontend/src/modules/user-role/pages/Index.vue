@@ -1,5 +1,5 @@
 <script setup>
-import {ArrowDown, ArrowUp} from "@element-plus/icons-vue";
+import {ArrowDown, ArrowLeft, ArrowRight, ArrowUp} from "@element-plus/icons-vue";
 defineOptions({ name: 'UserRoleIndexPage' });
 import {ref, onMounted, computed, watch, nextTick} from 'vue';
 import { ElMessage } from 'element-plus';
@@ -50,6 +50,11 @@ const showGenderSelect=computed(()=>filterKey.value === 'gender'); //当false，
 //分配用户角色：在抽屉里跨页记住勾选的用户
 const selectedUsers = ref([]); // 全局缓存所有被勾选的用户
 const suppressUserSelectionEvent = ref(false); // 避免翻页/恢复时清空缓存
+
+//修改表单相关变量
+const modifiDivlogVisiable=ref(false);
+const modifUserRole=ref(null);//存储选中的用户
+
 
 const handleUserSelection = (rows) => {
   if (suppressUserSelectionEvent.value) return;
@@ -304,6 +309,12 @@ const fetchRoleDate=async ()=>{
   drawRoleLoading.value=false;
 }
 
+//加载对话框进行修改
+const openModifiUserRole=(row)=>{
+  modifUserRole.value=row;
+  modifiDivlogVisiable.value=true;
+}
+
 </script>
 
 <template>
@@ -330,8 +341,8 @@ const fetchRoleDate=async ()=>{
         </template>
       </el-table-column>
       <el-table-column label="操作">
-        <template>
-          <el-button type="primary" >修改</el-button>
+        <template #default="{ row }">
+          <el-button type="primary" @click="openModifiUserRole(row)" >修改</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -414,6 +425,30 @@ const fetchRoleDate=async ()=>{
       />
     </div>
   </el-drawer>
+
+  <el-dialog v-model="modifiDivlogVisiable" title="修改用户角色" style="display: flex; flex-direction: column;width: 65%">
+    <el-form>
+      <el-form-item label="用户：">
+        <span>{{modifUserRole?.userName}}</span>
+      </el-form-item>
+    </el-form>
+    <div style="display: flex; flex-direction: row;flex: 3">
+      <div class="log-left" style="display: flex; flex: 1">
+        <el-table>
+
+        </el-table>
+      </div>
+      <div class="log-mid" style="display: flex; flex-direction: column;width: 5%;gap: 30px" >
+        <el-button><el-icon><ArrowRight /></el-icon></el-button>
+        <el-button><el-icon><ArrowLeft /></el-icon></el-button>
+      </div>
+      <div class="log-right" style="display: flex; flex: 1">
+        <el-table>
+
+        </el-table>
+      </div>
+    </div>
+  </el-dialog>
 
 
 
@@ -526,6 +561,10 @@ const fetchRoleDate=async ()=>{
 
 .Top-drawer :deep(.el-drawer){
   font-weight: bold;
+}
+
+.log-mid :deep(.el-button + .el-button) {
+  margin-left: 0;
 }
 
 

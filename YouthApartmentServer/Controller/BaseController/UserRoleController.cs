@@ -42,4 +42,14 @@ public class UserRoleController : ControllerBase
         var created = await _iuserRoleService.BatchAssignUserRolesAsync(payload.UserIds, payload.RoleIds);
         return Ok(new { created });
     }
+
+    [HttpPost("update")]
+    public async Task<ActionResult> UpdateUserRole(int userId,List<int> roleIds)
+    {
+        var update = await _iuserRoleService.UpdateUserRolesAsync(userId, roleIds);
+        if(update)
+            return Ok();
+        return BadRequest();
+    }
+    
 }

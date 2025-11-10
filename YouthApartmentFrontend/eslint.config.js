@@ -55,4 +55,13 @@ export default defineConfig([
       'vue/multi-word-component-names': 'off',
     },
   },
+
+  // 忽略回调/插槽中未使用的 row 变量
+  {
+    name: 'app/row-unused-override',
+    files: ['src/**/*.{js,mjs,jsx,vue}'],
+    rules: {
+      'no-unused-vars': ['warn', { argsIgnorePattern: '^row$', varsIgnorePattern: '^row$' }],
+    },
+  },
 ])

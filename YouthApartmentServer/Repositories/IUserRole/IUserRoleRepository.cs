@@ -9,4 +9,8 @@ public interface IUserRoleRepository
     Task<UserRole?> GetByIdAsync(int userId,int roleId);
     Task<UserRole> InsertAsync(UserRole userRole);
     Task<List<UserRole>> GetByUserIdsAndRoleIdsAsync(List<int> userIds, List<int> roleIds);
+    Task<int> DeleteByUserIdAsync(int userId);
+    Task<int> InsertRangeAsync(IEnumerable<UserRole> userRoles);
+    
+    
 }

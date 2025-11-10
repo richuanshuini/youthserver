@@ -187,5 +187,11 @@ public class UpdateRoleDto
 
 }
 
+public class UpdateUserRoleDto
+{
+    [Required(ErrorMessage = "更新的角色ID不能为空")]
+    public int RoleId { get; set; }
+}
+
 
 #endregion
