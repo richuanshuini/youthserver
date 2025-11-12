@@ -18,15 +18,66 @@ const drawerPageSize=ref(20);
 const drawerTotal=ref(0);
 
 //角色列表相关数据
-const drawerRoles=ref([]);
 const drawRoleLoading=ref(false);
-const availableRoles=ref([])//底部表格数据存储
-//存储被上下两个表格被勾选的行，存在多个，用数组
-const TopSelection=ref([]);
-const BottonSelection=ref([]);
-//通过vue的ref分别拿到两个表格的table实例，用来清空
-const TopTableRef=ref();
-const BottomTableRef=ref();
+
+const createDualTableState = () => {
+  const leftRows = ref([]);
+  const rightRows = ref([]);
+  const leftSelection = ref([]);
+  const rightSelection = ref([]);
+  const leftTableRef = ref();
+  const rightTableRef = ref();
+
+  const moveLeftToRight = () => {
+    if (!leftSelection.value.length) {
+      ElMessage.warning('请选择要下移的角色');
+      return;
+    }
+    const selected = leftSelection.value.map(item => ({ ...item }));
+    rightRows.value = [...rightRows.value, ...selected];
+    const ids = new Set(selected.map(item => item.roleId));
+    leftRows.value = leftRows.value.filter(item => !ids.has(item.roleId));
+    leftSelection.value = [];
+    leftTableRef.value?.clearSelection();
+  };
+
+  const moveRightToLeft = () => {
+    if (!rightSelection.value.length) {
+      ElMessage.warning('请选择要上移的角色');
+      return;
+    }
+    const selected = rightSelection.value.map(item => ({ ...item }));
+    leftRows.value = [...leftRows.value, ...selected];
+    const ids = new Set(selected.map(item => item.roleId));
+    rightRows.value = rightRows.value.filter(item => !ids.has(item.roleId));
+    rightSelection.value = [];
+    rightTableRef.value?.clearSelection();
+  };
+
+  return {
+    leftRows,
+    rightRows,
+    leftSelection,
+    rightSelection,
+    leftTableRef,
+    rightTableRef,
+    moveLeftToRight,
+    moveRightToLeft,
+  };
+};
+
+const drawerDualState = createDualTableState();
+const {
+  leftRows: drawerRoles,
+  rightRows: availableRoles,
+  leftSelection: TopSelection,
+  rightSelection: BottonSelection,
+  leftTableRef: TopTableRef,
+  rightTableRef: BottomTableRef,
+  moveLeftToRight: moveTopToBottom,
+  moveRightToLeft: moveBottomToTop,
+} = drawerDualState;
+
 const userTableRef=ref();
 
 //模糊多条件查询
@@ -233,35 +284,6 @@ const handelTopSelection=(rows)=>{
 const handelBottomSelection=(rows)=>{
   BottonSelection.value=rows;
 }
-//上下表格移动
-// 向下移动：把上表勾选项复制一份后追加到底部表格，再从上表移除
-const moveTopToBottom = () => {
-  if (!TopSelection.value.length) {
-    ElMessage.warning('请选择要下移的角色');
-    return;
-  }
-  const selected = TopSelection.value.map((item) => ({ ...item })); // 复制数据，避免引用同一对象
-  availableRoles.value = [...availableRoles.value, ...selected];    // 先塞到底部
-  const selectedIds = new Set(selected.map((item) => item.roleId));
-  drawerRoles.value = drawerRoles.value.filter((item) => !selectedIds.has(item.roleId)); // 再从顶部移除
-  TopSelection.value = [];
-  TopTableRef.value?.clearSelection();
-};
-
-// 向上移动：把下表勾选项复制一份后追加到顶部表格，再从下表移除
-const moveBottomToTop = () => {
-  if (!BottonSelection.value.length) {
-    ElMessage.warning('请选择要上移的角色');
-    return;
-  }
-  const selected = BottonSelection.value.map((item) => ({ ...item }));
-  drawerRoles.value = [...drawerRoles.value, ...selected];
-  const selectedIds = new Set(selected.map((item) => item.roleId));
-  availableRoles.value = availableRoles.value.filter((item) => !selectedIds.has(item.roleId));
-  BottonSelection.value = [];
-  BottomTableRef.value?.clearSelection();
-};
-
 //调用单条件查询api
 const applySearch=async ()=>{
   //处理空的情况
@@ -426,23 +448,23 @@ const openModifiUserRole=(row)=>{
     </div>
   </el-drawer>
 
-  <el-dialog v-model="modifiDivlogVisiable" title="修改用户角色" style="display: flex; flex-direction: column;width: 65%">
+  <el-dialog v-model="modifiDivlogVisiable" title="修改用户角色" style="display: flex; flex-direction: column;width: 45%">
     <el-form>
       <el-form-item label="用户：">
         <span>{{modifUserRole?.userName}}</span>
       </el-form-item>
     </el-form>
     <div style="display: flex; flex-direction: row;flex: 3">
-      <div class="log-left" style="display: flex; flex: 1">
+      <div class="log-left" style="display: flex; flex: 1;min-width: 0">
         <el-table>
-
+          <el-table-column fixed  type="selection"  width="55" />
         </el-table>
       </div>
       <div class="log-mid" style="display: flex; flex-direction: column;width: 5%;gap: 30px" >
         <el-button><el-icon><ArrowRight /></el-icon></el-button>
         <el-button><el-icon><ArrowLeft /></el-icon></el-button>
       </div>
-      <div class="log-right" style="display: flex; flex: 1">
+      <div class="log-right" style="display: flex; flex: 1;min-width: 0">
         <el-table>
 
         </el-table>
