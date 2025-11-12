@@ -91,11 +91,12 @@ public class UserRoleService : IUserRoleService
         }
 
         var distinctRoleIds = roleIds?.Distinct().ToList();
-        if (distinctRoleIds == null || distinctRoleIds.Count == 0)
+        if (distinctRoleIds == null)
         {
             return false;
         }
         
+        //VaildRoleIds内置了当不传入任何roleid时，返回的也是ture，为的就是清空user的role情况
         var validRoleIds = await _iroleRepository.VaildRoleIds(distinctRoleIds);
         if (!validRoleIds)
         {
@@ -106,15 +107,17 @@ public class UserRoleService : IUserRoleService
         try
         {
             await _iuserRoleRepository.DeleteByUserIdAsync(userId);
-            
-            var newRelations = distinctRoleIds.Select(roleId => new UserRole
+            //为了实现可以清空user的所有role，所以说要先删除，当count>0时才可以构造新的
+
+            if (distinctRoleIds.Count > 0)
             {
-                UserId = userId,
-                RoleId = roleId
-            });
-
-            await _iuserRoleRepository.InsertRangeAsync(newRelations);
-
+                var newRelations = distinctRoleIds.Select(roleId => new UserRole
+                {
+                    UserId = userId,
+                    RoleId = roleId
+                });
+                await _iuserRoleRepository.InsertRangeAsync(newRelations);
+            }
             uow.Commit();
             return true;
         }

@@ -367,6 +367,22 @@ const openModifiUserRole=async (row)=>{
   modifiDivlogVisiable.value=true;
 }
 
+const submitDialogRoles = async () => {
+  if (!modifUserRole.value) return;
+
+  const roleIds = dialogRightRoles.value.map(r => r.roleId).filter(Boolean);
+  const userId = modifUserRole.value.userId;
+
+  try {
+    await assignUserRolesBatch({ userIds: [userId], roleIds });
+    ElMessage.success('修改成功');
+    modifiDivlogVisiable.value = false;
+    await fetchData();
+  } catch {
+    ElMessage.error('修改失败，请稍后再试');
+  }
+};
+
 </script>
 
 <template>
@@ -479,10 +495,6 @@ const openModifiUserRole=async (row)=>{
   </el-drawer>
 
   <el-dialog class="user-role-dialog" v-model="modifiDivlogVisiable" title="修改用户角色" width="45%">
-    <div class="dialog-head">
-      <el-button type="primary">分配</el-button>
-      <el-button type="default">取消</el-button>
-    </div>
     <el-form>
       <el-form-item label="用户：">
         <span>{{modifUserRole?.userName}}</span>
@@ -532,6 +544,12 @@ const openModifiUserRole=async (row)=>{
         </el-table>
       </div>
     </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="modifiDivlogVisiable = false">取消</el-button>
+        <el-button type="primary" @click="submitDialogRoles">保存</el-button>
+      </span>
+    </template>
   </el-dialog>
 
 
@@ -686,12 +704,6 @@ const openModifiUserRole=async (row)=>{
   height: 90%;
 }
 
-.dialog-head{
-  display: flex;
-  flex-direction: row;
-  justify-content: right;
-}
-
 .dialog-section-title {
   display: block;       /* 让文本独占一行 */
   text-align: center;   /* 水平居中 */
@@ -699,5 +711,6 @@ const openModifiUserRole=async (row)=>{
   font-weight: 600;     /* 如需加粗可设置 */
   margin-bottom: 8px;   /* 与表格之间留一点间距 */
 }
+
 
 </style>
