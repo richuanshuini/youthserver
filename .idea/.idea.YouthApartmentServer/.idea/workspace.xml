@@ -211,7 +211,7 @@
       <workItem from="1762571774668" duration="607000" />
       <workItem from="1762573831600" duration="8647000" />
       <workItem from="1762757007893" duration="14601000" />
-      <workItem from="1762935572027" duration="906000" />
+      <workItem from="1762935572027" duration="3588000" />
     </task>
     <task id="LOCAL-00001" summary="更新了一个接口">
       <option name="closed" value="true" />
@@ -493,7 +493,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762591984739</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="优化了一下显示">
+      <option name="closed" value="true" />
+      <created>1762936519811</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1762936519811</updated>
+    </task>
+    <task id="LOCAL-00037" summary="更新">
+      <option name="closed" value="true" />
+      <created>1762936983788</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1762936983788</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -514,8 +530,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="新增了一些前端页面" />
-    <MESSAGE value="更新了前端布局，部分后端接口" />
     <MESSAGE value="初始" />
     <MESSAGE value="更新了修改用户接口，但是目前前端验证手机号码有问题" />
     <MESSAGE value="完善了相关逻辑" />
@@ -539,7 +553,9 @@
     <MESSAGE value="新增了图标包，优化了部分显示" />
     <MESSAGE value="更新一点点" />
     <MESSAGE value="新增存储勾选页用户" />
-    <option name="LAST_COMMIT_MESSAGE" value="新增存储勾选页用户" />
+    <MESSAGE value="优化了一下显示" />
+    <MESSAGE value="更新" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

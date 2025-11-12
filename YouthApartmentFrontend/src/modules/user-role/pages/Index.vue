@@ -30,7 +30,7 @@ const createDualTableState = () => {
 
   const moveLeftToRight = () => {
     if (!leftSelection.value.length) {
-      ElMessage.warning('请选择要下移的角色');
+      ElMessage.warning('请选择要右移的角色');
       return;
     }
     const selected = leftSelection.value.map(item => ({ ...item }));
@@ -43,7 +43,7 @@ const createDualTableState = () => {
 
   const moveRightToLeft = () => {
     if (!rightSelection.value.length) {
-      ElMessage.warning('请选择要上移的角色');
+      ElMessage.warning('请选择要左移的角色');
       return;
     }
     const selected = rightSelection.value.map(item => ({ ...item }));
@@ -478,7 +478,11 @@ const openModifiUserRole=async (row)=>{
     </div>
   </el-drawer>
 
-  <el-dialog class="user-role-dialog" v-model="modifiDivlogVisiable" title="修改用户角色" width="65%">
+  <el-dialog class="user-role-dialog" v-model="modifiDivlogVisiable" title="修改用户角色" width="45%">
+    <div class="dialog-head">
+      <el-button type="primary">分配</el-button>
+      <el-button type="default">取消</el-button>
+    </div>
     <el-form>
       <el-form-item label="用户：">
         <span>{{modifUserRole?.userName}}</span>
@@ -486,16 +490,16 @@ const openModifiUserRole=async (row)=>{
     </el-form>
     <div class="role-dialog-columns">
       <div class="log-left">
-        <el-text>待分配角色</el-text>
+        <el-text class="dialog-section-title">待分配角色</el-text>
         <el-table
           ref="dialogLeftTableRef"
           :data="dialogLeftRoles"
           border
           stripe
-          height="100%"
           :header-cell-style="userTableHeaderStyle"
           :cell-style="userTableCellStyle"
           @selection-change="handleDialogLeftSelection"
+          class="log-left-tb"
         >
           <el-table-column fixed type="selection" width="45" />
           <el-table-column prop="roleName" label="角色名" show-overflow-tooltip />
@@ -503,24 +507,24 @@ const openModifiUserRole=async (row)=>{
         </el-table>
       </div>
       <div class="log-mid">
-        <el-button type="primary" circle @click="moveDialogLeftToRight">
+        <el-button style="width: 60px" type="primary"  @click="moveDialogLeftToRight">
           <el-icon><ArrowRight /></el-icon>
         </el-button>
-        <el-button type="primary" circle @click="moveDialogRightToLeft">
+        <el-button style="width: 60px" type="primary"  @click="moveDialogRightToLeft">
           <el-icon><ArrowLeft /></el-icon>
         </el-button>
       </div>
       <div class="log-right">
-        <el-text>已分配角色</el-text>
+        <el-text class="dialog-section-title">已分配角色</el-text>
         <el-table
           ref="dialogRightTableRef"
           :data="dialogRightRoles"
           border
           stripe
-          height="100%"
           :header-cell-style="userTableHeaderStyle"
           :cell-style="userTableCellStyle"
           @selection-change="handleDialogRightSelection"
+          class="log-right-tb"
         >
           <el-table-column fixed type="selection" width="45" />
           <el-table-column prop="roleName" label="角色名" show-overflow-tooltip />
@@ -647,5 +651,53 @@ const openModifiUserRole=async (row)=>{
   margin-left: 0;
 }
 
+
+/*dialog修改相关*/
+.role-dialog-columns{
+  display: flex;
+  flex: 2;
+  height: 350px;
+}
+.log-left{
+  flex: 1;
+  min-width: 0;
+}
+
+.log-right{
+  flex: 1;
+  min-width: 0;
+}
+
+.log-mid{
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+
+.log-left-tb{
+  height: 90%;
+}
+
+.log-right-tb{
+  height: 90%;
+}
+
+.dialog-head{
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+}
+
+.dialog-section-title {
+  display: block;       /* 让文本独占一行 */
+  text-align: center;   /* 水平居中 */
+  font-size: 16px;      /* 自定义字号，比如 16px */
+  font-weight: 600;     /* 如需加粗可设置 */
+  margin-bottom: 8px;   /* 与表格之间留一点间距 */
+}
 
 </style>
