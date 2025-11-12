@@ -78,6 +78,18 @@ const {
   moveRightToLeft: moveBottomToTop,
 } = drawerDualState;
 
+const dialogDualState = createDualTableState();
+const {
+  leftRows: dialogLeftRoles,
+  rightRows: dialogRightRoles,
+  leftSelection: dialogLeftSelection,
+  rightSelection: dialogRightSelection,
+  leftTableRef: dialogLeftTableRef,
+  rightTableRef: dialogRightTableRef,
+  moveLeftToRight: moveDialogLeftToRight,
+  moveRightToLeft: moveDialogRightToLeft,
+} = dialogDualState;
+
 const userTableRef=ref();
 
 //模糊多条件查询
@@ -105,6 +117,13 @@ const suppressUserSelectionEvent = ref(false); // 避免翻页/恢复时清空�
 //修改表单相关变量
 const modifiDivlogVisiable=ref(false);
 const modifUserRole=ref(null);//存储选中的用户
+
+const handleDialogLeftSelection = (rows) => {
+  dialogLeftSelection.value = rows;
+};
+const handleDialogRightSelection = (rows) => {
+  dialogRightSelection.value = rows;
+};
 
 
 const handleUserSelection = (rows) => {
@@ -332,8 +351,19 @@ const fetchRoleDate=async ()=>{
 }
 
 //加载对话框进行修改
-const openModifiUserRole=(row)=>{
+const openModifiUserRole=async (row)=>{
   modifUserRole.value=row;
+  if((drawerRoles.value.length+availableRoles.value.length)===0){
+    await fetchRoleDate();
+  }
+  const assignedIds=new Set((row.roles??[]).map(role=>role.roleId));
+  const allRoles=[...drawerRoles.value,...availableRoles.value];
+  dialogLeftRoles.value=allRoles.filter(role=>!assignedIds.has(role.roleId)).map(role=>({...role}));
+  dialogRightRoles.value=(row.roles??[]).map(role=>({...role}));
+  dialogLeftSelection.value=[];
+  dialogRightSelection.value=[];
+  dialogLeftTableRef.value?.clearSelection();
+  dialogRightTableRef.value?.clearSelection();
   modifiDivlogVisiable.value=true;
 }
 
@@ -448,25 +478,53 @@ const openModifiUserRole=(row)=>{
     </div>
   </el-drawer>
 
-  <el-dialog v-model="modifiDivlogVisiable" title="修改用户角色" style="display: flex; flex-direction: column;width: 45%">
+  <el-dialog class="user-role-dialog" v-model="modifiDivlogVisiable" title="修改用户角色" width="65%">
     <el-form>
       <el-form-item label="用户：">
         <span>{{modifUserRole?.userName}}</span>
       </el-form-item>
     </el-form>
-    <div style="display: flex; flex-direction: row;flex: 3">
-      <div class="log-left" style="display: flex; flex: 1;min-width: 0">
-        <el-table>
-          <el-table-column fixed  type="selection"  width="55" />
+    <div class="role-dialog-columns">
+      <div class="log-left">
+        <el-text>待分配角色</el-text>
+        <el-table
+          ref="dialogLeftTableRef"
+          :data="dialogLeftRoles"
+          border
+          stripe
+          height="100%"
+          :header-cell-style="userTableHeaderStyle"
+          :cell-style="userTableCellStyle"
+          @selection-change="handleDialogLeftSelection"
+        >
+          <el-table-column fixed type="selection" width="45" />
+          <el-table-column prop="roleName" label="角色名" show-overflow-tooltip />
+          <el-table-column prop="description" label="描述" show-overflow-tooltip />
         </el-table>
       </div>
-      <div class="log-mid" style="display: flex; flex-direction: column;width: 5%;gap: 30px" >
-        <el-button><el-icon><ArrowRight /></el-icon></el-button>
-        <el-button><el-icon><ArrowLeft /></el-icon></el-button>
+      <div class="log-mid">
+        <el-button type="primary" circle @click="moveDialogLeftToRight">
+          <el-icon><ArrowRight /></el-icon>
+        </el-button>
+        <el-button type="primary" circle @click="moveDialogRightToLeft">
+          <el-icon><ArrowLeft /></el-icon>
+        </el-button>
       </div>
-      <div class="log-right" style="display: flex; flex: 1;min-width: 0">
-        <el-table>
-
+      <div class="log-right">
+        <el-text>已分配角色</el-text>
+        <el-table
+          ref="dialogRightTableRef"
+          :data="dialogRightRoles"
+          border
+          stripe
+          height="100%"
+          :header-cell-style="userTableHeaderStyle"
+          :cell-style="userTableCellStyle"
+          @selection-change="handleDialogRightSelection"
+        >
+          <el-table-column fixed type="selection" width="45" />
+          <el-table-column prop="roleName" label="角色名" show-overflow-tooltip />
+          <el-table-column prop="description" label="描述" show-overflow-tooltip />
         </el-table>
       </div>
     </div>
