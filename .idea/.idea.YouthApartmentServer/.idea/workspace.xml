@@ -9,10 +9,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a6b10c1a-9665-415a-b172-5e6eb2a741a3" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Controller/PropertyManagementController/PropertyController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Model/PropertyManagementModel/Property.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user-role/pages/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user-role/pages/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user-role/services.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/modules/user-role/services.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/UserPermissionDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/ModelDto/UserPermissionDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/layout/AdminLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/layout/AdminLayout.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,13 +32,14 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/d2941277c7264f689339754fbd3e3ad02a200/f5/cf633c71/BaseRepository`2.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/de588c8173094289b7a7eb77dc92fe64183600/c5/5d62dd52/ISelect0`2.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a6c219b73da6a756826d6f821ab5b17a8b360de1c49f95d7fc9481fa04c8a/BaseRepository.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://D:/Code/Push/YouthApartmentServer/YouthApartmentFrontend/package.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/PermissionController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/RoleController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/RolePermissionController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Controller/BaseController/UserRoleController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Controller/PropertyManagementController/PropertyController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Controller/ServicesController/AnnounceMentsController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Model/BaseModel/Appointment.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Model/PropertyManagementModel/Property.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Model/ServersModel/AnnounceMent.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Model/UserPermissionModel/Permission.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/YouthApartmentServer/Model/UserPermissionModel/Role.cs" root0="FORCE_HIGHLIGHTING" />
@@ -86,7 +87,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    ".NET 启动设置配置文件.YouthApartmentServer: http.executor": "Debug",
+    ".NET 启动设置配置文件.YouthApartmentServer: http.executor": "Run",
     "JavaScript 调试.前端-Debug.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -213,7 +214,7 @@
       <workItem from="1762571774668" duration="607000" />
       <workItem from="1762573831600" duration="8647000" />
       <workItem from="1762757007893" duration="14601000" />
-      <workItem from="1762935572027" duration="5647000" />
+      <workItem from="1762935572027" duration="12977000" />
     </task>
     <task id="LOCAL-00001" summary="更新了一个接口">
       <option name="closed" value="true" />
@@ -527,7 +528,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762940012827</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="更新了user-role模块的修改功能">
+      <option name="closed" value="true" />
+      <created>1762941334544</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1762941334545</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -548,7 +557,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="完善了相关逻辑" />
     <MESSAGE value="新增用户界面的分页查询" />
     <MESSAGE value="init" />
     <MESSAGE value="优化了部分结构，优化了头像显示" />
@@ -573,7 +581,8 @@
     <MESSAGE value="更新" />
     <MESSAGE value="更新1" />
     <MESSAGE value="更新3" />
-    <option name="LAST_COMMIT_MESSAGE" value="更新3" />
+    <MESSAGE value="更新了user-role模块的修改功能" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新了user-role模块的修改功能" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

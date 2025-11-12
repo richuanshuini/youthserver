@@ -38,7 +38,7 @@ const pageTitle = computed(() => route.meta?.title || '');
         <el-sub-menu index="user-basic-info">
           <template #title>
             <el-icon><BasicInfoIcon /></el-icon>
-            <span>用户基本信息</span>
+            <span>基本信息</span>
           </template>
           <el-menu-item index="/admin/users">
             <el-icon><UserIcon /></el-icon>
@@ -120,7 +120,7 @@ const pageTitle = computed(() => route.meta?.title || '');
 
     .el-menu-item,
     .el-sub-menu__title {
-      height: 56px;
+      height: 40px;
       line-height: 56px;
       margin: 0;
       border-radius: 0;
@@ -194,7 +194,6 @@ const pageTitle = computed(() => route.meta?.title || '');
   .left { display: flex; align-items: center; gap: 12px; }
 }
 
-.breadcrumbs { }
 .admin-main { background: #f5f7fa; }
 
 /* Responsive */
