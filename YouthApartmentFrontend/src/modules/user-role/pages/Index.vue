@@ -3,7 +3,7 @@ import {ArrowDown, ArrowLeft, ArrowRight, ArrowUp} from "@element-plus/icons-vue
 defineOptions({ name: 'UserRoleIndexPage' });
 import {ref, onMounted, computed, watch, nextTick} from 'vue';
 import { ElMessage } from 'element-plus';
-import { listUserRoles, listUsersNoRolesPaged, listRoles, assignUserRolesBatch } from '../services.js';
+import { listUserRoles, listUsersNoRolesPaged, listRoles, assignUserRolesBatch, updateUserRoles } from '../services.js';
 import {searchUsers} from "@/modules/user/services.js";
 
 const loading = ref(false);
@@ -371,10 +371,8 @@ const submitDialogRoles = async () => {
   if (!modifUserRole.value) return;
 
   const roleIds = dialogRightRoles.value.map(r => r.roleId).filter(Boolean);
-  const userId = modifUserRole.value.userId;
-
   try {
-    await assignUserRolesBatch({ userIds: [userId], roleIds });
+    await updateUserRoles(modifUserRole.value.userId, roleIds);
     ElMessage.success('修改成功');
     modifiDivlogVisiable.value = false;
     await fetchData();

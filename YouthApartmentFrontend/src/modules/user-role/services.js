@@ -45,3 +45,14 @@ export const assignUserRolesBatch = async (body) => {
   }
   return { created };
 };
+
+/**
+ * 更新单个用户的角色集合，roleIds 允许为空数组（表示清空）
+ * @param {number} userId
+ * @param {number[]} roleIds
+ */
+export const updateUserRoles = (userId, roleIds = []) => {
+  return http.post('/api/UserRole/update', roleIds, {
+    params: { userId },
+  });
+};
