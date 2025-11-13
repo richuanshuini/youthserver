@@ -10,7 +10,9 @@
   <component name="ChangeListManager">
     <list default="true" id="a6b10c1a-9665-415a-b172-5e6eb2a741a3" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Model/BaseModel/Appointment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Model/PropertyManagementModel/Appointment.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Model/PropertyManagementModel/Property.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Model/PropertyManagementModel/Property.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/YouthApartmentServer.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/YouthApartmentServer.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -213,7 +215,7 @@
       <workItem from="1762573831600" duration="8647000" />
       <workItem from="1762757007893" duration="14601000" />
       <workItem from="1762935572027" duration="13032000" />
-      <workItem from="1763003955210" duration="1245000" />
+      <workItem from="1763003955210" duration="3178000" />
     </task>
     <task id="LOCAL-00001" summary="更新了一个接口">
       <option name="closed" value="true" />
@@ -543,7 +545,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762954076182</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="新增相关房源字段">
+      <option name="closed" value="true" />
+      <created>1763005361836</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1763005361836</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -564,7 +574,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="init" />
     <MESSAGE value="优化了部分结构，优化了头像显示" />
     <MESSAGE value="优化了一些逻辑" />
     <MESSAGE value="新增了前端多条件查询，修复了一些逻辑错误" />
@@ -589,7 +598,8 @@
     <MESSAGE value="更新3" />
     <MESSAGE value="更新了user-role模块的修改功能" />
     <MESSAGE value="新增房源管理。下一步进行完善" />
-    <option name="LAST_COMMIT_MESSAGE" value="新增房源管理。下一步进行完善" />
+    <MESSAGE value="新增相关房源字段" />
+    <option name="LAST_COMMIT_MESSAGE" value="新增相关房源字段" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

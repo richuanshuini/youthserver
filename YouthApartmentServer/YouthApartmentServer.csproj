@@ -24,6 +24,7 @@
   <ItemGroup>
     <!-- 仅用于在解决方案中显示该目录 -->
     <Folder Include="Common\" />
+    <Folder Include="Model\BaseModel\" />
     <Folder Include="Resources\UserPermission\image\" />
   </ItemGroup>
 
