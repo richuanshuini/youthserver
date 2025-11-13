@@ -9,10 +9,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a6b10c1a-9665-415a-b172-5e6eb2a741a3" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Controller/PropertyManagementController/PropertyController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/YouthApartmentServer/Model/PropertyManagementModel/Property.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/layout/AdminLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/layout/AdminLayout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Model/PropertyManagementModel/Property.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Model/PropertyManagementModel/Property.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,33 +83,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET 启动设置配置文件.YouthApartmentServer: http.executor": "Run",
-    "JavaScript 调试.前端-Debug.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "node",
-    "nodejs_package_manager_path": "npm",
-    "npm.dev.executor": "Run",
-    "npm.lint.executor": "Run",
-    "settings.editor.selected.configurable": "debugger.stepping",
-    "ts.external.directory.path": "E:\\Program\\JetBrains Rider 2025.2.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET 启动设置配置文件.YouthApartmentServer: http.executor&quot;: &quot;Run&quot;,
+    &quot;JavaScript 调试.前端-Debug.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
+    &quot;npm.lint.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;debugger.stepping&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;E:\\Program\\JetBrains Rider 2025.2.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET 启动设置配置文件.YouthApartmentServer: http">
     <configuration name="前端-Debug" type="JavascriptDebugType" engineId="37cae5b9-e8b2-4949-9172-aafa37fbc09c" uri="http://localhost:5173" useFirstLineBreakpoints="true">
       <method v="2" />
@@ -214,7 +212,8 @@
       <workItem from="1762571774668" duration="607000" />
       <workItem from="1762573831600" duration="8647000" />
       <workItem from="1762757007893" duration="14601000" />
-      <workItem from="1762935572027" duration="12977000" />
+      <workItem from="1762935572027" duration="13032000" />
+      <workItem from="1763003955210" duration="1245000" />
     </task>
     <task id="LOCAL-00001" summary="更新了一个接口">
       <option name="closed" value="true" />
@@ -536,7 +535,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762941334545</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="新增房源管理。下一步进行完善">
+      <option name="closed" value="true" />
+      <created>1762954076182</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1762954076182</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -557,7 +564,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="新增用户界面的分页查询" />
     <MESSAGE value="init" />
     <MESSAGE value="优化了部分结构，优化了头像显示" />
     <MESSAGE value="优化了一些逻辑" />
@@ -582,7 +588,8 @@
     <MESSAGE value="更新1" />
     <MESSAGE value="更新3" />
     <MESSAGE value="更新了user-role模块的修改功能" />
-    <option name="LAST_COMMIT_MESSAGE" value="更新了user-role模块的修改功能" />
+    <MESSAGE value="新增房源管理。下一步进行完善" />
+    <option name="LAST_COMMIT_MESSAGE" value="新增房源管理。下一步进行完善" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
