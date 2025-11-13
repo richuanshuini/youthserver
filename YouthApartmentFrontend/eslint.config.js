@@ -16,7 +16,6 @@ export default defineConfig([
     '**/dist-ssr/**',
     '**/coverage/**',
     '**/public/**',
-    '**/public/ticymce/**',
     '**/src/assets/**',
   ]),
 

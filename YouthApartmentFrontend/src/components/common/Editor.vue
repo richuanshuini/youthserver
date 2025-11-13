@@ -1,65 +1,133 @@
 <template>
-    <div class="tinymce-wrapper">
-        <editor v-model="content"
-                tag-name="div"
-                :init="init"
-                tinymce-script-src="https://cdn.tiny.cloud/1/49jclmud92t9rmed8od8e02i9pditx6vurjj2eheqwwoxn3t/tinymce/8/tinymce.min.js" />
+  <div class="editor-shell">
+    <QuillEditor
+      ref="quillRef"
+      v-model:content="content"
+      content-type="html"
+      theme="snow"
+      :toolbar="toolbarConfig"
+      :placeholder="placeholder"
+    />
+    <div v-if="uploading" class="editor-mask">
+      <span>图片上传中...</span>
     </div>
+  </div>
 </template>
+
 <script setup>
-import Editor from "@tinymce/tinymce-vue";
-import { ref, watch } from "vue";
-// 后端 API 基地址（用于构建图片上传绝对 URL）
-const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5160';
-// v-model
+import { QuillEditor } from '@vueup/vue-quill';
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import { ref, watch, computed } from 'vue';
+import { ElMessage } from 'element-plus';
+import http from '@/api/http.js';
+
 const props = defineProps({
-    modelValue: String,
-})
-const emit = defineEmits(["update:modelValue"])
-// 配置
-const init = {
-    language: 'zh-CN',
-    language_url: '/ticymce/langs/zh-CN.js',
-    menubar: false, // 隐藏菜单栏
-    min_height: 700,
-    max_height: 1000,
-    autoresize_bottom_margin: 120,
-    toolbar_mode: "sliding",
-    // 精简插件，提升加载性能
-    plugins:
-        'wordcount searchreplace preview media image help fullscreen code table lists advlist autoresize',
-    toolbar:
-        "formats undo redo fontsizeselect fontselect | outdent indent aligncenter alignleft alignright | numlist bullist table removeformat | forecolor backcolor bold italic strikethrough | link preview fullscreen help",
-    // 提升可读性与图片显示效果
-    content_style: "body{font-size:16px;line-height:1.7;} p{margin:8px 0;} img{max-width:100%;height:auto;display:block;}",
-    fontsize_formats: "12px 14px 16px 18px 24px 36px 48px 56px 72px",
-    font_formats: "微软雅黑=Microsoft YaHei,Helvetica Neue,PingFang SC,sans-serif;苹果苹方= PingFang SC, Microsoft YaHei, sans- serif; 宋体 = simsun, serif; 仿宋体 = FangSong, serif; 黑体 = SimHei, sans - serif; Arial = arial, helvetica, sans - serif;Arial Black = arial black, avant garde;Book Antiqua = book antiqua, palatino; ",
-    branding: false,
-    elementpath: false,
-    resize: false, // 禁止改变大小
-    statusbar: false, // 隐藏底部状态栏
-    // 图片上传到后端接口（AnnounceMentsController.Upload）
-    automatic_uploads: true,
-    images_upload_url: apiBase + '/api/AnnounceMents/upload',
-    images_reuse_filename: false,
+  modelValue: {
+    type: String,
+    default: '',
+  },
+  placeholder: {
+    type: String,
+    default: '请输入公告内容...',
+  },
+});
+const emit = defineEmits(['update:modelValue']);
 
-    // 启用 iframe 沙箱模式，增强安全性
-    sandbox_iframes: true,
-    // 允许同源内容，确保功能正常
-    sandbox_iframes_exclusions: [window.location.host],
+const quillRef = ref(null);
+const content = ref(props.modelValue ?? '');
+const uploading = ref(false);
+const placeholder = computed(() => props.placeholder);
 
-    // TinyMCE 许可证密钥（CDN/self-host 均支持）；若使用开源版可设为 'gpl'
-    license_key: '49jclmud92t9rmed8od8e02i9pditx6vurjj2eheqwwoxn3t',
-}
-const content = ref(props.modelValue)
-watch(props, (newVal) => content.value = newVal.modelValue)
-watch(content, (newVal) => emit("update:modelValue", newVal))
+watch(
+  () => props.modelValue,
+  (val) => {
+    if ((val ?? '') !== content.value) {
+      content.value = val ?? '';
+    }
+  }
+);
+watch(content, (val) => emit('update:modelValue', val ?? ''));
+
+const toolbarConfig = {
+  container: [
+    [{ header: [1, 2, 3, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ color: [] }, { background: [] }],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    [{ align: [] }],
+    ['link', 'image'],
+    ['clean'],
+  ],
+  handlers: {
+    image: () => selectImage(),
+  },
+};
+
+const selectImage = () => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = async () => {
+    const file = input.files?.[0];
+    if (!file) return;
+    try {
+      uploading.value = true;
+      const url = await uploadImage(file);
+      if (url) insertImage(url);
+    } catch (error) {
+      console.error(error);
+      ElMessage.error('图片上传失败');
+    } finally {
+      uploading.value = false;
+    }
+  };
+  input.click();
+};
+
+const uploadImage = async (file) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  const res = await http.post('/api/AnnounceMents/upload', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  return res?.location || res?.Location || res?.url;
+};
+
+const insertImage = (url) => {
+  const quill = quillRef.value?.getQuill();
+  if (!quill) return;
+  const range = quill.getSelection(true) || { index: quill.getLength(), length: 0 };
+  quill.insertEmbed(range.index, 'image', url, 'user');
+  quill.setSelection(range.index + 1);
+};
 </script>
-<style>
-.tox-tinymce-aux {
-    z-index: 9999 !important;
+
+<style scoped>
+.editor-shell {
+  position: relative;
+  width: 100%;
 }
-/* 占满页面宽度，提升编辑区域大小 */
-.tinymce-wrapper { width: 100%; }
-.tinymce-wrapper .tox { min-height: 80vh; }
+
+:deep(.ql-editor) {
+  min-height: 420px;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+:deep(.ql-editor img) {
+  max-width: 100%;
+  height: auto;
+}
+
+.editor-mask {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #333;
+  pointer-events: none;
+}
 </style>

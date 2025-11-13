@@ -10,8 +10,276 @@
   <component name="ChangeListManager">
     <list default="true" id="a6b10c1a-9665-415a-b172-5e6eb2a741a3" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.YouthApartmentServer/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Model/PropertyManagementModel/Appointment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Model/PropertyManagementModel/Appointment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YouthApartmentServer/Model/PropertyManagementModel/Property.cs" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentServer/Model/PropertyManagementModel/Property.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/eslint.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/eslint.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/icons/default/icons.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/icons/default/icons.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/icons/default/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/langs/zh-CN.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/models/dom/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/models/dom/model.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/models/dom/model.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/accordion/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/accordion/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/accordion/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/advlist/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/advlist/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/advlist/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/anchor/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/anchor/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/anchor/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/autolink/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/autolink/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/autolink/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/autoresize/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/autoresize/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/autoresize/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/autosave/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/autosave/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/autosave/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/charmap/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/charmap/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/charmap/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/code/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/code/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/code/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/codesample/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/codesample/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/codesample/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/directionality/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/directionality/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/directionality/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/emoticons/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/emoticons/js/emojiimages.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/emoticons/js/emojiimages.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/emoticons/js/emojis.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/emoticons/js/emojis.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/emoticons/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/emoticons/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/fullscreen/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/fullscreen/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/fullscreen/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/ar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/bg-BG.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/bg_BG.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/ca.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/cs.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/da.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/de.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/el.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/en.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/es.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/eu.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/fa.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/fi.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/fr-FR.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/fr_FR.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/he-IL.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/he_IL.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/hi.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/hr.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/hu-HU.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/hu_HU.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/id.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/it.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/ja.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/kk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/ko-KR.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/ko_KR.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/ms.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/nb-NO.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/nb_NO.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/nl.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/pl.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/pt-BR.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/pt-PT.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/pt_BR.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/pt_PT.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/ro.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/ru.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/sk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/sl-SI.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/sl_SI.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/sv-SE.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/sv_SE.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/th-TH.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/th_TH.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/tr.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/uk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/vi.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/zh-CN.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/zh-TW.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/zh_CN.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/js/i18n/keynav/zh_TW.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/help/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/image/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/image/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/image/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/importcss/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/importcss/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/importcss/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/insertdatetime/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/insertdatetime/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/insertdatetime/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/licensekeymanager/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/link/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/link/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/link/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/lists/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/lists/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/lists/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/media/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/media/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/media/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/nonbreaking/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/nonbreaking/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/nonbreaking/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/pagebreak/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/pagebreak/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/pagebreak/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/preview/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/preview/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/preview/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/quickbars/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/quickbars/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/quickbars/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/save/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/save/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/save/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/searchreplace/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/searchreplace/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/searchreplace/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/table/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/table/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/table/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/visualblocks/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/visualblocks/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/visualblocks/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/visualchars/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/visualchars/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/visualchars/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/wordcount/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/wordcount/plugin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/plugins/wordcount/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/dark/content.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/dark/content.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/dark/content.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/dark/content.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/dark/content.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/default/content.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/default/content.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/default/content.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/default/content.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/default/content.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/document/content.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/document/content.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/document/content.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/document/content.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/document/content.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/tinymce-5-dark/content.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/tinymce-5-dark/content.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/tinymce-5-dark/content.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/tinymce-5-dark/content.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/tinymce-5-dark/content.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/tinymce-5/content.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/tinymce-5/content.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/tinymce-5/content.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/tinymce-5/content.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/tinymce-5/content.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/writer/content.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/writer/content.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/writer/content.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/writer/content.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/content/writer/content.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide-dark/content.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide-dark/content.inline.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide-dark/content.inline.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide-dark/content.inline.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide-dark/content.inline.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide-dark/content.inline.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide-dark/content.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide-dark/content.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide-dark/content.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide-dark/content.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide-dark/skin.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide-dark/skin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide-dark/skin.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide-dark/skin.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide-dark/skin.shadowdom.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide-dark/skin.shadowdom.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide-dark/skin.shadowdom.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide-dark/skin.shadowdom.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide-dark/skin.shadowdom.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide-dark/skin.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide/content.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide/content.inline.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide/content.inline.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide/content.inline.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide/content.inline.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide/content.inline.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide/content.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide/content.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide/content.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide/content.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide/skin.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide/skin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide/skin.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide/skin.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide/skin.shadowdom.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide/skin.shadowdom.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide/skin.shadowdom.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide/skin.shadowdom.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide/skin.shadowdom.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/oxide/skin.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5-dark/content.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5-dark/content.inline.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5-dark/content.inline.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5-dark/content.inline.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5-dark/content.inline.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5-dark/content.inline.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5-dark/content.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5-dark/content.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5-dark/content.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5-dark/content.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5-dark/skin.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5-dark/skin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5-dark/skin.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5-dark/skin.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5-dark/skin.shadowdom.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5-dark/skin.shadowdom.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5-dark/skin.shadowdom.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5-dark/skin.shadowdom.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5-dark/skin.shadowdom.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5-dark/skin.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5/content.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5/content.inline.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5/content.inline.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5/content.inline.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5/content.inline.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5/content.inline.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5/content.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5/content.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5/content.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5/content.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5/skin.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5/skin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5/skin.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5/skin.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5/skin.shadowdom.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5/skin.shadowdom.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5/skin.shadowdom.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5/skin.shadowdom.min.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5/skin.shadowdom.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/skins/ui/tinymce-5/skin.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/themes/silver/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/themes/silver/theme.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/themes/silver/theme.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/public/ticymce/tinymce.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/scripts/copy-tinymce-assets.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YouthApartmentFrontend/src/components/common/Editor.vue" beforeDir="false" afterPath="$PROJECT_DIR$/YouthApartmentFrontend/src/components/common/Editor.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -214,7 +482,7 @@
       <workItem from="1762573831600" duration="8647000" />
       <workItem from="1762757007893" duration="14601000" />
       <workItem from="1762935572027" duration="13032000" />
-      <workItem from="1763003955210" duration="10623000" />
+      <workItem from="1763003955210" duration="14294000" />
     </task>
     <task id="LOCAL-00001" summary="更新了一个接口">
       <option name="closed" value="true" />
@@ -568,7 +836,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763010821104</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="111">
+      <option name="closed" value="true" />
+      <created>1763029705027</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1763029705027</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -589,7 +865,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="优化了一些逻辑" />
     <MESSAGE value="新增了前端多条件查询，修复了一些逻辑错误" />
     <MESSAGE value="更新了多条件搜索用户" />
     <MESSAGE value="新增公告模块" />
@@ -614,7 +889,8 @@
     <MESSAGE value="新增相关房源字段" />
     <MESSAGE value="更新" />
     <MESSAGE value="新增导航属性" />
-    <option name="LAST_COMMIT_MESSAGE" value="新增导航属性" />
+    <MESSAGE value="111" />
+    <option name="LAST_COMMIT_MESSAGE" value="111" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
