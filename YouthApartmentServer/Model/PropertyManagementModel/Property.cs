@@ -1,4 +1,6 @@
-﻿namespace YouthApartmentServer.Model.PropertyManagementModel;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace YouthApartmentServer.Model.PropertyManagementModel;
 
 using FreeSql.DataAnnotations;
 
@@ -52,8 +54,13 @@ public class Property
     public LeaseTerm LeaseTerm { get; set; } = LeaseTerm.Month; //租赁期限
     public DateTime AvailableDate { get; set; } //预约后可入住时间
     public DateTime CraeteAt { get; set; } //创建时间，由ORM决定，初次插入时决定
-    public DateTime UpdateAt { get; set; } = DateTime.Now; //更新时间
+    public DateTime UpdateAt { get; set; } //更新时间，由ORM决定，被更新时赋值
     public DateTime ApprovedBy { get; set; } //审核时间
-    public DateTime DeleteAt { get; set; } //被删除时间
+    public DateTime DeleteAt { get; set; } //被删除时间，由IsDeleted决定，被软删除时赋值
     public bool IsDeleted { get; set; } = false; //软删除逻辑
+    
+    //Property 1:n Appointment，房源和预约是多对一关系
+    [Navigate(nameof(Appointment.ProPertyId))]
+    public List<Appointment>? Appointments {get;set;}
+    
 }
