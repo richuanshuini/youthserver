@@ -37,7 +37,7 @@ public class Property
 {
     public int PropertyId { get; set; } //房源ID
     public int RegionId { get; set; } //区域ID
-    public int ApprovedById { get; set; } //审核员ID，作为User表的外键
+    public int ApprovedById { get; set; } //审核员ID，作为User表的外键，由管理员手动分配
     public int Area { get; set; } //面积
     public int Bedrooms { get; set; } //卧室数量
     public int Bathrooms { get; set; } //浴室数量
@@ -63,4 +63,5 @@ public class Property
     [Navigate(nameof(Appointment.ProPertyId))]
     public List<Appointment>? Appointments {get;set;}
     
+    //Property 
 }

@@ -1,6 +1,9 @@
-﻿namespace YouthApartmentServer.Model.PropertyManagementModel;
+﻿using YouthApartmentServer.Model.UserPermissionModel;
+
+namespace YouthApartmentServer.Model.PropertyManagementModel;
 
 using FreeSql.DataAnnotations;
+
 
 public enum Appointmentstatus
 {
@@ -29,4 +32,13 @@ public class Appointment
     //Appointment n：1 Property
     [Navigate(nameof(ProPertyId))]
     public Property? Property {get;set;}
+    
+    //Appointment n:1 User :User作为员工外键
+    [Navigate(nameof(AssignedStaffId))]
+    public User? Staff {get;set;}
+    
+    //Appointment n:1 User :User作为预约用户外键，其通过Role赋予的角色区分
+    [Navigate(nameof(UserId))]
+    public User? User {get;set;}
+    
 }
