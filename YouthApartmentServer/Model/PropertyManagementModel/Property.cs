@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using YouthApartmentServer.Model.UserPermissionModel;
+using YouthApartmentServer.Repositories.IUser;
 
 namespace YouthApartmentServer.Model.PropertyManagementModel;
 
@@ -20,8 +22,6 @@ public enum LeaseType
 {
     WholeRent, //整租
     SharedRent, //合租
-    ShortTerm, //短租
-    LongTrem, //长租
 }
 
 //租赁期限
@@ -37,7 +37,7 @@ public class Property
 {
     public int PropertyId { get; set; } //房源ID
     public int RegionId { get; set; } //区域ID
-    public int ApprovedById { get; set; } //审核员ID，作为User表的外键，由管理员手动分配
+    public int? ApprovedById { get; set; } //审核员ID，作为User表的外键，由管理员手动分配
     public int Area { get; set; } //面积
     public int Bedrooms { get; set; } //卧室数量
     public int Bathrooms { get; set; } //浴室数量
@@ -59,9 +59,15 @@ public class Property
     public DateTime DeleteAt { get; set; } //被删除时间，由IsDeleted决定，被软删除时赋值
     public bool IsDeleted { get; set; } = false; //软删除逻辑
     
-    //Property 1:n Appointment，房源和预约是多对一关系
+    //Property 1:n Appointment，一个个房源可以有多个预约
     [Navigate(nameof(Appointment.ProPertyId))]
-    public List<Appointment>? Appointments {get;set;}
+    public virtual ICollection<Appointment> Appointments {get;set;}=new List<Appointment>();
     
-    //Property 
+    //Property n:1 User
+    [Navigate(nameof(ApprovedById))]
+    public User? User {get;set;}
+    
+    //Property 1:n UserProperty
+    [Navigate(nameof(UserProperty.PropertyId))]
+    public virtual ICollection<UserProperty> Users {get;set;}=new List<UserProperty>(); 
 }

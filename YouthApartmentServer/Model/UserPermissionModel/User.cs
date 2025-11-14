@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using FreeSql.DataAnnotations;
+using YouthApartmentServer.Model.PropertyManagementModel;
+
 namespace YouthApartmentServer.Model.UserPermissionModel;
 
 [Index("uk_username", "UserName", true)]
@@ -33,5 +35,22 @@ public class User
     [Navigate(nameof(UserRole.UserId))]
     public virtual ICollection<UserRole> UserRoles{get;set;} = new List<UserRole>();
     
-
+    //User 1:n UserProperty 从User中查找租户
+    [Navigate(nameof(UserProperty.UserId))]
+    public virtual ICollection<UserProperty> UserProperties { get; set;} =new List<UserProperty>();
+    
+    //User 1:n Property 从User中查找审核员
+    [Navigate(nameof(Property.ApprovedById))]
+    public virtual ICollection<Property> PropertyApprove{get;set;}=new List<Property>();
+    
+    //User 1:n Appointment 从User查找员工
+    [Navigate(nameof(Appointment.AssignedStaffId))]
+    public virtual ICollection<Appointment>? AppointmentStaffs {get;set;} =new List<Appointment>();
+    
+    //User 1:n Appointment  从User查找预约用户
+    [Navigate(nameof(Appointment.UserId))]
+    public virtual ICollection<Appointment>? AppointmentUsers {get;set;}=new List<Appointment>();
+    
+    
+    
 }

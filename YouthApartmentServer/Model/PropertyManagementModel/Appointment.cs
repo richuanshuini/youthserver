@@ -19,7 +19,7 @@ public class Appointment
     public int AppointmentId{get;set;} //预约ID
     public int UserId{get;set;} //预约用户
     public int ProPertyId{get;set;} //房源ID
-    public int AssignedStaffId{get;set;} //员工ID，作为User的外键
+    public int? AssignedStaffId{get;set;} //员工ID，作为User的外键
     public string? Remarks {get;set;} //备注
     public Appointmentstatus Status { get; set; } = Appointmentstatus.Pending; //预约状态
     public DateTime AppointMentTime{get;set;}  //预约开始时间
