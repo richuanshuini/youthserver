@@ -1,17 +1,28 @@
 ﻿using FreeSql.DataAnnotations;
-
-namespace YouthApartmentServer.Model.PropertyManagementModel;
 using YouthApartmentServer.Model.UserPermissionModel;
+namespace YouthApartmentServer.Model.PropertyManagementModel;
 public class UserProperty
 {
-    public int UserId{get;set;}
-    public int PropertyId{get;set;}
+    [Column(IsPrimary = true, Position = 1)]
+    public int UserId { get; set; }
+
+    [Column(IsPrimary = true, Position = 2)]
+    public int PropertyId { get; set; }
     
-    // UserProperty n:1 User
-    [Navigate(nameof(UserId))] 
+    [Column(Precision = 10, Scale = 2)]
+    public decimal? PersonalRentPrice { get; set; }  // 此租客每月租金
+    
+    [Column(Precision = 10, Scale = 2)]
+    public decimal? PersonalDeposit { get; set; }    // 此租客押金
+    
+    public DateTime? CheckInAt { get; set; }       // 实际入住时间
+    public DateTime? CheckOutAt { get; set; }      // 实际退租时间
+    public bool IsPrimaryTenant { get; set; }      // 是否为主租人（合租时区分谁是主合同人）
+    
+
+    [Navigate(nameof(UserId))]
     public User? User { get; set; }
-    
-    // UserProperty n:1 Property
-    [Navigate(nameof(PropertyId))] 
+
+    [Navigate(nameof(PropertyId))]
     public Property? Property { get; set; }
 }

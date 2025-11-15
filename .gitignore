@@ -360,3 +360,20 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+.idea/
+.vscode/
+
+# Frontend artifacts and local configuration
+YouthApartmentFrontend/.vscode/
+YouthApartmentFrontend/.eslintcache
+YouthApartmentFrontend/package-lock.json
+YouthApartmentFrontend/dist/
+YouthApartmentFrontend/dist-ssr/
+YouthApartmentFrontend/coverage/
+YouthApartmentFrontend/__screenshots__/
+YouthApartmentFrontend/cypress/videos/
+YouthApartmentFrontend/cypress/screenshots/
+YouthApartmentFrontend/*.tsbuildinfo
+
+# Server resources that should remain local only
+YouthApartmentServer/Resources/

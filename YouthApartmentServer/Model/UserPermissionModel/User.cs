@@ -40,7 +40,7 @@ public class User
     public virtual ICollection<UserProperty> UserProperties { get; set;} =new List<UserProperty>();
     
     //User 1:n Property 从User中查找审核员
-    [Navigate(nameof(Property.ApprovedById))]
+    [Navigate(nameof(Property.ApprovedByUser))]
     public virtual ICollection<Property> PropertyApprove{get;set;}=new List<Property>();
     
     //User 1:n Appointment 从User查找员工
