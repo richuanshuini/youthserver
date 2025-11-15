@@ -2,7 +2,7 @@ YouthApartmentFrontend/.vscode/
 .idea/
 YouthApartmentFrontend/.eslintcache
 YouthApartmentFrontend/package-lock.json
-
+YouthApartmentServer/Resources
 # Logs
 logs
 *.log
