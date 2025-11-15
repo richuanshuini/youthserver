@@ -15,7 +15,7 @@ public class PermissionController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<ActionResult<List<PermissionDto>>> GetAllPermissons()
+    public async Task<ActionResult<List<PermissionDto>>> GetAllPermissons(Exception exception)
     {
         var permissions = await _ipermissionService.GetAllPermissionsAsync();
         return Ok(permissions.Adapt<List<PermissionDto>>());

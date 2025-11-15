@@ -6,28 +6,28 @@ namespace YouthApartmentServer.Model.PropertyManagementModel;
 //状态
 public enum PropertyStatus
 {
-    PendingReview, //待审核
-    Available, //可租
-    Reserved, //已预定
-    Rented, //已租
-    UnderMaintenance, //维护中
-    Disable //停用
+    PendingReview=0, //待审核
+    Available=1, //可租
+    Reserved=2, //已预定
+    Rented=3, //已租
+    UnderMaintenance=4, //维护中
+    Disable=5 //停用
 }
 
 //租赁类型
 public enum LeaseType
 {
-    WholeRent, //整租
-    SharedRent, //合租
+    WholeRent=1, //整租
+    SharedRent=2, //合租
 }
 
 //租赁期限
 public enum LeaseTerm
 {
-    Month, // 按月租
-    Quarter, // 按季租
-    HalfYear, //半年租
-    Year // 按年租
+    Month=0, // 按月租
+    Quarter=1, // 按季租
+    HalfYear=2, //半年租
+    Year=3 // 按年租
 }
 
 public class Property
