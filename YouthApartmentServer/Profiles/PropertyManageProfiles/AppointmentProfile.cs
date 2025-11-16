@@ -8,6 +8,7 @@ public class AppointmentProfile
     public static void Register(Mapster.TypeAdapterConfig config)
     {
         config.NewConfig<Appointment, AppointmentDto>();
+        
     }
     
 }

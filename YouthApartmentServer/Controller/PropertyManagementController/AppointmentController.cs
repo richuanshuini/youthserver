@@ -16,6 +16,13 @@ public class AppointmentController : ControllerBase
         _appointmentService = appointmentService;
     }
 
+    [HttpGet]
+    public async Task<ActionResult<AppointmentDto>> GetAppointment()
+    {
+        var appointment =await _appointmentService.GetAllAppointmentsAsync();
+        return Ok(appointment.Adapt<List<AppointmentDto>>());
+    }
+
     [HttpGet("paged")]
     public async Task<ActionResult<PagedResult<AppointmentDto>>> GetAppointmentPaged([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {

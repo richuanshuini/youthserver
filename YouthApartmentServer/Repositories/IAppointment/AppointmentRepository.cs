@@ -24,8 +24,9 @@ public class AppointmentRepository:BaseRepository<Appointment,int>,IAppointmentR
 
     public async Task<(List<Appointment> Item, long Total)> GetPagedAsync(int pageNumber, int pageSize)
     {
-        var total = await Select.CountAsync();
-        var items = await Select.Page(pageNumber, pageSize).ToListAsync();
+        var query = Query();
+        var total = await query.CountAsync();
+        var items = await query.Page(pageNumber, pageSize).ToListAsync();
         return (items, total);
     }
 }

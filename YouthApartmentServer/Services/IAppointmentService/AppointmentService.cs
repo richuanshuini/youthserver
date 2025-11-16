@@ -14,6 +14,11 @@ public class AppointmentService:IAppointmentService
     }
 
 
+    public async Task<List<Appointment>> GetAllAppointmentsAsync()
+    {
+        return await _appointmentRepository.GetAllAsync();
+    }
+
     public async Task<PagedResult<Appointment>> GetAppointmentsPagedAsync(int pageNumber, int pageSize)
     {
         var (items,total)= await _appointmentRepository.GetPagedAsync(pageNumber,pageSize);
