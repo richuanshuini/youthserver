@@ -5,7 +5,7 @@ using YouthApartmentServer.Repositories.IUser;
 using YouthApartmentServer.Repositories.IUserRole;
 
 
-namespace YouthApartmentServer.Services.IUserRoleServices;
+namespace YouthApartmentServer.Services.IUserRoleService;
 
 public class UserRoleService : IUserRoleService
 {

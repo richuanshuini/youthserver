@@ -2,11 +2,9 @@ using Mapster;
 using YouthApartmentServer.Model.UserPermissionModel;
 using YouthApartmentServer.ModelDto;
 using YouthApartmentServer.Repositories.IUser;
-using Microsoft.AspNetCore.Hosting;
 using System.Text.RegularExpressions;
-using System.Diagnostics.CodeAnalysis;
 
-namespace YouthApartmentServer.Services.IUserServices
+namespace YouthApartmentServer.Services.IUserService
 {
     public class UserService : IUserService
     {

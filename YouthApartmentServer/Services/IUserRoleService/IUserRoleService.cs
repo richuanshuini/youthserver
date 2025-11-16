@@ -1,6 +1,6 @@
 using YouthApartmentServer.Model.UserPermissionModel;
 
-namespace YouthApartmentServer.Services.IUserRoleServices;
+namespace YouthApartmentServer.Services.IUserRoleService;
 
 public interface IUserRoleService
 {

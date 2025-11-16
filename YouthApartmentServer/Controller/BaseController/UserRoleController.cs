@@ -2,7 +2,7 @@ using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using YouthApartmentServer.Model.UserPermissionModel;
 using YouthApartmentServer.ModelDto;
-using YouthApartmentServer.Services.IUserRoleServices;
+using YouthApartmentServer.Services.IUserRoleService;
 
 namespace YouthApartmentServer.Controller.BaseController;
 
