@@ -1,217 +1,290 @@
+using System;
+using System.Text.RegularExpressions;
 using Mapster;
 using YouthApartmentServer.Model.UserPermissionModel;
 using YouthApartmentServer.ModelDto;
 using YouthApartmentServer.Repositories.IUser;
-using System.Text.RegularExpressions;
 
-namespace YouthApartmentServer.Services.IUserService
+namespace YouthApartmentServer.Services.IUserService;
+
+public class UserService : IUserService
 {
-    public class UserService : IUserService
+    private readonly IUserRepository _iuserRepository;
+    private readonly IWebHostEnvironment _env;
+
+    public UserService(IUserRepository iuserRepository, IWebHostEnvironment env)
     {
-        private readonly IUserRepository _iuserRepository;
-        private readonly IWebHostEnvironment _env;
-        public UserService(IUserRepository iuserRepository, IWebHostEnvironment env)
+        _iuserRepository = iuserRepository;
+        _env = env;
+    }
+
+    public Task<List<User>> GetAllUsersAsync()
+    {
+        return _iuserRepository.GetAllAsync();
+    }
+
+    public Task<User?> GetUserByIdAsync(int id)
+    {
+        return _iuserRepository.GetByIdAsync(id);
+    }
+
+    public async Task<ValidationResult<User>> CreateUserAsync(User user)
+    {
+        var result = new ValidationResult<User>();
+
+        var existingUser = await _iuserRepository.GetByUsernameAsync(user.UserName!);
+        if (existingUser != null)
         {
-            _iuserRepository = iuserRepository;
-            _env = env;
+            result.AddError("该用户名已经存在，请重新输入");
         }
 
-        public Task<List<User>> GetAllUsersAsync()
+        var existingIdCard = await _iuserRepository.GetByIdCardAsync(user.IdCard!);
+        if (existingIdCard != null)
         {
-            return _iuserRepository.GetAllAsync();
+            result.AddError("该身份证号已经存在，请重新输入");
         }
 
-        public Task<User?> GetUserByIdAsync(int id)
-        {
-            return _iuserRepository.GetByIdAsync(id);
-        }
+        if (!result.IsValid)
+            return result;
 
-        public async Task<User?> CreateUserAsync(User user)
+        if (!string.IsNullOrEmpty(user.UserAvatarUrl) && IsDataUri(user.UserAvatarUrl))
         {
-            // 1. 先查：检查用户名是否存在，这里使用！意思是告诉编译器，这个UserName是不可能为空的，但是他静态编译时，会去找User的string ? UserName，但是DTO严格就决定了UserName不可能为空
-            //直接无视这个警告
-            var existingUser = await _iuserRepository.GetByUsernameAsync(user.UserName!);
-            if (existingUser != null)
+            try
             {
-                return null;
-            }
-
-            //检查身份证号是否存在
-            var existingIdCard = await _iuserRepository.GetByIdCardAsync(user.IdCard!);
-            if (existingIdCard != null)
-            {
-                return null;
-            }
-            
-            // 若头像是 data URI，保存到 Resources 并替换为静态 URL
-            if (!string.IsNullOrEmpty(user.UserAvatarUrl) && IsDataUri(user.UserAvatarUrl))
-            {
-                var savedUrl = await SaveAvatarFromDataUriAsync(existingUser?.UserId ?? 0, user.UserAvatarUrl!);
+                var savedUrl = await SaveAvatarFromDataUriAsync(0, user.UserAvatarUrl!);
                 user.UserAvatarUrl = savedUrl;
             }
-
-            user.Status = false;
-            await _iuserRepository.InsertAsync(user);
-            return user;
+            catch (Exception)
+            {
+                result.AddError("头像格式不正确，请上传有效的图片");
+                return result;
+            }
         }
 
-        public async Task<bool> UpdateUserStausAsync(int id, bool status)
+        user.Status = false;
+        await _iuserRepository.InsertAsync(user);
+        result.Data = user;
+        return result;
+    }
+
+    public async Task<bool> UpdateUserStausAsync(int id, bool status)
+    {
+        return await _iuserRepository.UpdateUserStatusAsync(id, status);
+    }
+
+    public async Task<ValidationResult<User>> UpdateUserAsync(int id, UpdateUserDto userDto)
+    {
+        var result = new ValidationResult<User>();
+
+        var existingUser = await _iuserRepository.GetByIdAsync(id);
+        if (existingUser == null)
         {
-            return await _iuserRepository.UpdateUserStatusAsync(id, status);
+            result.MarkNotFound("该用户不存在");
+            return result;
         }
 
-        public async Task<User?> UpdateUserAsync(int id, UpdateUserDto userDto)
+        if (!string.IsNullOrWhiteSpace(userDto.UserName))
         {
-            //服务层，调用储仓的，和前端传入的id处理全量更新
-            var existingUser = await _iuserRepository.GetByIdAsync(id);
-            if (existingUser == null)
-                return null;
-            //将DTO的更新，映射到已经加载的实体上
-            userDto.Adapt(existingUser);
-            // 兼容 data URI 头像：保存文件并替换为静态 URL
-            if (!string.IsNullOrEmpty(existingUser.UserAvatarUrl) && IsDataUri(existingUser.UserAvatarUrl))
+            var existed = await _iuserRepository.ExistUserName(userDto.UserName);
+            if (existed != 0 && existed != id)
+                result.AddError("修改后的用户名已经存在，请重新修改");
+        }
+
+        if (!string.IsNullOrWhiteSpace(userDto.IdCard))
+        {
+            var ownerId = await _iuserRepository.ExistIdCard(userDto.IdCard);
+            if (ownerId != 0 && ownerId != id)
+                result.AddError("修改后的身份证号已经存在，请重新修改");
+        }
+
+        if (!result.IsValid)
+            return result;
+
+        userDto.Adapt(existingUser);
+
+        if (!string.IsNullOrEmpty(existingUser.UserAvatarUrl) && IsDataUri(existingUser.UserAvatarUrl))
+        {
+            try
             {
                 var savedUrl = await SaveAvatarFromDataUriAsync(id, existingUser.UserAvatarUrl!);
                 existingUser.UserAvatarUrl = savedUrl;
             }
-
-            //全量更新
-            return await _iuserRepository.UpdateAsync(existingUser);
-            ;
+            catch (Exception)
+            {
+                result.AddError("头像格式不正确，请上传有效的图片");
+                return result;
+            }
         }
 
-        public async Task<bool> PatchUserAsync(int id, UpdateUserDto userDto)
+        var updated = await _iuserRepository.UpdateAsync(existingUser);
+        result.Data = updated;
+        return result;
+    }
+
+    public async Task<ValidationResult<bool>> PatchUserAsync(int id, UpdateUserDto userDto)
+    {
+        var result = new ValidationResult<bool>();
+
+        var existingUser = await _iuserRepository.GetByIdAsync(id);
+        if (existingUser == null)
         {
-            // 头像字段兼容 Base64：如果是 data URI，则保存到 Resources 并替换为静态 URL
-            if (!string.IsNullOrEmpty(userDto.UserAvatarUrl) && IsDataUri(userDto.UserAvatarUrl))
+            result.MarkNotFound("该用户不存在");
+            return result;
+        }
+
+        if (!string.IsNullOrWhiteSpace(userDto.UserName))
+        {
+            var existed = await _iuserRepository.ExistUserName(userDto.UserName);
+            if (existed != 0 && existed != id)
+                result.AddError("修改后的用户名已经存在，请重新修改");
+        }
+
+        if (!string.IsNullOrWhiteSpace(userDto.IdCard))
+        {
+            var ownerId = await _iuserRepository.ExistIdCard(userDto.IdCard);
+            if (ownerId != 0 && ownerId != id)
+                result.AddError("修改后的身份证号已经存在，请重新修改");
+        }
+
+        if (!result.IsValid)
+            return result;
+
+        if (!string.IsNullOrEmpty(userDto.UserAvatarUrl) && IsDataUri(userDto.UserAvatarUrl))
+        {
+            try
             {
                 var savedUrl = await SaveAvatarFromDataUriAsync(id, userDto.UserAvatarUrl!);
                 userDto.UserAvatarUrl = savedUrl;
             }
-
-            // 部分更新
-            return await _iuserRepository.UpdateAsync(id, userDto);
-        }
-
-        private static bool IsDataUri(string value)
-        {
-            return value.StartsWith("data:", StringComparison.OrdinalIgnoreCase);
-        }
-
-        private static string GetImageExtensionFromMime(string mime)
-        {
-            return mime switch
+            catch (Exception)
             {
-                "image/png" => ".png",
-                "image/jpeg" => ".jpg",
-                "image/svg+xml" => ".svg",
-                "image/webp" => ".webp",
-                _ => ".bin",
-            };
-        }
-
-        private async Task<string> SaveAvatarFromDataUriAsync(int userId, string dataUri)
-        {
-            // 格式：data:<mime>;base64,<payload>
-            var match = Regex.Match(dataUri, "^data:(?<mime>[^;]+);base64,(?<data>.+)$");
-            if (!match.Success)
-                throw new ArgumentException("Invalid data URI for avatar.");
-
-            var mime = match.Groups["mime"].Value;
-            var b64 = match.Groups["data"].Value;
-            var bytes = Convert.FromBase64String(b64);
-
-            var ext = GetImageExtensionFromMime(mime);
-            // 以时间戳命名，避免前端端口导致的相对路径解析问题，同时确保唯一性
-            var timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            var fileName = $"avatar_{timestamp}{ext}";
-            var folder = Path.Combine(_env.ContentRootPath, "Resources", "UserPermission", "image");
-            Directory.CreateDirectory(folder);
-            var fullPath = Path.Combine(folder, fileName);
-
-            await File.WriteAllBytesAsync(fullPath, bytes);
-
-            // 返回静态资源路径
-            return $"/resources/UserPermission/image/{fileName}";
-        }
-
-        public async Task<int> ExistUserName(string username)
-        {
-            return await _iuserRepository.ExistUserName(username);
-        }
-
-        public async Task<PagedResult<User>> GetUsersPagedAsync(int pageNumber, int pageSize)
-        {
-            var (items, total) = await _iuserRepository.GetPagedAsync(pageNumber, pageSize);
-            return new PagedResult<User>
-            {
-                PageNumber = pageNumber,
-                PageSize = pageSize,
-                Total = total,
-                Items = items
-            };
-        }
-
-        public async Task<int> ExistIdCard(string idCard)
-        {
-            return await _iuserRepository.ExistIdCard(idCard);
-        }
-
-        public async Task<List<User>> SearchUserByContain(UserQueryParams userQueryParams)
-        {
-            
-            // 1) 优先使用第一个有值的条件；2) 字符串判空用 IsNullOrWhiteSpace
-            if (!string.IsNullOrWhiteSpace(userQueryParams.UserName))
-            {
-                return await _iuserRepository.SearchUserNameByContain(userQueryParams.UserName);
+                result.AddError("头像格式不正确，请上传有效的图片");
+                return result;
             }
-
-            if (!string.IsNullOrWhiteSpace(userQueryParams.RealName))
-            {
-                return await _iuserRepository.SearchRealNameByContain(userQueryParams.RealName);
-            }
-
-            if (!string.IsNullOrWhiteSpace(userQueryParams.Email))
-            {
-                return await _iuserRepository.SearchEmailByContain(userQueryParams.Email);
-            }
-
-            if (!string.IsNullOrWhiteSpace(userQueryParams.Phone))
-            {
-                return await _iuserRepository.SearchPhoneByContain(userQueryParams.Phone);
-            }
-
-            if (!string.IsNullOrWhiteSpace(userQueryParams.Gender))
-            {
-                return await _iuserRepository.SearchGender(userQueryParams.Gender);
-            }
-
-            if (userQueryParams.Status.HasValue)
-            {
-                return await _iuserRepository.SearchStatus(userQueryParams.Status.Value);
-            }
-
-            // 无任何条件：返回全部
-            return await _iuserRepository.GetAllAsync();
         }
 
-        public async Task<List<User>> GetUserWithNoRoleAsync()
+        var success = await _iuserRepository.UpdateAsync(id, userDto);
+        if (!success)
         {
-            return await _iuserRepository.GetUserWithNoRoleAsync();
+            result.MarkNotFound("该用户不存在");
+            return result;
         }
 
-        public async Task<PagedResult<User>> GetUsersNoRolesPagedAsync(int pageNumber, int pageSize)
-        {
-            var (items, total) = await _iuserRepository.GetNoRolePagedAsync(pageNumber, pageSize);
-            return new PagedResult<User>
-            {
-                PageNumber = pageNumber,
-                PageSize = pageSize,
-                Total = total,
-                Items = items
-            };
-        }
-
-        // 高级筛选已移除：不再提供未分配角色的多条件分页查询
+        result.Data = true;
+        return result;
     }
+
+    private static bool IsDataUri(string value)
+    {
+        return value.StartsWith("data:", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static string GetImageExtensionFromMime(string mime)
+    {
+        return mime switch
+        {
+            "image/png" => ".png",
+            "image/jpeg" => ".jpg",
+            "image/svg+xml" => ".svg",
+            "image/webp" => ".webp",
+            _ => ".bin",
+        };
+    }
+
+    private async Task<string> SaveAvatarFromDataUriAsync(int userId, string dataUri)
+    {
+        var match = Regex.Match(dataUri, "^data:(?<mime>[^;]+);base64,(?<data>.+)$");
+        if (!match.Success)
+            throw new ArgumentException("Invalid data URI for avatar.");
+
+        var mime = match.Groups["mime"].Value;
+        var b64 = match.Groups["data"].Value;
+        var bytes = Convert.FromBase64String(b64);
+
+        var ext = GetImageExtensionFromMime(mime);
+        var timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        var fileName = $"avatar_{timestamp}{ext}";
+        var folder = Path.Combine(_env.ContentRootPath, "Resources", "UserPermission", "image");
+        Directory.CreateDirectory(folder);
+        var fullPath = Path.Combine(folder, fileName);
+
+        await File.WriteAllBytesAsync(fullPath, bytes);
+
+        return $"/resources/UserPermission/image/{fileName}";
+    }
+
+    public async Task<int> ExistUserName(string username)
+    {
+        return await _iuserRepository.ExistUserName(username);
+    }
+
+    public async Task<PagedResult<User>> GetUsersPagedAsync(int pageNumber, int pageSize)
+    {
+        var (items, total) = await _iuserRepository.GetPagedAsync(pageNumber, pageSize);
+        return new PagedResult<User>
+        {
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            Total = total,
+            Items = items
+        };
+    }
+
+    public async Task<int> ExistIdCard(string idCard)
+    {
+        return await _iuserRepository.ExistIdCard(idCard);
+    }
+
+    public async Task<List<User>> SearchUserByContain(UserQueryParams userQueryParams)
+    {
+        if (!string.IsNullOrWhiteSpace(userQueryParams.UserName))
+        {
+            return await _iuserRepository.SearchUserNameByContain(userQueryParams.UserName);
+        }
+
+        if (!string.IsNullOrWhiteSpace(userQueryParams.RealName))
+        {
+            return await _iuserRepository.SearchRealNameByContain(userQueryParams.RealName);
+        }
+
+        if (!string.IsNullOrWhiteSpace(userQueryParams.Email))
+        {
+            return await _iuserRepository.SearchEmailByContain(userQueryParams.Email);
+        }
+
+        if (!string.IsNullOrWhiteSpace(userQueryParams.Phone))
+        {
+            return await _iuserRepository.SearchPhoneByContain(userQueryParams.Phone);
+        }
+
+        if (!string.IsNullOrWhiteSpace(userQueryParams.Gender))
+        {
+            return await _iuserRepository.SearchGender(userQueryParams.Gender);
+        }
+
+        if (userQueryParams.Status.HasValue)
+        {
+            return await _iuserRepository.SearchStatus(userQueryParams.Status.Value);
+        }
+
+        return await _iuserRepository.GetAllAsync();
+    }
+
+    public async Task<List<User>> GetUserWithNoRoleAsync()
+    {
+        return await _iuserRepository.GetUserWithNoRoleAsync();
+    }
+
+    public async Task<PagedResult<User>> GetUsersNoRolesPagedAsync(int pageNumber, int pageSize)
+    {
+        var (items, total) = await _iuserRepository.GetNoRolePagedAsync(pageNumber, pageSize);
+        return new PagedResult<User>
+        {
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            Total = total,
+            Items = items
+        };
+    }
+    
 }
