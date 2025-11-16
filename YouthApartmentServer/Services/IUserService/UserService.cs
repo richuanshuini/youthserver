@@ -83,20 +83,16 @@ public class UserService : IUserService
             return result;
         }
 
-        if (!string.IsNullOrWhiteSpace(userDto.UserName))
-        {
-            var existed = await _iuserRepository.ExistUserName(userDto.UserName);
-            if (existed != 0 && existed != id)
-                result.AddError("修改后的用户名已经存在，请重新修改");
-        }
+        //由于在DTO里面做了[Request]检查，必不可能为Null
+        var existed = await _iuserRepository.ExistUserName(userDto.UserName!);
+        if (existed != 0 && existed != id)
+            result.AddError("修改后的用户名已经存在，请重新修改");
+        
+        var ownerId = await _iuserRepository.ExistIdCard(userDto.IdCard!);
+        if (ownerId != 0 && ownerId != id)
+            result.AddError("修改后的身份证号已经存在，请重新修改");
 
-        if (!string.IsNullOrWhiteSpace(userDto.IdCard))
-        {
-            var ownerId = await _iuserRepository.ExistIdCard(userDto.IdCard);
-            if (ownerId != 0 && ownerId != id)
-                result.AddError("修改后的身份证号已经存在，请重新修改");
-        }
-
+        //当前面使用了AddError，IsVaild就会自动变成False，直接在服务层拦截业务
         if (!result.IsValid)
             return result;
 
@@ -111,7 +107,8 @@ public class UserService : IUserService
             }
             catch (Exception)
             {
-                result.AddError("头像格式不正确，请上传有效的图片");
+                result.AddError(
+                    "头像格式不正确，请上传有效的图片");
                 return result;
             }
         }
@@ -132,19 +129,14 @@ public class UserService : IUserService
             return result;
         }
 
-        if (!string.IsNullOrWhiteSpace(userDto.UserName))
-        {
-            var existed = await _iuserRepository.ExistUserName(userDto.UserName);
-            if (existed != 0 && existed != id)
-                result.AddError("修改后的用户名已经存在，请重新修改");
-        }
 
-        if (!string.IsNullOrWhiteSpace(userDto.IdCard))
-        {
-            var ownerId = await _iuserRepository.ExistIdCard(userDto.IdCard);
-            if (ownerId != 0 && ownerId != id)
-                result.AddError("修改后的身份证号已经存在，请重新修改");
-        }
+        var existed = await _iuserRepository.ExistUserName(userDto.UserName!);
+        if (existed != 0 && existed != id)
+            result.AddError("修改后的用户名已经存在，请重新修改");
+            
+        var ownerId = await _iuserRepository.ExistIdCard(userDto.IdCard!);
+        if (ownerId != 0 && ownerId != id)
+            result.AddError("修改后的身份证号已经存在，请重新修改");
 
         if (!result.IsValid)
             return result;
