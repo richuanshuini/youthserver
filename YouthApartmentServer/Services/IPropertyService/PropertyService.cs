@@ -40,7 +40,10 @@ public class PropertyService:IPropertyService
             return result;
         
         //创建时间为初次创建时设置，其余的都是为NULL
+        property.Status = PropertyStatus.PendingReview;
         property.CreatedAt=DateTime.Now;
+        //最早可入住的时间点，为null时是随时可入住，跟CreateAt结合使用，例如创建于3月1号，那么有租客月底退房，最早入住时间是4月1号
+        property.AvailableDate = null;
         property.UpdatedAt = null;
         property.ApprovedAt = null;
         property.IsDeleted=false;

@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using YouthApartmentServer.Model.PropertyManagementModel;
 using YouthApartmentServer.ModelDto;
 using YouthApartmentServer.Services.IPropertyService;
 
@@ -24,9 +25,17 @@ public class PropertyController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<PropertyDto>> CreatePropety(InserPropertyDto inserPropertyDto)
+    public async Task<ActionResult<PropertyDto>> CreatePropety([FromBody]InserPropertyDto inserPropertyDto)
     {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+        var property=inserPropertyDto.Adapt<Property>();
+        var result=await _propertyService.CreatePropertyAsync(property);
+        if(!result.IsValid||result.Data==null)
+            return BadRequest(new {error=result.Errors});
         
+        var newPropertyDto=result.Data.Adapt<PropertyDto>();
+        return CreatedAtAction(nameof(CreatePropety),new {id=result.Data.PropertyId},newPropertyDto);
     }
     
 }
