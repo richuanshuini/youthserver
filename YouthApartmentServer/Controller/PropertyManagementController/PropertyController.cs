@@ -37,5 +37,21 @@ public class PropertyController : ControllerBase
         var newPropertyDto=result.Data.Adapt<PropertyDto>();
         return CreatedAtAction(nameof(CreatePropety),new {id=result.Data.PropertyId},newPropertyDto);
     }
+
+    [HttpGet("Nodelete/paged")]
+    public async Task<ActionResult<PagedResult<PropertyDto>>> GetPropertyPaged([FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10)
+    {
+        var paged = await _propertyService.GetPropertyPagedAsync(pageNumber, pageSize);
+        var dtoItems = paged.Items.Adapt<List<PropertyDto>>();
+        var dto = new PagedResult<PropertyDto>
+        {
+            PageNumber = paged.PageNumber,
+            PageSize = paged.PageSize,
+            Total = paged.Total,
+            Items = dtoItems,
+        };
+        return Ok(dto);
+    }
     
 }

@@ -1,4 +1,4 @@
-﻿using FreeSql;
+using FreeSql;
 using YouthApartmentServer.Model.PropertyManagementModel;
 
 namespace YouthApartmentServer.Repositories.IPropertyRepository;
@@ -22,5 +22,13 @@ public class PropertyRepository : BaseRepository<Property, int>, IPropertyReposi
     public async Task<Property> InseryAsync(Property property)
     {
         return await base.InsertAsync(property);
+    }
+
+    public async Task<(List<Property> Items,long Total)> GetPagedAsync(int pageNumber, int pageSize)
+    {
+        var query = Query();
+        var total = await query.CountAsync();
+        var items = await query.Page(pageNumber, pageSize).ToListAsync();
+        return (items, total);
     }
 }

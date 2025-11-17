@@ -8,7 +8,7 @@ import {
   Link as UserRoleIcon,
   Connection as RolePermissionIcon,
   Files as BasicInfoIcon, // 新增图标
-  Bell as AnnouncementIcon,
+  Bell as AnnouncementIcon, HomeFilled,
 } from '@element-plus/icons-vue';
 
 const collapsed = ref(false);
@@ -70,6 +70,10 @@ const pageTitle = computed(() => route.meta?.title || '');
           <el-menu-item index="/admin/announcements">
             <el-icon><AnnouncementIcon /></el-icon>
             <span>公告管理</span>
+          </el-menu-item>
+          <el-menu-item index="/admin/property">
+            <el-icon><HomeFilled /></el-icon>
+            <span>房源管理</span>
           </el-menu-item>
         </el-sub-menu>
 

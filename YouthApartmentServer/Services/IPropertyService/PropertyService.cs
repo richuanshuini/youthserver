@@ -52,4 +52,16 @@ public class PropertyService:IPropertyService
         result.Data = entity;
         return result;
     }
+
+    public async Task<PagedResult<Property>> GetPropertyPagedAsync(int pageNumber, int pageSize)
+    {
+        var (items,total)=await _propertyRepository.GetPagedAsync(pageNumber,pageSize);
+        return new PagedResult<Property>()
+        {
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            Total = total,
+            Items = items
+        };
+    }
 }

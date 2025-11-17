@@ -23,7 +23,7 @@ public class AppointmentController : ControllerBase
         return Ok(appointment.Adapt<List<AppointmentDto>>());
     }
 
-    [HttpGet("paged")]
+    [HttpGet("Nodelete/paged")]
     public async Task<ActionResult<PagedResult<AppointmentDto>>> GetAppointmentPaged([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
         var paged=await _appointmentService.GetAppointmentsPagedAsync(pageNumber, pageSize);
