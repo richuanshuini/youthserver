@@ -18,10 +18,20 @@ public class AnnounceMentService : IAnnounceMentService
 
     public Task<AnnounceMent?> GetByIdAsync(int id) => _repo.GetByIdAsync(id);
 
-    public async Task<AnnounceMent> CreateAsync(InsertAnnouncementDto dto)
+    public async Task<ValidationResult<AnnounceMent>> CreateAsync(InsertAnnouncementDto dto)
     {
+        var result = new ValidationResult<AnnounceMent>();
+
+        if (dto.PublishTime.HasValue && dto.ExpireTime.HasValue && dto.PublishTime.Value > dto.ExpireTime.Value)
+        {
+            result.AddError("结束时间不能早于发布时间");
+        }
+
+        if (!result.IsValid)
+            return result;
+
         var entity = dto.Adapt<AnnounceMent>();
-        // 默认状态：未提供则草稿
+
         if (dto.Status.HasValue)
             entity.Status = (AnnouncementStatus)dto.Status.Value;
         else
@@ -29,20 +39,35 @@ public class AnnounceMentService : IAnnounceMentService
 
         entity.Type = (AnnouncementType)dto.Type;
 
-        // 业务优化：发布状态且未指定发布时刻，则使用当前时间
         if (entity.Status == AnnouncementStatus.Published && !entity.PublishTime.HasValue)
         {
             entity.PublishTime = DateTime.Now;
         }
 
-        return await _repo.InsertAsync(entity);
+        var created = await _repo.InsertAsync(entity);
+        result.Data = created;
+        return result;
     }
 
-    public Task<bool> UpdateAsync(int id, UpdateAnnouncementDto dto)
+    public async Task<ValidationResult<bool>> UpdateAsync(int id, UpdateAnnouncementDto dto)
     {
-        // 当 Status 更新为 Published 且未提供 PublishTime，则由仓储保持原值；
-        // 如需设置当前时间，可在控制器层补足逻辑，这里保持轻量。
-        return _repo.UpdateAsync(id, dto);
+        var result = new ValidationResult<bool>();
+
+        if (dto.PublishTime.HasValue && dto.ExpireTime.HasValue && dto.PublishTime.Value > dto.ExpireTime.Value)
+        {
+            result.AddError("结束时间不能早于发布时间");
+            return result;
+        }
+
+        var ok = await _repo.UpdateAsync(id, dto);
+        if (!ok)
+        {
+            result.MarkNotFound("该公告不存在");
+            return result;
+        }
+
+        result.Data = true;
+        return result;
     }
 
     public Task<bool> DeleteAsync(int id) => _repo.SoftDeleteAsync(id);

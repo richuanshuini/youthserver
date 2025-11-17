@@ -16,14 +16,14 @@ public class AnnouncementDto
 // 插入 DTO（写入 TinyMCE HTML 正文）
 public class InsertAnnouncementDto
 {
-    [Required]
+    [Required(ErrorMessage = "标题不能为空")]
     [MaxLength(255)]
     public string Title { get; set; } = string.Empty;
 
-    [Required]
+    [Required(ErrorMessage = "内容不能为空")]
     public string Content { get; set; } = string.Empty;
 
-    [Required]
+    [Required(ErrorMessage = "类型不能为空")]
     public int Type { get; set; }
 
     // 可选：默认草稿

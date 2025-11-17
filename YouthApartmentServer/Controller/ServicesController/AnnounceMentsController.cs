@@ -1,5 +1,6 @@
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using YouthApartmentServer.Common.Validation;
 using YouthApartmentServer.ModelDto.BaseRequest;
 using YouthApartmentServer.ModelDto;
 using YouthApartmentServer.Services.IAnnounceMentService;
@@ -57,13 +58,14 @@ public class AnnounceMentsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<AnnouncementDto>> Create([FromBody] InsertAnnouncementDto dto)
     {
-        if (string.IsNullOrWhiteSpace(dto.Title))
-            return BadRequest(new { error = "标题不能为空" });
-        if (string.IsNullOrWhiteSpace(dto.Content))
-            return BadRequest(new { error = "内容不能为空" });
+        if (!ModelState.IsValid)
+            return BadRequest(new { errors = ModelStateHelper.CollectModelErrors(ModelState) });
 
-        var created = await _service.CreateAsync(dto);
-        var outDto = created.Adapt<AnnouncementDto>();
+        var result = await _service.CreateAsync(dto);
+        if (!result.IsValid || result.Data == null)
+            return BadRequest(new { errors = result.Errors });
+
+        var outDto = result.Data.Adapt<AnnouncementDto>();
         return CreatedAtAction(nameof(GetById), new { id = outDto.AnnounceMentId }, outDto);
     }
 
@@ -71,10 +73,15 @@ public class AnnounceMentsController : ControllerBase
     /// 局部更新公告
     /// </summary>
     [HttpPost("{id}/update")]
-    public async Task<ActionResult> Update(int id, [FromBody] UpdateAnnouncementDto dto)
+    public async Task<ActionResult<bool>> Update(int id, [FromBody] UpdateAnnouncementDto dto)
     {
-        var ok = await _service.UpdateAsync(id, dto);
-        if (!ok) return NotFound(new { error = "该公告不存在" });
+        if (!ModelState.IsValid)
+            return BadRequest(new { errors = ModelStateHelper.CollectModelErrors(ModelState) });
+        var result = await _service.UpdateAsync(id, dto);
+        if (result.Status == ValidationStatus.NotFound)
+            return NotFound(new { error = result.Errors.FirstOrDefault() ?? "该公告不存在" });
+        if (!result.IsValid)
+            return BadRequest(new { errors = result.Errors });
         return NoContent();
     }
 

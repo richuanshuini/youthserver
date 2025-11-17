@@ -18,6 +18,7 @@ public class UserProperty
     public DateTime? CheckInAt { get; set; }       // 实际入住时间
     public DateTime? CheckOutAt { get; set; }      // 实际退租时间
     public bool IsPrimaryTenant { get; set; }      // 是否为主租人（合租时区分谁是主合同人）
+    public bool IsActive { get; set; } = true;  //是否在租，标记该记录是否有效
     
 
     [Navigate(nameof(UserId))]
