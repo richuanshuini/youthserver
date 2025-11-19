@@ -138,3 +138,77 @@ public class InserPropertyDto
     [Required(ErrorMessage = "租赁期限必须填写")]
     public LeaseTerm LeaseTerm { get; set; } //租赁期限
 }
+
+public class UpdatePropertyDto
+{
+    public int? RegionId { get; set; } //区域ID
+    
+    [Required(ErrorMessage = "审核员必须分配")]
+    public int? ApprovedByUser { get; set; } //审核员ID，作为User表的外键，由管理员手动分配
+    
+    [Required(ErrorMessage = "房源面积必须填写")]
+    [Range(1, int.MaxValue, ErrorMessage = "房源面积必须大于 1")]
+    public int? Area { get; set; } //面积
+    
+    [Required(ErrorMessage = "卧室数量必须填写")]
+    [Range(1,Int32.MaxValue, ErrorMessage = "卧室数量必须大于1")]
+    public int? Bedrooms { get; set; } //卧室数量
+    
+    [Required(ErrorMessage = "浴室数量必须填写")]
+    [Range(1, Int32.MaxValue, ErrorMessage = "浴室数量必须大于1")]
+    public int? Bathrooms { get; set; } //浴室数量
+    
+    [Required(ErrorMessage = "最大入住人数必须填写")]
+    [Range(1, Int32.MaxValue, ErrorMessage = "最多入住人数必须大于1")]
+    public int? MaxTenants { get; set; }  // 建议最多入住人数
+    
+    [Required(ErrorMessage = "房源名称必须填写")]
+    [StringLength(128,MinimumLength = 2,ErrorMessage = "房源名称必须在2~128字符之间")]
+    public string? PropertyName { get; set; } // 房源名称
+    
+    [Required(ErrorMessage = "房源地址必须填写")]
+    [StringLength(256,MinimumLength = 2,ErrorMessage = "地址必须在2~256个字符之间")]
+    public string? Address { get; set; } //地址
+    
+    [Required(ErrorMessage = "房源描述必须填写")]
+    [StringLength(256,MinimumLength = 2,ErrorMessage = "房源描述必须在2~256个字符之间")]
+    public string? Description { get; set; } //描述
+    
+    [Required(ErrorMessage = "房源编号必须填写")]
+    [StringLength(64,MinimumLength = 2,ErrorMessage = "房源编号必须在2~64个字符之间")]
+    public string? PropertyCode { get; set; }  // 房源编码，如 GZ-TNH-0502
+    
+    [Required(ErrorMessage = "房间号必须填写")]
+    [StringLength(32,MinimumLength = 2,ErrorMessage = "房间号必须在2~32个字符之间")]
+    public string? RoomNumber { get; set; }   // 房间号，如 502-A
+    
+    [Required(ErrorMessage = "租赁价格必须填写")]
+    [Range(typeof(decimal), "0.00", "9999999999.99", ErrorMessage = "租赁价格必须大于等于 0")]
+    public decimal? RentPrice { get; set; } //租赁价格
+    
+    [Required(ErrorMessage = "租赁押金必须填写")]
+    [Range(typeof(decimal), "0.00", "9999999999.99", ErrorMessage = "租赁押金价格必须大于等于 0")]
+    public decimal? RentDeposit { get; set; } //租赁押金
+    
+    [Required(ErrorMessage = "物业费必须填写")]
+    [Range(typeof(decimal), "0.00", "9999999999.99", ErrorMessage = "物业费必须大于等于 0")]
+    public decimal? PropertyFee { get; set; } //物业费
+    
+    [Required(ErrorMessage = "纬度必须填写")]
+    [Range(-90, 90, ErrorMessage = "纬度必须在 -90 到 90 之间")]
+    public decimal? Latitude { get; set; } // 纬度 (Lat)
+    
+    [Required(ErrorMessage = "经度必须填写")]
+    [Range(-180, 180, ErrorMessage = "经度必须在 -180 到 180 之间")]
+    public decimal? Longitude { get; set; } // 经度 (Lng)
+    
+    [Required(ErrorMessage = "租赁类型必须填写")]
+    public LeaseType? LeaseType { get; set; } //租赁类型
+    
+    [Required(ErrorMessage = "租赁期限必须填写")]
+    public LeaseTerm? LeaseTerm { get; set; } //租赁期限
+    
+    public DateTime? AvailableDate { get; set; } //预约后可入住时间
+
+
+}

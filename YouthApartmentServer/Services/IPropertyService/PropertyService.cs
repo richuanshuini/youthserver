@@ -1,4 +1,5 @@
-﻿using YouthApartmentServer.Model.PropertyManagementModel;
+﻿using Mapster;
+using YouthApartmentServer.Model.PropertyManagementModel;
 using YouthApartmentServer.ModelDto;
 using YouthApartmentServer.Repositories.IPropertyRepository;
 using YouthApartmentServer.Repositories.IUser;
@@ -63,5 +64,29 @@ public class PropertyService:IPropertyService
             Total = total,
             Items = items
         };
+    }
+
+    public async Task<ValidationResult<bool>> UpdatePropertyAsync(int id, Property property)
+    {
+        var result =new ValidationResult<bool>();
+        //这里实现逻辑检查
+        property.UpdatedAt=DateTime.Now;
+        //在API接口层次拦截接口脏数据
+        var exist = await _propertyRepository.GetById(id);
+        if (exist == null)
+            result.MarkNotFound("要更新的房源不存在");
+
+        if (property.ApprovedByUser != null)
+        {
+            var existUser = await _userRepository.GetByIdAsync(property.ApprovedByUser.Value);
+            if(existUser == null)
+                result.AddError("分配的审核员不存在");
+        }
+        
+        if(!result.IsValid)
+            return result;
+        //更新
+        result.Data = await _propertyRepository.UpdateAsync(id, property);
+        return result;
     }
 }

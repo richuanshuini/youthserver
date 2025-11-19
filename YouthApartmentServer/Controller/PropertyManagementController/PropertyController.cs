@@ -53,5 +53,20 @@ public class PropertyController : ControllerBase
         };
         return Ok(dto);
     }
+
+    [HttpPost("{id}/update")]
+    public async Task<ActionResult> UpdateProperty([FromRoute] int id,
+        [FromBody] UpdatePropertyDto updatePropertyDto)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+        var dto=updatePropertyDto.Adapt<Property>();
+        var result=await _propertyService.UpdatePropertyAsync(id,dto);
+        if (result.Status == ValidationStatus.NotFound)
+            return NotFound(new { errors = result.Errors });
+        if (!result.IsValid)
+            return BadRequest(new { errors = result.Errors });
+        return NoContent();
+    }
     
 }
