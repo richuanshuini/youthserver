@@ -218,7 +218,6 @@ public class PropertyQueryDto
     public string? Keyword { get; set; }
 
     // 2. 区域、状态、类型
-    public int? RegionId { get; set; }
     public PropertyStatus? Status { get; set; }
     public LeaseType? LeaseType { get; set; }
     public LeaseTerm? LeaseTerm { get; set; }
