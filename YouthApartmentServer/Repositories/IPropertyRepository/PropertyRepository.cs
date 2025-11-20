@@ -33,6 +33,118 @@ public class PropertyRepository : BaseRepository<Property, int>, IPropertyReposi
         return (items, total);
     }
 
+    public async Task<(List<Property> Items, long Total)> SearchAsync(PropertyQueryDto condition, int pageNumber, int pageSize)
+    {
+        var select = Query();
+
+        var keyword = condition.Keyword?.Trim();
+        if (!string.IsNullOrEmpty(keyword))
+        {
+            select = select.Where(p =>
+                (p.PropertyName != null && p.PropertyName.Contains(keyword)) ||
+                (p.Address != null && p.Address.Contains(keyword)) ||
+                (p.PropertyCode != null && p.PropertyCode.Contains(keyword)));
+        }
+
+        if (condition.Status.HasValue)
+        {
+            select = select.Where(p => p.Status == condition.Status.Value);
+        }
+
+        if (condition.LeaseType.HasValue)
+        {
+            select = select.Where(p => p.LeaseType == condition.LeaseType.Value);
+        }
+
+        if (condition.LeaseTerm.HasValue)
+        {
+            select = select.Where(p => p.LeaseTerm == condition.LeaseTerm.Value);
+        }
+
+        if (condition.ApprovedByUser.HasValue)
+        {
+            select = select.Where(p => p.ApprovedByUser == condition.ApprovedByUser.Value);
+        }
+
+        if (condition.MinRentPrice.HasValue)
+        {
+            select = select.Where(p => p.RentPrice >= condition.MinRentPrice.Value);
+        }
+
+        if (condition.MaxRentPrice.HasValue)
+        {
+            select = select.Where(p => p.RentPrice <= condition.MaxRentPrice.Value);
+        }
+
+        if (condition.MinArea.HasValue)
+        {
+            select = select.Where(p => p.Area >= condition.MinArea.Value);
+        }
+
+        if (condition.MaxArea.HasValue)
+        {
+            select = select.Where(p => p.Area <= condition.MaxArea.Value);
+        }
+
+        if (condition.MinBedrooms.HasValue)
+        {
+            select = select.Where(p => p.Bedrooms >= condition.MinBedrooms.Value);
+        }
+
+        if (condition.MaxBedrooms.HasValue)
+        {
+            select = select.Where(p => p.Bedrooms <= condition.MaxBedrooms.Value);
+        }
+
+        if (condition.MinBathrooms.HasValue)
+        {
+            select = select.Where(p => p.Bathrooms >= condition.MinBathrooms.Value);
+        }
+
+        if (condition.MaxBathrooms.HasValue)
+        {
+            select = select.Where(p => p.Bathrooms <= condition.MaxBathrooms.Value);
+        }
+
+        if (condition.CreatedFrom.HasValue)
+        {
+            select = select.Where(p => p.CreatedAt >= condition.CreatedFrom.Value);
+        }
+
+        if (condition.CreatedTo.HasValue)
+        {
+            select = select.Where(p => p.CreatedAt <= condition.CreatedTo.Value);
+        }
+
+        if (condition.ApprovedFrom.HasValue)
+        {
+            select = select.Where(p => p.ApprovedAt >= condition.ApprovedFrom.Value);
+        }
+
+        if (condition.ApprovedTo.HasValue)
+        {
+            select = select.Where(p => p.ApprovedAt <= condition.ApprovedTo.Value);
+        }
+
+        if (condition.AvailableFrom.HasValue)
+        {
+            select = select.Where(p => p.AvailableDate >= condition.AvailableFrom.Value);
+        }
+
+        if (condition.AvailableTo.HasValue)
+        {
+            select = select.Where(p => p.AvailableDate <= condition.AvailableTo.Value);
+        }
+
+        var total = await select.CountAsync();
+        var items = await select
+            .OrderByDescending(p => p.CreatedAt)
+            .Page(pageNumber, pageSize)
+            .ToListAsync();
+
+        return (items, total);
+    }
+
     public async Task<bool> UpdateAsync(int id, Property property)
     {
         var exist = await Query().Where(p => p.PropertyId == id).ToOneAsync();

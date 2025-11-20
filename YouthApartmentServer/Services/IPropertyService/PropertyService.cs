@@ -64,8 +64,18 @@ public class PropertyService:IPropertyService
             Total = total,
             Items = items
         };
-        
-        
+    }
+
+    public async Task<PagedResult<Property>> SearchPropertiesAsync(PropertyQueryDto query, int pageNumber, int pageSize)
+    {
+        var (items, total) = await _propertyRepository.SearchAsync(query, pageNumber, pageSize);
+        return new PagedResult<Property>
+        {
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            Total = total,
+            Items = items
+        };
     }
 
     public async Task<ValidationResult<bool>> UpdatePropertyAsync(int id, Property property)

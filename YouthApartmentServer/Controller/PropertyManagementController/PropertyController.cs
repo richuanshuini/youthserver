@@ -39,6 +39,27 @@ public class PropertyController : ControllerBase
         return CreatedAtAction(nameof(CreatePropety),new {id=result.Data.PropertyId},newPropertyDto);
     }
 
+    /// <summary>
+    /// 多条件并查询
+    /// </summary>
+    [HttpPost("search")]
+    public async Task<ActionResult<PagedResult<PropertyDto>>> Search([FromBody] PropertyQueryDto queryDto,
+        [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+    {
+        var pagedResult = await _propertyService.SearchPropertiesAsync(queryDto, pageNumber, pageSize);
+        var dtoItems = pagedResult.Items.Adapt<List<PropertyDto>>();
+
+        var response = new PagedResult<PropertyDto>
+        {
+            PageNumber = pagedResult.PageNumber,
+            PageSize = pagedResult.PageSize,
+            Total = pagedResult.Total,
+            Items = dtoItems
+        };
+
+        return Ok(response);
+    }
+
     [HttpGet("Nodelete/paged")]
     public async Task<ActionResult<PagedResult<PropertyDto>>> GetPropertyPaged([FromQuery] int pageNumber = 1,
         [FromQuery] int pageSize = 10)

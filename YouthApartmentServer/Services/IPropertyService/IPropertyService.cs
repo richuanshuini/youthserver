@@ -9,4 +9,5 @@ public interface IPropertyService
     Task<ValidationResult<Property>> CreatePropertyAsync(Property property);
     Task<PagedResult<Property>> GetPropertyPagedAsync(int pageNumber, int pageSize);
     Task<ValidationResult<bool>> UpdatePropertyAsync(int id, Property property);
+    Task<PagedResult<Property>> SearchPropertiesAsync(PropertyQueryDto query, int pageNumber, int pageSize);
 }
