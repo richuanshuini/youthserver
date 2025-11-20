@@ -2,7 +2,7 @@
 defineOptions({ name: 'PropertyIndexPage' });
 import { ref, reactive, onMounted, computed } from 'vue';
 import { ElMessage } from 'element-plus';
-import { Search, Refresh, Filter, Plus, View } from '@element-plus/icons-vue';
+import { Search, Refresh, Filter, Plus, View, Close } from '@element-plus/icons-vue';
 import { propertyApi } from '../services';
 
 const loading = ref(false);
@@ -84,7 +84,7 @@ const createRules = {
   propertyFee: [{ required: true, message: '请输入物业费', trigger: 'blur' }],
   latitude: [{ required: true, message: '请输入纬度', trigger: 'blur' }],
   longitude: [{ required: true, message: '请输入经度', trigger: 'blur' }],
-  leaseType: [{ required: true, message: '请选择租赁类型', trigger: 'change' }],
+  leaseType: [{ required: true, message: '请选择租赁方式', trigger: 'change' }],
   leaseTerm: [{ required: true, message: '请选择租期类型', trigger: 'change' }],
 };
 
@@ -203,7 +203,7 @@ const handleSizeChange = (size) => {
 
 const formatPrice = (val) => (val || val === 0 ? `${val}/月` : '--');
 const formatArea = (val) => (val || val === 0 ? `${val}㎡` : '--');
-const formatRooms = (row) => `${row?.bedrooms ?? '--'}室/${row?.bathrooms ?? '--'}卫`;
+const formatRooms = (row) => `${row?.bedrooms ?? '--'}室${row?.bathrooms ?? '--'}卫`;
 
 const handleCreate = () => {
   if (createFormRef.value) createFormRef.value.resetFields();
@@ -314,7 +314,7 @@ onMounted(loadData);
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="租赁类型">
+            <el-form-item label="租赁方式">
               <el-select v-model="searchForm.leaseType" clearable placeholder="全部" style="width: 140px">
                 <el-option label="整租" :value="1" />
                 <el-option label="合租" :value="2" />
@@ -335,12 +335,26 @@ onMounted(loadData);
           </el-col>
           <el-col :span="8">
             <el-form-item label="创建时间">
-              <el-date-picker v-model="dateRanges.created" type="daterange" unlink-panels start-placeholder="开始日期" end-placeholder="结束日期" style="width: 100%;" />
+              <el-date-picker
+                v-model="dateRanges.created"
+                type="daterange"
+                unlink-panels
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                style="width: 100%;"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="审核时间">
-              <el-date-picker v-model="dateRanges.approved" type="daterange" unlink-panels start-placeholder="开始日期" end-placeholder="结束日期" style="width: 100%;" />
+              <el-date-picker
+                v-model="dateRanges.approved"
+                type="daterange"
+                unlink-panels
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                style="width: 100%;"
+              />
             </el-form-item>
           </el-col>
         </el-row>
@@ -348,18 +362,18 @@ onMounted(loadData);
           <el-col :span="12">
             <el-form-item label="卧室数量">
               <el-space>
-                <el-input-number v-model="searchForm.minBedrooms" :controls="false" placeholder="最少" />
+                <el-input-number v-model="searchForm.minBedrooms" :controls="false" placeholder="最小" />
                 <span class="range-divider">-</span>
-                <el-input-number v-model="searchForm.maxBedrooms" :controls="false" placeholder="最多" />
+                <el-input-number v-model="searchForm.maxBedrooms" :controls="false" placeholder="最大" />
               </el-space>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="卫生间数量">
               <el-space>
-                <el-input-number v-model="searchForm.minBathrooms" :controls="false" placeholder="最少" />
+                <el-input-number v-model="searchForm.minBathrooms" :controls="false" placeholder="最小" />
                 <span class="range-divider">-</span>
-                <el-input-number v-model="searchForm.maxBathrooms" :controls="false" placeholder="最多" />
+                <el-input-number v-model="searchForm.maxBathrooms" :controls="false" placeholder="最大" />
               </el-space>
             </el-form-item>
           </el-col>
@@ -367,7 +381,14 @@ onMounted(loadData);
         <el-row :gutter="16">
           <el-col :span="8">
             <el-form-item label="可入住时间">
-              <el-date-picker v-model="dateRanges.available" type="daterange" unlink-panels start-placeholder="开始日期" end-placeholder="结束日期" style="width: 100%;" />
+              <el-date-picker
+                v-model="dateRanges.available"
+                type="daterange"
+                unlink-panels
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                style="width: 100%;"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -418,7 +439,7 @@ onMounted(loadData);
             {{ formatRooms(row) }}
           </template>
         </el-table-column>
-        <el-table-column label="租赁类型" width="120">
+        <el-table-column label="租赁方式" width="120">
           <template #default="{ row }">
             {{ leaseTypeText(row.leaseType) }}
           </template>
@@ -479,7 +500,7 @@ onMounted(loadData);
             <el-descriptions-item label="租金">{{ formatPrice(detailData.rentPrice) }}</el-descriptions-item>
             <el-descriptions-item label="押金">{{ detailData.rentDeposit ?? '--' }}</el-descriptions-item>
             <el-descriptions-item label="物业费">{{ detailData.propertyFee ?? '--' }}</el-descriptions-item>
-            <el-descriptions-item label="租赁类型">{{ leaseTypeText(detailData.leaseType) }}</el-descriptions-item>
+            <el-descriptions-item label="租赁方式">{{ leaseTypeText(detailData.leaseType) }}</el-descriptions-item>
             <el-descriptions-item label="租期">{{ leaseTermText(detailData.leaseTerm) }}</el-descriptions-item>
             <el-descriptions-item label="可入住">{{ detailData.availableDate || '--' }}</el-descriptions-item>
           </el-descriptions>
@@ -492,7 +513,7 @@ onMounted(loadData);
             <el-descriptions-item label="户型">{{ formatRooms(detailData) }}</el-descriptions-item>
             <el-descriptions-item label="人数上限">{{ detailData.maxTenants ?? '--' }}</el-descriptions-item>
             <el-descriptions-item label="经纬度">
-              {{ detailData.latitude ?? '--' }} , {{ detailData.longitude ?? '--' }}
+              {{ detailData.latitude ?? '--' }}, {{ detailData.longitude ?? '--' }}
             </el-descriptions-item>
           </el-descriptions>
         </section>
@@ -507,128 +528,189 @@ onMounted(loadData);
       </div>
     </el-drawer>
 
-    <el-dialog v-model="createDialogVisible" title="新增房源" width="720px">
-      <el-form ref="createFormRef" :model="createForm" :rules="createRules" label-width="100px">
-        <el-row :gutter="16">
-          <el-col :span="12">
-            <el-form-item label="房源名称" prop="propertyName">
-              <el-input v-model="createForm.propertyName" placeholder="请输入房源名称" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="房源编码" prop="propertyCode">
-              <el-input v-model="createForm.propertyCode" placeholder="例如 GZ-TNH-0502" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="16">
-          <el-col :span="12">
-            <el-form-item label="房间编号" prop="roomNumber">
-              <el-input v-model="createForm.roomNumber" placeholder="如 502-A" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="区域ID" prop="regionId">
-              <el-input-number v-model="createForm.regionId" :controls="false" placeholder="可选" style="width: 100%;" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="16">
-          <el-col :span="24">
-            <el-form-item label="地址" prop="address">
-              <el-input v-model="createForm.address" placeholder="请输入地址" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="16">
-          <el-col :span="24">
-            <el-form-item label="描述" prop="description">
-              <el-input v-model="createForm.description" type="textarea" :rows="2" placeholder="请输入房源描述" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="16">
-          <el-col :span="8">
-            <el-form-item label="面积(㎡)" prop="area">
-              <el-input-number v-model="createForm.area" :controls="false" placeholder="面积" style="width: 100%;" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="卧室数量" prop="bedrooms">
-              <el-input-number v-model="createForm.bedrooms" :controls="false" placeholder="卧室" style="width: 100%;" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="卫生间" prop="bathrooms">
-              <el-input-number v-model="createForm.bathrooms" :controls="false" placeholder="卫生间" style="width: 100%;" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="16">
-          <el-col :span="8">
-            <el-form-item label="最大入住" prop="maxTenants">
-              <el-input-number v-model="createForm.maxTenants" :controls="false" placeholder="人数" style="width: 100%;" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="租金(元/月)" prop="rentPrice">
-              <el-input-number v-model="createForm.rentPrice" :controls="false" :precision="2" :step="100" placeholder="租金" style="width: 100%;" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="押金" prop="rentDeposit">
-              <el-input-number v-model="createForm.rentDeposit" :controls="false" :precision="2" :step="100" placeholder="押金" style="width: 100%;" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="16">
-          <el-col :span="8">
-            <el-form-item label="物业费" prop="propertyFee">
-              <el-input-number v-model="createForm.propertyFee" :controls="false" :precision="2" :step="10" placeholder="物业费" style="width: 100%;" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="纬度" prop="latitude">
-              <el-input-number v-model="createForm.latitude" :controls="false" :precision="6" placeholder="纬度 -90~90" style="width: 100%;" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="经度" prop="longitude">
-              <el-input-number v-model="createForm.longitude" :controls="false" :precision="6" placeholder="经度 -180~180" style="width: 100%;" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="16">
-          <el-col :span="8">
-            <el-form-item label="租赁类型" prop="leaseType">
-              <el-select v-model="createForm.leaseType" placeholder="请选择" style="width: 100%;">
-                <el-option label="整租" :value="1" />
-                <el-option label="合租" :value="2" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="租期类型" prop="leaseTerm">
-              <el-select v-model="createForm.leaseTerm" placeholder="请选择" style="width: 100%;">
-                <el-option label="月租" :value="0" />
-                <el-option label="季租" :value="1" />
-                <el-option label="半年" :value="2" />
-                <el-option label="年租" :value="3" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="审核员ID" prop="approvedByUser">
-              <el-input-number v-model="createForm.approvedByUser" :controls="false" placeholder="请输入用户ID" style="width: 100%;" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-      <template #footer>
-        <el-button @click="createDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitCreate">提 交</el-button>
-      </template>
-    </el-dialog>
+    <el-drawer
+      v-model="createDialogVisible"
+      direction="rtl"
+      size="68%"
+      :with-header="false"
+      destroy-on-close
+      class="create-drawer"
+    >
+      <div class="drawer-header">
+        <div>
+          <h3>新增房源</h3>
+          <p>完整填写基础、户型、费用与坐标信息，便于后续审核与筛选。</p>
+        </div>
+        <el-button circle plain size="large" :icon="Close" @click="createDialogVisible = false" />
+      </div>
+      <div class="drawer-body">
+        <el-form ref="createFormRef" :model="createForm" :rules="createRules" label-width="110px" class="create-form">
+          <div class="form-section">
+            <div class="section-title">基础信息</div>
+            <div class="field-grid">
+              <el-form-item class="grid-item" label="房源名称" prop="propertyName">
+                <el-input v-model="createForm.propertyName" placeholder="请输入房源名称" />
+              </el-form-item>
+              <el-form-item class="grid-item" label="房源编码" prop="propertyCode">
+                <el-input v-model="createForm.propertyCode" placeholder="例如 GZ-TNH-0502" />
+              </el-form-item>
+              <el-form-item class="grid-item" label="房间编号" prop="roomNumber">
+                <el-input v-model="createForm.roomNumber" placeholder="如 502-A" />
+              </el-form-item>
+              <el-form-item class="grid-item" label="区域ID" prop="regionId">
+                <el-input-number v-model="createForm.regionId" :controls="false" placeholder="可选填" style="width: 100%;" />
+              </el-form-item>
+              <el-form-item class="grid-item grid-item--full" label="地址" prop="address">
+                <el-input v-model="createForm.address" placeholder="请输入具体地址" />
+              </el-form-item>
+              <el-form-item class="grid-item grid-item--full" label="描述" prop="description">
+                <el-input
+                  v-model="createForm.description"
+                  type="textarea"
+                  :rows="2"
+                  placeholder="可补充亮点、装修、周边配套"
+                />
+              </el-form-item>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="section-title">户型与面积</div>
+            <div class="field-grid">
+              <el-form-item class="grid-item" label="面积" prop="area">
+                <div class="input-with-unit">
+                  <el-input-number v-model="createForm.area" :controls="false" placeholder="面积" style="width: 100%;" />
+                  <span class="unit">㎡</span>
+                </div>
+              </el-form-item>
+              <el-form-item class="grid-item" label="卧室数量" prop="bedrooms">
+                <div class="input-with-unit">
+                  <el-input-number v-model="createForm.bedrooms" :controls="false" placeholder="卧室" style="width: 100%;" />
+                  <span class="unit">间</span>
+                </div>
+              </el-form-item>
+              <el-form-item class="grid-item" label="卫生间" prop="bathrooms">
+                <div class="input-with-unit">
+                  <el-input-number v-model="createForm.bathrooms" :controls="false" placeholder="卫生间" style="width: 100%;" />
+                  <span class="unit">间</span>
+                </div>
+              </el-form-item>
+              <el-form-item class="grid-item" label="最大入住" prop="maxTenants">
+                <div class="input-with-unit">
+                  <el-input-number
+                    v-model="createForm.maxTenants"
+                    :controls="false"
+                    placeholder="人数"
+                    style="width: 100%;"
+                  />
+                  <span class="unit">人</span>
+                </div>
+              </el-form-item>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="section-title">价格与费用</div>
+            <div class="field-grid">
+              <el-form-item class="grid-item" label="租金" prop="rentPrice">
+                <div class="input-with-unit">
+                  <el-input-number
+                    v-model="createForm.rentPrice"
+                    :controls="false"
+                    :precision="2"
+                    :step="100"
+                    placeholder="租金"
+                    style="width: 100%;"
+                  />
+                  <span class="unit">元/月</span>
+                </div>
+              </el-form-item>
+              <el-form-item class="grid-item" label="押金" prop="rentDeposit">
+                <div class="input-with-unit">
+                  <el-input-number
+                    v-model="createForm.rentDeposit"
+                    :controls="false"
+                    :precision="2"
+                    :step="100"
+                    placeholder="押金"
+                    style="width: 100%;"
+                  />
+                  <span class="unit">元</span>
+                </div>
+              </el-form-item>
+              <el-form-item class="grid-item" label="物业费" prop="propertyFee">
+                <div class="input-with-unit">
+                  <el-input-number
+                    v-model="createForm.propertyFee"
+                    :controls="false"
+                    :precision="2"
+                    :step="10"
+                    placeholder="物业费"
+                    style="width: 100%;"
+                  />
+                  <span class="unit">元</span>
+                </div>
+              </el-form-item>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="section-title">坐标与租赁</div>
+            <div class="field-grid">
+              <el-form-item class="grid-item" label="纬度" prop="latitude">
+                <el-input-number
+                  v-model="createForm.latitude"
+                  :controls="false"
+                  :precision="6"
+                  placeholder="纬度 -90 ~ 90"
+                  style="width: 100%;"
+                />
+              </el-form-item>
+              <el-form-item class="grid-item" label="经度" prop="longitude">
+                <el-input-number
+                  v-model="createForm.longitude"
+                  :controls="false"
+                  :precision="6"
+                  placeholder="经度 -180 ~ 180"
+                  style="width: 100%;"
+                />
+              </el-form-item>
+              <el-form-item class="grid-item" label="租赁方式" prop="leaseType">
+                <el-select v-model="createForm.leaseType" placeholder="请选择" style="width: 100%;">
+                  <el-option label="整租" :value="1" />
+                  <el-option label="合租" :value="2" />
+                </el-select>
+              </el-form-item>
+              <el-form-item class="grid-item" label="租期类型" prop="leaseTerm">
+                <el-select v-model="createForm.leaseTerm" placeholder="请选择" style="width: 100%;">
+                  <el-option label="月租" :value="0" />
+                  <el-option label="季租" :value="1" />
+                  <el-option label="半年" :value="2" />
+                  <el-option label="年租" :value="3" />
+                </el-select>
+              </el-form-item>
+              <el-form-item class="grid-item" label="审核员ID" prop="approvedByUser">
+                <el-input-number
+                  v-model="createForm.approvedByUser"
+                  :controls="false"
+                  placeholder="请输入用户ID"
+                  style="width: 100%;"
+                />
+              </el-form-item>
+            </div>
+          </div>
+        </el-form>
+      </div>
+      <div class="drawer-footer">
+        <div class="footer-tip">
+          提示：提交后自动进入待审核，可在房源列表中查看状态。
+        </div>
+        <div class="footer-actions">
+          <el-button class="plain-btn" @click="createDialogVisible = false">取消</el-button>
+          <el-button type="primary" class="gradient-btn" @click="submitCreate">确认创建</el-button>
+        </div>
+      </div>
+    </el-drawer>
   </div>
 </template>
 
@@ -637,6 +719,8 @@ onMounted(loadData);
   display: flex;
   flex-direction: column;
   gap: 16px;
+  --accent: #1f7bfd;
+  --card-soft: #f8fbff;
 }
 .card-header {
   display: flex;
@@ -681,5 +765,168 @@ onMounted(loadData);
   margin: 0 0 8px;
   font-weight: 600;
   color: #303133;
+}
+.create-drawer :deep(.el-drawer__body) {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0;
+  background: #f4f6fb;
+}
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 28px 12px;
+  border-bottom: 1px solid #e5e8f0;
+}
+.drawer-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2d3d;
+}
+.drawer-header p {
+  margin: 6px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 32px 90px;
+}
+.drawer-footer {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #e5e8f0;
+  padding: 16px 28px;
+  box-shadow: 0 -4px 14px rgba(17, 24, 39, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.footer-tip {
+  font-size: 12px;
+  color: #8a8f9d;
+}
+.footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+.create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.create-form :deep(.el-form-item) {
+  margin-bottom: 24px;
+}
+.form-section {
+  background: #fff;
+  border: 1px solid #e5edff;
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: 0 6px 18px rgba(31, 123, 253, 0.08);
+}
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #1f2d3d;
+  margin-bottom: 10px;
+}
+.section-title::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 6px rgba(31, 123, 253, 0.14);
+}
+.input-with-unit {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 4px 8px;
+  border: 1px solid #e5e8f0;
+  border-radius: 10px;
+  background: #fff;
+}
+.input-with-unit :deep(.el-input-number) {
+  flex: 1;
+  min-width: 0;
+}
+.input-with-unit :deep(.el-input-number__decrease),
+.input-with-unit :deep(.el-input-number__increase) {
+  display: none;
+}
+.unit {
+  font-size: 12px;
+  color: #8a8f9d;
+  padding-left: 4px;
+  white-space: nowrap;
+}
+.unit::before {
+  content: '/';
+  margin-right: 2px;
+  color: #c0c4d6;
+}
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px 20px;
+}
+.field-grid :deep(.el-form-item) {
+  margin-bottom: 10px;
+}
+.field-grid :deep(.el-form-item__content) {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+.grid-item--full {
+  grid-column: 1 / -1;
+}
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.plain-btn {
+  color: #606266;
+  border-color: #e4e7ed;
+}
+.gradient-btn {
+  background-image: linear-gradient(90deg, #1f7bfd 0%, #3b9dff 100%);
+  border: none;
+  box-shadow: 0 8px 20px rgba(31, 123, 253, 0.25);
+}
+.gradient-btn:hover {
+  filter: brightness(1.05);
+}
+.create-drawer :deep(.el-form-item__error) {
+  margin-top: 4px;
+  padding-left: 0;
+  font-size: 12px;
+  color: #f56c6c;
+  line-height: 1.4;
+}
+
+@media (max-width: 992px) {
+  .create-drawer :deep(.el-col-12),
+  .create-drawer :deep(.el-col-8) {
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+  .create-drawer :deep(.el-form-item__label) {
+    white-space: nowrap;
+  }
 }
 </style>
