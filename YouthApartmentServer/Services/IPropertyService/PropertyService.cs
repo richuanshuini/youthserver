@@ -64,6 +64,8 @@ public class PropertyService:IPropertyService
             Total = total,
             Items = items
         };
+        
+        
     }
 
     public async Task<ValidationResult<bool>> UpdatePropertyAsync(int id, Property property)

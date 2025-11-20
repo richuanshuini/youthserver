@@ -12,4 +12,5 @@ public interface IPropertyRepository
     public Task<Property> InseryAsync(Property property);
     public Task<(List<Property> Items,long Total)> GetPagedAsync(int pageNumber, int pageSize);
     public Task<bool> UpdateAsync(int id,Property property); //部分更新
+    
 }

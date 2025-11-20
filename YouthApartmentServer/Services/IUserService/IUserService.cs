@@ -10,7 +10,7 @@ public interface IUserService
     Task<ValidationResult<User>> CreateUserAsync(User user);
     Task<bool> UpdateUserStausAsync(int id, bool status);
     Task<ValidationResult<User>> UpdateUserAsync(int id, UpdateUserDto userDto); // 全量更新
-    Task<ValidationResult<bool>> PatchUserAsync(int id, UpdateUserDto userDto); // 部分更新
+    Task<ValidationResult<bool>>     PatchUserAsync(int id, UpdateUserDto userDto); // 部分更新
     Task<int> ExistUserName(string username);
     Task<PagedResult<User>> GetUsersPagedAsync(int pageNumber, int pageSize);
     Task<int> ExistIdCard(string idCard);
