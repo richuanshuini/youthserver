@@ -1,4 +1,5 @@
-﻿using Mapster;
+﻿using System.Diagnostics;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using YouthApartmentServer.Model.PropertyManagementModel;
 using YouthApartmentServer.ModelDto;
@@ -66,6 +67,7 @@ public class PropertyController : ControllerBase
             return NotFound(new { errors = result.Errors });
         if (!result.IsValid)
             return BadRequest(new { errors = result.Errors });
+        Console.WriteLine("测试代码");
         return NoContent();
     }
     
