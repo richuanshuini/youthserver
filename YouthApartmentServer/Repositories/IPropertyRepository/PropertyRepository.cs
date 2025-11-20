@@ -32,7 +32,8 @@ public class PropertyRepository : BaseRepository<Property, int>, IPropertyReposi
         var items = await query.Page(pageNumber, pageSize).ToListAsync();
         return (items, total);
     }
-
+    
+    //房源名称、地址、编号，仅通过Keyword传入
     public async Task<(List<Property> Items, long Total)> SearchAsync(PropertyQueryDto condition, int pageNumber, int pageSize)
     {
         var select = Query();
