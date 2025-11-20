@@ -101,4 +101,59 @@ public class PropertyService:IPropertyService
         result.Data = await _propertyRepository.UpdateAsync(id, property);
         return result;
     }
+
+    public async Task<ValidationResult<List<Property>>> BatchCreatePropertiesAsync(List<Property> properties)
+    {
+        var result = new ValidationResult<List<Property>>();
+        if (properties.Count == 0)
+        {
+            result.AddError("至少需要提供一条房源记录");
+            return result;
+        }
+
+        var cache = new Dictionary<int, bool>();
+        var prepared = new List<Property>();
+        var now = DateTime.Now;
+
+        for (var i = 0; i < properties.Count; i++)
+        {
+            var entity = properties[i];
+            if (!entity.ApprovedByUser.HasValue)
+            {
+                result.AddError($"第{i + 1}条数据缺少审核员ID");
+                continue;
+            }
+
+            var approverId = entity.ApprovedByUser.Value;
+            if (!cache.TryGetValue(approverId, out var exists))
+            {
+                var approver = await _userRepository.GetByIdAsync(approverId);
+                exists = approver != null;
+                cache[approverId] = exists;
+            }
+
+            if (!exists)
+            {
+                result.AddError($"第{i + 1}条数据的审核员ID {approverId} 不存在");
+                continue;
+            }
+
+            entity.Status = PropertyStatus.PendingReview;
+            entity.CreatedAt = now;
+            entity.AvailableDate = null;
+            entity.UpdatedAt = null;
+            entity.ApprovedAt = null;
+            entity.IsDeleted = false;
+            prepared.Add(entity);
+        }
+
+        if (result.Errors.Count > 0)
+        {
+            return result;
+        }
+
+        var inserted = await _propertyRepository.InsertManyAsync(prepared);
+        result.Data = inserted;
+        return result;
+    }
 }

@@ -251,3 +251,10 @@ public class PropertyQueryDto
     // 6. 软删除相关
     public bool? IsDeleted { get; set; }
 }
+
+public class BatchInsertPropertyRequest
+{
+    [Required(ErrorMessage = "请至少提供一个房源")]
+    [MinLength(1, ErrorMessage = "请至少提供一个房源")]
+    public List<InserPropertyDto> Items { get; set; } = new();
+}

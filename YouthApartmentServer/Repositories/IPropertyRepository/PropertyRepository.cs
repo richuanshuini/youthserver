@@ -25,6 +25,11 @@ public class PropertyRepository : BaseRepository<Property, int>, IPropertyReposi
         return await base.InsertAsync(property);
     }
 
+    public Task<List<Property>> InsertManyAsync(List<Property> properties)
+    {
+        return base.InsertAsync(properties);
+    }
+
     public async Task<(List<Property> Items,long Total)> GetPagedAsync(int pageNumber, int pageSize)
     {
         var query = Query();

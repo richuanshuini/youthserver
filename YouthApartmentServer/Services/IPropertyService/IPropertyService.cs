@@ -7,6 +7,7 @@ public interface IPropertyService
 {
     Task<List<Property>> GetAllPropertyAsync();
     Task<ValidationResult<Property>> CreatePropertyAsync(Property property);
+    Task<ValidationResult<List<Property>>> BatchCreatePropertiesAsync(List<Property> properties);
     Task<PagedResult<Property>> GetPropertyPagedAsync(int pageNumber, int pageSize);
     Task<ValidationResult<bool>> UpdatePropertyAsync(int id, Property property);
     Task<PagedResult<Property>> SearchPropertiesAsync(PropertyQueryDto query, int pageNumber, int pageSize);

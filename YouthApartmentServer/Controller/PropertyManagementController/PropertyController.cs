@@ -44,6 +44,21 @@ public class PropertyController : ControllerBase
         return CreatedAtAction(nameof(CreatePropety),new {id=result.Data.PropertyId},newPropertyDto);
     }
 
+    [HttpPost("batch")]
+    public async Task<ActionResult> BatchCreateProperties([FromBody] BatchInsertPropertyRequest request)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var entities = request.Items.Adapt<List<Property>>();
+        var result = await _propertyService.BatchCreatePropertiesAsync(entities);
+        if (!result.IsValid || result.Data == null)
+            return BadRequest(new { errors = result.Errors });
+
+        var dto = result.Data.Adapt<List<PropertyDto>>();
+        return Ok(new { count = dto.Count, items = dto });
+    }
+
     /// <summary>
     /// 多条件并查询
     /// </summary>
