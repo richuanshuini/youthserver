@@ -39,7 +39,7 @@ export const assignUserRolesBatch = async (body) => {
         await http.post('/api/UserRole', { UserId: uid, RoleId: rid });
         created++;
       } catch {
-        // 重复或无效时后端返回错误，这里忽略逐条失败
+        // 重复或无效时后端返回错误，这里忽
       }
     }
   }

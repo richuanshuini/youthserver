@@ -24,7 +24,12 @@ public class PropertyController : ControllerBase
         var property =  await _propertyService.GetAllPropertyAsync();
         return Ok(property.Adapt<List<PropertyDto>>());
     }
-
+    
+    /// <summary>
+    /// 新增房源
+    /// </summary>
+    /// <param name="inserPropertyDto"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<ActionResult<PropertyDto>> CreatePropety([FromBody]InserPropertyDto inserPropertyDto)
     {
@@ -75,7 +80,13 @@ public class PropertyController : ControllerBase
         };
         return Ok(dto);
     }
-
+    
+    /// <summary>
+    /// 部分更新
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="updatePropertyDto"></param>
+    /// <returns></returns>
     [HttpPost("{id}/update")]
     public async Task<ActionResult> UpdateProperty([FromRoute] int id,
         [FromBody] UpdatePropertyDto updatePropertyDto)
