@@ -209,6 +209,46 @@ public class UpdatePropertyDto
     public LeaseTerm? LeaseTerm { get; set; } //租赁期限
     
     public DateTime? AvailableDate { get; set; } //预约后可入住时间
+    
+}
 
+public class PropertyQueryDto
+{
+    // 1. 关键字搜索：房源名 / 编码 / 地址 / 房间号
+    public string? Keyword { get; set; }
 
+    // 2. 区域、状态、类型
+    public int? RegionId { get; set; }
+    public PropertyStatus? Status { get; set; }
+    public LeaseType? LeaseType { get; set; }
+    public LeaseTerm? LeaseTerm { get; set; }
+
+    // 3. 价格、面积、户型等区间
+    public decimal? MinRentPrice { get; set; }
+    public decimal? MaxRentPrice { get; set; }
+
+    public int? MinArea { get; set; }
+    public int? MaxArea { get; set; }
+
+    public int? MinBedrooms { get; set; }
+    public int? MaxBedrooms { get; set; } 
+
+    public int? MinBathrooms { get; set; }
+    public int? MaxBathrooms { get; set; }
+
+    // 4. 时间维度筛选
+    public DateTime? CreatedFrom { get; set; }
+    public DateTime? CreatedTo { get; set; }
+
+    public DateTime? ApprovedFrom { get; set; }
+    public DateTime? ApprovedTo { get; set; }
+
+    public DateTime? AvailableFrom { get; set; }
+    public DateTime? AvailableTo { get; set; }
+
+    // 5. 审核相关
+    public int? ApprovedByUser { get; set; }
+
+    // 6. 软删除相关
+    public bool? IsDeleted { get; set; }
 }
