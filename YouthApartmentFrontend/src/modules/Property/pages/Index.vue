@@ -1164,16 +1164,6 @@ onMounted(loadData);
   flex-direction: column;
 }
 
-/* ⚡️ 性能与体验优化核心代码
-   直接作用于 Element Plus 表格内部的滚动容器
-*/
-:deep(.el-table__body-wrapper) {
-  /* 1. 启用 GPU 加速，解决渲染卡顿 */
-  will-change: transform;
-
-  /* 2. 关键：在水平滚动时，锁定垂直方向，防止手指稍微歪一点就带动整个页面上下乱窜 */
-  touch-action: pan-x;
-}
 
 :deep(.el-table__body-wrapper::-webkit-scrollbar-thumb) {
   background-color: #dcdfe6;
