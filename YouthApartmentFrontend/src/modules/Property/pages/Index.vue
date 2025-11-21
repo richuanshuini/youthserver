@@ -8,7 +8,7 @@ import { propertyApi } from '../services';
 const loading = ref(false);
 const isAdvancedSearch = ref(false);
 const tableData = ref([]);
-const pagination = reactive({ pageNumber: 1, pageSize: 10, total: 0 });
+const pagination = reactive({ pageNumber: 1, pageSize: 20, total: 0 });
 
 const searchForm = reactive({
   keyword: '',
@@ -425,8 +425,8 @@ onMounted(loadData);
         </div>
       </template>
 
-      <div class="table-wrapper">
-        <el-table :data="tableData" v-loading="loading" border stripe class="table-scroll">
+
+        <el-table :data="tableData" v-loading="loading" border stripe>
         <el-table-column type="index" label="#" width="60" />
         <el-table-column prop="propertyName" label="房源名称" min-width="160" show-overflow-tooltip />
         <el-table-column prop="propertyCode" label="编码" min-width="140" show-overflow-tooltip />
@@ -490,7 +490,6 @@ onMounted(loadData);
           </template>
         </el-table-column>
         </el-table>
-      </div>
 
       <div class="pagination">
         <el-pagination
@@ -779,6 +778,31 @@ onMounted(loadData);
 .table-card {
   min-height: 400px;
 }
+
+/* ✅ 新增/保留这些样式 */
+.table-card {
+  min-height: 400px;
+  /* 确保卡片本身不会限制表格的高度伸展，或者按需设置 flex */
+  display: flex;
+  flex-direction: column;
+}
+
+/* ⚡️ 性能与体验优化核心代码
+   直接作用于 Element Plus 表格内部的滚动容器
+*/
+:deep(.el-table__body-wrapper) {
+  /* 1. 启用 GPU 加速，解决渲染卡顿 */
+  will-change: transform;
+
+  /* 2. 关键：在水平滚动时，锁定垂直方向，防止手指稍微歪一点就带动整个页面上下乱窜 */
+  touch-action: pan-x;
+}
+
+:deep(.el-table__body-wrapper::-webkit-scrollbar-thumb) {
+  background-color: #dcdfe6;
+  border-radius: 5px;
+}
+
 .pagination {
   margin-top: 12px;
   display: flex;
@@ -957,4 +981,5 @@ onMounted(loadData);
     white-space: nowrap;
   }
 }
+
 </style>
