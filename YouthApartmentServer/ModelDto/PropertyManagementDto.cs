@@ -43,6 +43,7 @@ public class InsertAppointmentDto
 
 public class PropertyDto
 {
+    public int PropertyId {get; set;}//房源ID
     public int? RegionId { get; set; } //区域ID
     public int? ApprovedByUser { get; set; } //审核员ID，作为User表的外键，由管理员手动分配
     public int? Area { get; set; } //面积

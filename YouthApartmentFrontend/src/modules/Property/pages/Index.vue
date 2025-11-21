@@ -1,8 +1,8 @@
 <script setup>
 defineOptions({ name: 'PropertyIndexPage' });
-import { ref, reactive, onMounted, computed } from 'vue';
+import { ref, reactive, onMounted, computed, nextTick } from 'vue';
 import { ElMessage } from 'element-plus';
-import { Search, Refresh, Filter, Plus, View, Close } from '@element-plus/icons-vue';
+import { Search, Refresh, Filter, Plus, View, Close, Edit } from '@element-plus/icons-vue';
 import { propertyApi } from '../services';
 
 const loading = ref(false);
@@ -53,6 +53,31 @@ const createForm = reactive({
   leaseTerm: null,
 });
 
+const editDialogVisible = ref(false);
+const editFormRef = ref();
+const editForm = reactive({
+  propertyId: null,
+  regionId: null,
+  approvedByUser: null,
+  area: null,
+  bedrooms: null,
+  bathrooms: null,
+  maxTenants: null,
+  propertyName: '',
+  address: '',
+  description: '',
+  propertyCode: '',
+  roomNumber: '',
+  rentPrice: null,
+  rentDeposit: null,
+  propertyFee: null,
+  latitude: null,
+  longitude: null,
+  leaseType: null,
+  leaseTerm: null,
+  availableDate: null,
+});
+
 const detailVisible = ref(false);
 const detailData = ref({});
 const detailTitle = computed(() => detailData.value?.propertyName || '房源详情');
@@ -68,7 +93,7 @@ const statusMap = {
 const leaseTypeMap = { 1: '整租', 2: '合租' };
 const leaseTermMap = { 0: '月租', 1: '季租', 2: '半年', 3: '年租' };
 
-const createRules = {
+const sharedFieldRules = {
   approvedByUser: [{ required: true, message: '请输入审核员ID', trigger: 'blur' }],
   area: [{ required: true, message: '请输入房源面积', trigger: 'blur' }],
   bedrooms: [{ required: true, message: '请输入卧室数量', trigger: 'blur' }],
@@ -86,6 +111,21 @@ const createRules = {
   longitude: [{ required: true, message: '请输入经度', trigger: 'blur' }],
   leaseType: [{ required: true, message: '请选择租赁方式', trigger: 'change' }],
   leaseTerm: [{ required: true, message: '请选择租期类型', trigger: 'change' }],
+};
+
+const createRules = { ...sharedFieldRules };
+const editRules = {
+  ...sharedFieldRules,
+  availableDate: [
+    {
+      validator: (_rule, value, cb) => {
+        if (!value) return cb();
+        const ok = /^\d{4}-\d{2}-\d{2}-\d{2}:\d{2}:\d{2}$/.test(value);
+        if (!ok) cb(new Error('时间格式应为 YYYY-MM-DD-HH:MM:SS')); else cb();
+      },
+      trigger: 'change',
+    },
+  ],
 };
 
 const statusText = (val) => statusMap?.[val]?.label ?? '未知';
@@ -212,6 +252,30 @@ const formatDateTime = (val) => {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}-${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
 };
 
+const formatAvailableDateValue = (val) => {
+  if (!val) return null;
+  if (typeof val === 'string' && /^\d{4}-\d{2}-\d{2}-\d{2}:\d{2}:\d{2}$/.test(val)) return val;
+  const d = new Date(val);
+  if (Number.isNaN(d.getTime())) return null;
+  const pad = (num) => String(num).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}-${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+};
+
+// 后端需要可解析的时间格式（使用 ISO，避免自定义分隔符导致 .NET 解析失败）
+const toBackendDateTime = (val) => {
+  if (!val) return null;
+  if (typeof val === 'string') {
+    const m = val.match(/^(\d{4}-\d{2}-\d{2})-(\d{2}:\d{2}:\d{2})$/);
+    if (m) return `${m[1]}T${m[2]}`;
+    const d = new Date(val);
+    return Number.isNaN(d.getTime()) ? null : d.toISOString();
+  }
+  if (val instanceof Date && !Number.isNaN(val.getTime())) {
+    return val.toISOString();
+  }
+  return null;
+};
+
 const handleCreate = () => {
   if (createFormRef.value) createFormRef.value.resetFields();
   Object.assign(createForm, {
@@ -237,6 +301,38 @@ const handleCreate = () => {
   createDialogVisible.value = true;
 };
 
+const openEdit = async (row) => {
+  if (!row) return;
+  if (editFormRef.value) {
+    editFormRef.value.resetFields();
+  }
+  Object.assign(editForm, {
+    propertyId: row.propertyId ?? null,
+    regionId: row.regionId ?? null,
+    approvedByUser: row.approvedByUser ?? null,
+    area: row.area ?? null,
+    bedrooms: row.bedrooms ?? null,
+    bathrooms: row.bathrooms ?? null,
+    maxTenants: row.maxTenants ?? null,
+    propertyName: row.propertyName ?? '',
+    address: row.address ?? '',
+    description: row.description ?? '',
+    propertyCode: row.propertyCode ?? '',
+    roomNumber: row.roomNumber ?? '',
+    rentPrice: row.rentPrice ?? null,
+    rentDeposit: row.rentDeposit ?? null,
+    propertyFee: row.propertyFee ?? null,
+    latitude: row.latitude ?? null,
+    longitude: row.longitude ?? null,
+    leaseType: row.leaseType ?? null,
+    leaseTerm: row.leaseTerm ?? null,
+    availableDate: formatAvailableDateValue(row.availableDate),
+  });
+  editDialogVisible.value = true;
+  await nextTick();
+  editFormRef.value?.clearValidate();
+};
+
 const submitCreate = () => {
   if (!createFormRef.value) return;
   createFormRef.value.validate(async (valid) => {
@@ -250,6 +346,31 @@ const submitCreate = () => {
       await loadData();
     } catch (error) {
       ElMessage.error(getErrorMessage(error, '创建房源失败'));
+    } finally {
+      loading.value = false;
+    }
+  });
+};
+
+const submitEdit = () => {
+  if (!editFormRef.value) return;
+  editFormRef.value.validate(async (valid) => {
+    if (!valid) return;
+    const id = editForm.propertyId ?? null;
+    if (id === null || id === undefined) {
+      ElMessage.error('缺少房源ID，无法提交修改');
+      return;
+    }
+    const { propertyId, ...rest } = editForm;
+    const payload = { ...rest, availableDate: toBackendDateTime(editForm.availableDate) };
+    loading.value = true;
+    try {
+      await propertyApi.updateProperty(id, payload);
+      ElMessage.success('修改成功');
+      editDialogVisible.value = false;
+      await loadData();
+    } catch (error) {
+      ElMessage.error(getErrorMessage(error, '修改失败'));
     } finally {
       loading.value = false;
     }
@@ -427,7 +548,7 @@ onMounted(loadData);
 
 
         <el-table :data="tableData" v-loading="loading" border stripe>
-        <el-table-column type="index" label="#" width="60" />
+        <el-table-column prop="propertyId" label="房源ID" width="110" />
         <el-table-column prop="propertyName" label="房源名称" min-width="160" show-overflow-tooltip />
         <el-table-column prop="propertyCode" label="编码" min-width="140" show-overflow-tooltip />
         <el-table-column prop="regionId" label="区域" width="100" />
@@ -484,9 +605,12 @@ onMounted(loadData);
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" fixed="right" width="120">
+        <el-table-column label="操作" fixed="right" width="180">
           <template #default="{ row }">
-            <el-button type="primary" link :icon="View" @click="handleView(row)">查看详情</el-button>
+            <el-space size="small">
+              <el-button type="primary" link :icon="View" @click="handleView(row)">查看详情</el-button>
+              <el-button type="primary" link :icon="Edit" @click="openEdit(row)">修改</el-button>
+            </el-space>
           </template>
         </el-table-column>
         </el-table>
@@ -735,6 +859,200 @@ onMounted(loadData);
         <div class="footer-actions">
           <el-button class="plain-btn" @click="createDialogVisible = false">取消</el-button>
           <el-button type="primary" class="gradient-btn" @click="submitCreate">确认创建</el-button>
+        </div>
+      </div>
+    </el-drawer>
+
+    <el-drawer
+      v-model="editDialogVisible"
+      direction="rtl"
+      size="68%"
+      :with-header="false"
+      destroy-on-close
+      class="create-drawer"
+    >
+      <div class="drawer-header">
+        <div>
+          <h3>修改房源</h3>
+          <p>更新房源基础信息（不包含审核流程）。</p>
+        </div>
+        <el-button circle plain size="large" :icon="Close" @click="editDialogVisible = false" />
+      </div>
+      <div class="drawer-body">
+        <el-form ref="editFormRef" :model="editForm" :rules="editRules" label-width="110px" class="create-form">
+          <div class="form-section">
+            <div class="section-title">基础信息</div>
+            <div class="field-grid">
+              <el-form-item class="grid-item" label="房源名称" prop="propertyName">
+                <el-input v-model="editForm.propertyName" placeholder="请输入房源名称" />
+              </el-form-item>
+              <el-form-item class="grid-item" label="房源编码" prop="propertyCode">
+                <el-input v-model="editForm.propertyCode" placeholder="例如 GZ-TNH-0502" />
+              </el-form-item>
+              <el-form-item class="grid-item" label="房间编号" prop="roomNumber">
+                <el-input v-model="editForm.roomNumber" placeholder="如 502-A" />
+              </el-form-item>
+              <el-form-item class="grid-item" label="区域ID" prop="regionId">
+                <el-input-number v-model="editForm.regionId" :controls="false" placeholder="可选填" style="width: 100%;" />
+              </el-form-item>
+              <el-form-item class="grid-item grid-item--full" label="地址" prop="address">
+                <el-input v-model="editForm.address" placeholder="请输入具体地址" />
+              </el-form-item>
+              <el-form-item class="grid-item grid-item--full" label="描述" prop="description">
+                <el-input
+                  v-model="editForm.description"
+                  type="textarea"
+                  :rows="2"
+                  placeholder="可补充亮点、装修、周边配套"
+                />
+              </el-form-item>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="section-title">户型与面积</div>
+            <div class="field-grid">
+              <el-form-item class="grid-item" label="面积" prop="area">
+                <div class="input-with-unit">
+                  <el-input-number v-model="editForm.area" :controls="false" placeholder="面积" style="width: 100%;" />
+                  <span class="unit">㎡</span>
+                </div>
+              </el-form-item>
+              <el-form-item class="grid-item" label="卧室数量" prop="bedrooms">
+                <div class="input-with-unit">
+                  <el-input-number v-model="editForm.bedrooms" :controls="false" placeholder="卧室" style="width: 100%;" />
+                  <span class="unit">间</span>
+                </div>
+              </el-form-item>
+              <el-form-item class="grid-item" label="卫生间" prop="bathrooms">
+                <div class="input-with-unit">
+                  <el-input-number v-model="editForm.bathrooms" :controls="false" placeholder="卫生间" style="width: 100%;" />
+                  <span class="unit">间</span>
+                </div>
+              </el-form-item>
+              <el-form-item class="grid-item" label="最大入住" prop="maxTenants">
+                <div class="input-with-unit">
+                  <el-input-number
+                    v-model="editForm.maxTenants"
+                    :controls="false"
+                    placeholder="人数"
+                    style="width: 100%;"
+                  />
+                  <span class="unit">人</span>
+                </div>
+              </el-form-item>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="section-title">价格与费用</div>
+            <div class="field-grid">
+              <el-form-item class="grid-item" label="租金" prop="rentPrice">
+                <div class="input-with-unit">
+                  <el-input-number
+                    v-model="editForm.rentPrice"
+                    :controls="false"
+                    :precision="2"
+                    :step="100"
+                    placeholder="租金"
+                    style="width: 100%;"
+                  />
+                  <span class="unit">元/月</span>
+                </div>
+              </el-form-item>
+              <el-form-item class="grid-item" label="押金" prop="rentDeposit">
+                <div class="input-with-unit">
+                  <el-input-number
+                    v-model="editForm.rentDeposit"
+                    :controls="false"
+                    :precision="2"
+                    :step="100"
+                    placeholder="押金"
+                    style="width: 100%;"
+                  />
+                  <span class="unit">元</span>
+                </div>
+              </el-form-item>
+              <el-form-item class="grid-item" label="物业费" prop="propertyFee">
+                <div class="input-with-unit">
+                  <el-input-number
+                    v-model="editForm.propertyFee"
+                    :controls="false"
+                    :precision="2"
+                    :step="10"
+                    placeholder="物业费"
+                    style="width: 100%;"
+                  />
+                  <span class="unit">元</span>
+                </div>
+              </el-form-item>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="section-title">坐标与租赁</div>
+            <div class="field-grid">
+              <el-form-item class="grid-item" label="纬度" prop="latitude">
+                <el-input-number
+                  v-model="editForm.latitude"
+                  :controls="false"
+                  :precision="6"
+                  placeholder="纬度 -90 ~ 90"
+                  style="width: 100%;"
+                />
+              </el-form-item>
+              <el-form-item class="grid-item" label="经度" prop="longitude">
+                <el-input-number
+                  v-model="editForm.longitude"
+                  :controls="false"
+                  :precision="6"
+                  placeholder="经度 -180 ~ 180"
+                  style="width: 100%;"
+                />
+              </el-form-item>
+              <el-form-item class="grid-item" label="租赁方式" prop="leaseType">
+                <el-select v-model="editForm.leaseType" placeholder="请选择" style="width: 100%;">
+                  <el-option label="整租" :value="1" />
+                  <el-option label="合租" :value="2" />
+                </el-select>
+              </el-form-item>
+              <el-form-item class="grid-item" label="租期类型" prop="leaseTerm">
+                <el-select v-model="editForm.leaseTerm" placeholder="请选择" style="width: 100%;">
+                  <el-option label="月租" :value="0" />
+                  <el-option label="季租" :value="1" />
+                  <el-option label="半年" :value="2" />
+                  <el-option label="年租" :value="3" />
+                </el-select>
+              </el-form-item>
+              <el-form-item class="grid-item" label="审核员ID" prop="approvedByUser">
+                <el-input-number
+                  v-model="editForm.approvedByUser"
+                  :controls="false"
+                  placeholder="请输入用户ID"
+                  style="width: 100%;"
+                />
+              </el-form-item>
+              <el-form-item class="grid-item" label="可入住时间" prop="availableDate">
+                <el-date-picker
+                  v-model="editForm.availableDate"
+                  type="datetime"
+                  placeholder="选择日期时间"
+                  format="YYYY-MM-DD HH:mm:ss"
+                  value-format="YYYY-MM-DD-HH:mm:ss"
+                  style="width: 100%;"
+                />
+              </el-form-item>
+            </div>
+          </div>
+        </el-form>
+      </div>
+      <div class="drawer-footer">
+        <div class="footer-tip">
+          提示：仅修改表单内容，不会触发审核状态变更。
+        </div>
+        <div class="footer-actions">
+          <el-button class="plain-btn" @click="editDialogVisible = false">取消</el-button>
+          <el-button type="primary" class="gradient-btn" @click="submitEdit">确认保存</el-button>
         </div>
       </div>
     </el-drawer>

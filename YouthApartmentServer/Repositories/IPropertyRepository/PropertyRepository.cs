@@ -196,6 +196,7 @@ public class PropertyRepository : BaseRepository<Property, int>, IPropertyReposi
             updater.Set(a => a.LeaseTerm, property.LeaseTerm);
         if (property.AvailableDate.HasValue)
             updater.Set(a => a.AvailableDate, property.AvailableDate.Value);
+        updater.Set(a => a.UpdatedAt, property.UpdatedAt);
         
         var rows = await updater.ExecuteAffrowsAsync();
         return rows > 0;
