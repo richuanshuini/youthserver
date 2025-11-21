@@ -272,7 +272,7 @@ onMounted(loadData);
             v-model="searchForm.keyword"
             clearable
             placeholder="房源名 / 地址 / 编码"
-            style="min-width: 200px"
+            style="min-width: 260px"
             @keyup.enter="handleSearch"
           />
         </el-form-item>
