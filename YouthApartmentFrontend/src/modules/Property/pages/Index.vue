@@ -204,6 +204,13 @@ const handleSizeChange = (size) => {
 const formatPrice = (val) => (val || val === 0 ? `${val}/月` : '--');
 const formatArea = (val) => (val || val === 0 ? `${val}㎡` : '--');
 const formatRooms = (row) => `${row?.bedrooms ?? '--'}室${row?.bathrooms ?? '--'}卫`;
+const formatDateTime = (val) => {
+  if (!val) return '--';
+  const d = new Date(val);
+  if (Number.isNaN(d.getTime())) return '--';
+  const pad = (num) => String(num).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}-${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+};
 
 const handleCreate = () => {
   if (createFormRef.value) createFormRef.value.resetFields();
@@ -418,7 +425,8 @@ onMounted(loadData);
         </div>
       </template>
 
-      <el-table :data="tableData" v-loading="loading" border stripe>
+      <div class="table-wrapper">
+        <el-table :data="tableData" v-loading="loading" border stripe class="table-scroll">
         <el-table-column type="index" label="#" width="60" />
         <el-table-column prop="propertyName" label="房源名称" min-width="160" show-overflow-tooltip />
         <el-table-column prop="propertyCode" label="编码" min-width="140" show-overflow-tooltip />
@@ -449,7 +457,26 @@ onMounted(loadData);
             {{ leaseTermText(row.leaseTerm) }}
           </template>
         </el-table-column>
-        <el-table-column prop="availableDate" label="可入住" min-width="140" show-overflow-tooltip />
+        <el-table-column prop="availableDate" label="可入住" min-width="160" show-overflow-tooltip>
+          <template #default="{ row }">
+            {{ formatDateTime(row.availableDate) }}
+          </template>
+        </el-table-column>
+        <el-table-column label="创建于" min-width="170" show-overflow-tooltip>
+          <template #default="{ row }">
+            {{ formatDateTime(row.createdAt) }}
+          </template>
+        </el-table-column>
+        <el-table-column label="更新于" min-width="170" show-overflow-tooltip>
+          <template #default="{ row }">
+            {{ formatDateTime(row.updatedAt) }}
+          </template>
+        </el-table-column>
+        <el-table-column label="审核于" min-width="170" show-overflow-tooltip>
+          <template #default="{ row }">
+            {{ formatDateTime(row.approvedAt) }}
+          </template>
+        </el-table-column>
         <el-table-column label="状态" width="120">
           <template #default="{ row }">
             <el-tag :type="statusType(row.status)" effect="plain">
@@ -462,7 +489,8 @@ onMounted(loadData);
             <el-button type="primary" link :icon="View" @click="handleView(row)">查看详情</el-button>
           </template>
         </el-table-column>
-      </el-table>
+        </el-table>
+      </div>
 
       <div class="pagination">
         <el-pagination
