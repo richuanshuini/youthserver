@@ -629,53 +629,112 @@ onMounted(loadData);
       </div>
     </el-card>
 
-    <el-drawer v-model="detailVisible" :title="detailTitle" size="45%" destroy-on-close>
-      <div class="detail-grid">
-        <section>
-          <h4>基础信息</h4>
-          <el-descriptions :column="2" border>
-            <el-descriptions-item label="房源名称">{{ detailData.propertyName || '--' }}</el-descriptions-item>
-            <el-descriptions-item label="房源编码">{{ detailData.propertyCode || '--' }}</el-descriptions-item>
-            <el-descriptions-item label="房间编号">{{ detailData.roomNumber || '--' }}</el-descriptions-item>
-            <el-descriptions-item label="区域ID">{{ detailData.regionId ?? '--' }}</el-descriptions-item>
-            <el-descriptions-item label="状态">
-              <el-tag :type="statusType(detailData.status)" effect="plain">{{ statusText(detailData.status) }}</el-tag>
-            </el-descriptions-item>
-            <el-descriptions-item label="审核员ID">{{ detailData.approvedByUser ?? '--' }}</el-descriptions-item>
-          </el-descriptions>
-        </section>
+    <el-drawer v-model="detailVisible" :with-header="false" size="46%" destroy-on-close class="detail-drawer">
+      <div class="detail-shell">
+        <div class="detail-hero">
+          <div>
+            <div class="hero-eyebrow">ID {{ detailData.propertyId ?? '--' }}</div>
+            <div class="hero-title">{{ detailData.propertyName || '未命名房源' }}</div>
+            <div class="hero-sub">
+              <el-tag size="small" :type="statusType(detailData.status)" effect="dark">
+                {{ statusText(detailData.status) }}
+              </el-tag>
+              <span class="hero-code">编码：{{ detailData.propertyCode || '--' }}</span>
+              <span class="hero-code">房间：{{ detailData.roomNumber || '--' }}</span>
+            </div>
+          </div>
+          <div class="hero-stats">
+            <div class="stat">
+              <div class="stat-value">{{ formatArea(detailData.area) }}</div>
+              <div class="stat-label">面积</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">{{ formatRooms(detailData) }}</div>
+              <div class="stat-label">户型</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">{{ leaseTypeText(detailData.leaseType) }}</div>
+              <div class="stat-label">租赁方式</div>
+            </div>
+          </div>
+        </div>
 
-        <section>
-          <h4>租赁与价格</h4>
-          <el-descriptions :column="2" border>
-            <el-descriptions-item label="租金">{{ formatPrice(detailData.rentPrice) }}</el-descriptions-item>
-            <el-descriptions-item label="押金">{{ detailData.rentDeposit ?? '--' }}</el-descriptions-item>
-            <el-descriptions-item label="物业费">{{ detailData.propertyFee ?? '--' }}</el-descriptions-item>
-            <el-descriptions-item label="租赁方式">{{ leaseTypeText(detailData.leaseType) }}</el-descriptions-item>
-            <el-descriptions-item label="租期">{{ leaseTermText(detailData.leaseTerm) }}</el-descriptions-item>
-            <el-descriptions-item label="可入住">{{ detailData.availableDate || '--' }}</el-descriptions-item>
-          </el-descriptions>
-        </section>
+        <div class="detail-main">
+          <el-card shadow="never" class="detail-card">
+            <div class="card-title">价格 · 租期</div>
+            <div class="meta-grid">
+              <div class="meta-item">
+                <div class="meta-label">租金</div>
+                <div class="meta-value">{{ formatPrice(detailData.rentPrice) }}</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">押金</div>
+                <div class="meta-value">{{ detailData.rentDeposit ?? '--' }}</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">物业费</div>
+                <div class="meta-value">{{ detailData.propertyFee ?? '--' }}</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">租期类型</div>
+                <div class="meta-value">{{ leaseTermText(detailData.leaseTerm) }}</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">可入住时间</div>
+                <div class="meta-value">{{ formatDateTime(detailData.availableDate) }}</div>
+              </div>
+            </div>
+          </el-card>
 
-        <section>
-          <h4>户型与面积</h4>
-          <el-descriptions :column="2" border>
-            <el-descriptions-item label="面积">{{ formatArea(detailData.area) }}</el-descriptions-item>
-            <el-descriptions-item label="户型">{{ formatRooms(detailData) }}</el-descriptions-item>
-            <el-descriptions-item label="人数上限">{{ detailData.maxTenants ?? '--' }}</el-descriptions-item>
-            <el-descriptions-item label="经纬度">
-              {{ detailData.latitude ?? '--' }}, {{ detailData.longitude ?? '--' }}
-            </el-descriptions-item>
-          </el-descriptions>
-        </section>
+          <el-card shadow="never" class="detail-card">
+            <div class="card-title">位置 · 审核</div>
+            <div class="meta-grid">
+              <div class="meta-item meta-span-2">
+                <div class="meta-label">地址</div>
+                <div class="meta-value">{{ detailData.address || '--' }}</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">区域 ID</div>
+                <div class="meta-value">{{ detailData.regionId ?? '--' }}</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">审核员 ID</div>
+                <div class="meta-value">{{ detailData.approvedByUser ?? '--' }}</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">经纬度</div>
+                <div class="meta-value">
+                  {{ detailData.latitude ?? '--' }}, {{ detailData.longitude ?? '--' }}
+                </div>
+              </div>
+            </div>
+          </el-card>
 
-        <section>
-          <h4>位置信息</h4>
-          <el-descriptions :column="1" border>
-            <el-descriptions-item label="地址">{{ detailData.address || '--' }}</el-descriptions-item>
-            <el-descriptions-item label="描述">{{ detailData.description || '--' }}</el-descriptions-item>
-          </el-descriptions>
-        </section>
+          <el-card shadow="never" class="detail-card">
+            <div class="card-title">描述</div>
+            <div class="description-block">
+              <p>{{ detailData.description || '暂无描述' }}</p>
+            </div>
+          </el-card>
+
+          <el-card shadow="never" class="detail-card compact">
+            <div class="card-title">时间线</div>
+            <div class="timeline">
+              <div class="timeline-item">
+                <span class="timeline-label">创建</span>
+                <span class="timeline-value">{{ formatDateTime(detailData.createdAt) }}</span>
+              </div>
+              <div class="timeline-item">
+                <span class="timeline-label">更新</span>
+                <span class="timeline-value">{{ formatDateTime(detailData.updatedAt) }}</span>
+              </div>
+              <div class="timeline-item">
+                <span class="timeline-label">审核</span>
+                <span class="timeline-value">{{ formatDateTime(detailData.approvedAt) }}</span>
+              </div>
+            </div>
+          </el-card>
+        </div>
       </div>
     </el-drawer>
 
@@ -1126,16 +1185,6 @@ onMounted(loadData);
   display: flex;
   justify-content: flex-end;
 }
-.detail-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-.detail-grid h4 {
-  margin: 0 0 8px;
-  font-weight: 600;
-  color: #303133;
-}
 .create-drawer :deep(.el-drawer__body) {
   display: flex;
   flex-direction: column;
@@ -1288,6 +1337,136 @@ onMounted(loadData);
   color: #f56c6c;
   line-height: 1.4;
 }
+.detail-drawer :deep(.el-drawer__body) {
+  padding: 0;
+  background: linear-gradient(180deg, #f4f7ff 0%, #ffffff 26%);
+}
+.detail-shell {
+  padding: 18px 18px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.detail-hero {
+  background: linear-gradient(135deg, #1f7bfd 0%, #4bc8f2 100%);
+  color: #fff;
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 10px 30px rgba(31, 123, 253, 0.25);
+}
+.hero-eyebrow {
+  opacity: 0.92;
+  font-size: 13px;
+  letter-spacing: 0.3px;
+}
+.hero-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 6px 0 4px;
+}
+.hero-sub {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.hero-code {
+  font-size: 13px;
+  opacity: 0.9;
+}
+.hero-stats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.stat {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  padding: 12px 14px;
+  min-width: 90px;
+  text-align: right;
+}
+.stat-value {
+  font-size: 16px;
+  font-weight: 700;
+}
+.stat-label {
+  font-size: 12px;
+  opacity: 0.9;
+}
+.detail-main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+.detail-card {
+  border-radius: 12px;
+}
+.detail-card :deep(.el-card__body) {
+  padding: 14px 16px;
+}
+.card-title {
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #1f2d3d;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px 16px;
+}
+.meta-item {
+  padding: 10px 12px;
+  border: 1px dashed #e5e8f0;
+  border-radius: 10px;
+  background: #f9fbff;
+}
+.meta-item.meta-span-2 {
+  grid-column: span 2;
+}
+.meta-label {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+.meta-value {
+  font-weight: 600;
+  color: #1f2937;
+  word-break: break-word;
+}
+.description-block {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: #374151;
+  line-height: 1.5;
+}
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.timeline-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border: 1px solid #edf1f7;
+  border-radius: 10px;
+  background: #fbfcff;
+}
+.timeline-label {
+  color: #6b7280;
+}
+.timeline-value {
+  font-weight: 600;
+  color: #1f2937;
+}
+.detail-card.compact .timeline {
+  gap: 6px;
+}
 
 @media (max-width: 992px) {
   .create-drawer :deep(.el-col-12),
@@ -1297,6 +1476,14 @@ onMounted(loadData);
   }
   .create-drawer :deep(.el-form-item__label) {
     white-space: nowrap;
+  }
+  .detail-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .hero-stats {
+    width: 100%;
+    justify-content: space-between;
   }
 }
 
