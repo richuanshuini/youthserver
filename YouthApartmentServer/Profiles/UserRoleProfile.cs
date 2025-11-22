@@ -9,6 +9,7 @@ public class UserRoleProfile
     {
         config.NewConfig<UserRole, UserRoleDto>()
             .Map(dest=>dest.UserName,src=>src.User!.UserName)
+            .Map(dest=>dest.RealName,src=>src.User!.RealName)
             .Map(dest=>dest.RoleName,src=>src.Role!.RoleName);
         config.NewConfig<UserRoleDto, UserRole>();
     }

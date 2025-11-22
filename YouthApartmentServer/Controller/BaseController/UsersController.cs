@@ -168,7 +168,19 @@ public class UsersController : ControllerBase
         };
         return Ok(dto);
     }
-    
-    
-    
+
+    [HttpPost("selector")]
+    public async Task<ActionResult<PagedResult<UserSelectorDto>>> GetUserSelector([FromBody] UserSelectorQueryDto query)
+    {
+        var paged = await _iuserService.GetSelectorListAsync(query);
+        var dtoItems = paged.Items.Adapt<List<UserSelectorDto>>();
+        var dto = new PagedResult<UserSelectorDto>
+        {
+            Items = dtoItems,
+            Total = paged.Total,
+            PageNumber = paged.PageNumber,
+            PageSize = paged.PageSize
+        };
+        return Ok(dto);
+    }
 }

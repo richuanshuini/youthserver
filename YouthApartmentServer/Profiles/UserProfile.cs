@@ -1,4 +1,5 @@
 using Mapster;
+using System.Linq;
 using YouthApartmentServer.Model.UserPermissionModel;
 using YouthApartmentServer.ModelDto;
 
@@ -15,6 +16,9 @@ namespace YouthApartmentServer.Profiles
             config.NewConfig<InsertUserDto,User>();
             //全量更新
             config.NewConfig<User,UpdateUserDto>();
+            // 审核员选择器：User -> UserSelectorDto
+            config.NewConfig<User, UserSelectorDto>()
+                .Map(dest => dest.RoleNames, src => src.UserRoles.Select(ur => ur.Role!.RoleName).ToList());
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 #pragma warning disable CS8618
 using System.Text.Json.Serialization;
 
@@ -23,6 +24,7 @@ public class UserRoleDto
 {
     public int UserId { get; set; }
     public string UserName{get;set;}
+    public string RealName { get; set; }
     public int RoleId { get; set; }
     public string RoleName{get;set;}
 }
@@ -190,6 +192,26 @@ public class UpdateRoleDto
 public class UpdateUserRoleDto
 {
     public int RoleId { get; set; }
+}
+
+// 审核员选择器 DTO
+public class UserSelectorDto
+{
+    public int UserId { get; set; }
+    public string UserName { get; set; } = string.Empty;
+    public string RealName { get; set; } = string.Empty;
+    public string? Phone { get; set; }
+    public List<string> RoleNames { get; set; } = new();
+}
+
+// 审核员选择器查询参数
+public class UserSelectorQueryDto
+{
+    public int PageNumber { get; set; } = 1;
+    public int PageSize { get; set; } = 10;
+    public string? Keyword { get; set; }
+    public string SearchType { get; set; } = "UserName"; // UserName | RealName | RoleName
+    public int? UserId { get; set; }
 }
 
 

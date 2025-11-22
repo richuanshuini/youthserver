@@ -28,6 +28,10 @@ namespace YouthApartmentServer.Repositories.IUser
         Task<List<User>> SearchStatus(bool status);
         #endregion
 
+        #region 选择器
+        Task<(List<User> Items, long Total)> GetSelectorListAsync(UserSelectorQueryDto query);
+        #endregion
+
         #region 修改
         Task<User> InsertAsync(User user);
         Task<bool> UpdateUserStatusAsync(int id, bool status);

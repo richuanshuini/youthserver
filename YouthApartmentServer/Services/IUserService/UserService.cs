@@ -278,5 +278,16 @@ public class UserService : IUserService
             Items = items
         };
     }
-    
+
+    public async Task<PagedResult<User>> GetSelectorListAsync(UserSelectorQueryDto query)
+    {
+        var (items, total) = await _iuserRepository.GetSelectorListAsync(query);
+        return new PagedResult<User>
+        {
+            Items = items,
+            Total = total,
+            PageNumber = query.PageNumber,
+            PageSize = query.PageSize
+        };
+    }
 }

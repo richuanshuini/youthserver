@@ -191,8 +191,11 @@ const groupedRows = computed(() => {
     const uid = ur.userId;
     let group = map.get(uid);
     if (!group) {
-      group = { userId: uid, userName: ur.userName, roles: [] };
+      group = { userId: uid, userName: ur.userName, realName: ur.realName, roles: [] };
       map.set(uid, group);
+    }
+    if (ur.realName && !group.realName) {
+      group.realName = ur.realName;
     }
     if (ur.roleId != null) {
       group.roles.push({ roleId: ur.roleId, roleName: ur.roleName });
@@ -396,7 +399,8 @@ const submitDialogRoles = async () => {
     </template>
     <el-table :data="groupedRows" v-loading="loading" stripe :header-cell-style="userTableHeaderStyle" :cell-style="userTableCellStyle">
       <el-table-column prop="userId" label="用户ID" />
-      <el-table-column prop="userName" label="姓名" />
+      <el-table-column prop="realName" label="真实姓名" show-overflow-tooltip />
+      <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
       <el-table-column label="角色">
         <template #default="{ row }">
           <el-space wrap>

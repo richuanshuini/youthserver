@@ -3,6 +3,7 @@ defineOptions({ name: 'PropertyIndexPage' });
 import { ref, reactive, onMounted, computed, nextTick } from 'vue';
 import { ElMessage } from 'element-plus';
 import { Search, Refresh, Filter, Plus, View, Close, Edit } from '@element-plus/icons-vue';
+import { listUserSelector } from '@/modules/user/services.js';
 import { propertyApi } from '../services';
 
 const loading = ref(false);
@@ -52,6 +53,7 @@ const createForm = reactive({
   leaseType: null,
   leaseTerm: null,
 });
+const createApproverDisplay = ref('');
 
 const editDialogVisible = ref(false);
 const editFormRef = ref();
@@ -77,6 +79,7 @@ const editForm = reactive({
   leaseTerm: null,
   availableDate: null,
 });
+const editApproverDisplay = ref('');
 
 const detailVisible = ref(false);
 const detailData = ref({});
@@ -94,7 +97,7 @@ const leaseTypeMap = { 1: '整租', 2: '合租' };
 const leaseTermMap = { 0: '月租', 1: '季租', 2: '半年', 3: '年租' };
 
 const sharedFieldRules = {
-  approvedByUser: [{ required: true, message: '请输入审核员ID', trigger: 'blur' }],
+  approvedByUser: [{ required: true, message: '请选择审核员', trigger: 'change' }],
   area: [{ required: true, message: '请输入房源面积', trigger: 'blur' }],
   bedrooms: [{ required: true, message: '请输入卧室数量', trigger: 'blur' }],
   bathrooms: [{ required: true, message: '请输入卫生间数量', trigger: 'blur' }],
@@ -134,6 +137,29 @@ const leaseTypeText = (val) => leaseTypeMap?.[val] ?? '--';
 const leaseTermText = (val) => leaseTermMap?.[val] ?? '--';
 
 const toggleAdvanced = () => (isAdvancedSearch.value = !isAdvancedSearch.value);
+
+// 审核员选择器状态
+const selectorState = reactive({
+  visible: false,
+  loading: false,
+  data: [],
+  total: 0,
+  query: {
+    pageNumber: 1,
+    pageSize: 10,
+    keyword: '',
+    searchType: 'UserName',
+  },
+});
+const selectorContext = ref('create');
+const selectorSelectedId = ref(null);
+const selectorSelectedRow = ref(null);
+const approverLabelCache = reactive({});
+const searchTypes = [
+  { label: '用户名', value: 'UserName' },
+  { label: '真实姓名', value: 'RealName' },
+  { label: '角色名称', value: 'RoleName' },
+];
 
 const toIso = (val) => {
   if (!val) return null;
@@ -298,6 +324,7 @@ const handleCreate = () => {
     leaseType: null,
     leaseTerm: null,
   });
+  createApproverDisplay.value = '';
   createDialogVisible.value = true;
 };
 
@@ -328,6 +355,15 @@ const openEdit = async (row) => {
     leaseTerm: row.leaseTerm ?? null,
     availableDate: formatAvailableDateValue(row.availableDate),
   });
+  const approverId = row.approvedByUser ?? null;
+  if (approverId && approverLabelCache[approverId]) {
+    editApproverDisplay.value = approverLabelCache[approverId];
+  } else if (approverId) {
+    editApproverDisplay.value = row.realName || row.userName || '';
+    ensureApproverLabel(approverId, 'edit');
+  } else {
+    editApproverDisplay.value = '';
+  }
   editDialogVisible.value = true;
   await nextTick();
   editFormRef.value?.clearValidate();
@@ -380,6 +416,135 @@ const submitEdit = () => {
 const handleView = (row) => {
   detailData.value = { ...row };
   detailVisible.value = true;
+};
+
+const fetchSelectorData = async () => {
+  selectorState.loading = true;
+  try {
+    const res = await listUserSelector({ ...selectorState.query });
+    selectorState.data = res?.items ?? [];
+    selectorState.total = res?.total ?? 0;
+    refreshSelectedRowAfterFetch();
+  } catch (error) {
+    ElMessage.error(getErrorMessage(error, '获取审核员列表失败'));
+  } finally {
+    selectorState.loading = false;
+  }
+};
+
+const openSelector = (context) => {
+  selectorContext.value = context;
+  if (context === 'create') {
+    selectorSelectedId.value = createForm.approvedByUser ?? null;
+  } else {
+    selectorSelectedId.value = editForm.approvedByUser ?? null;
+  }
+  selectorSelectedRow.value = null;
+  selectorState.query.keyword = '';
+  selectorState.query.searchType = 'UserName';
+  selectorState.query.pageNumber = 1;
+  fetchSelectorData();
+  selectorState.visible = true;
+};
+
+const buildApproverLabel = (row) => {
+  const name = row.realName || row.userName || `用户${row.userId}`;
+  const roles = row.roleNames && row.roleNames.length ? `[${row.roleNames.join(', ')}]` : '';
+  return roles ? `${name} ${roles}` : name;
+};
+
+const applySelection = (row) => {
+  if (!row) return;
+  if (selectorContext.value === 'create') {
+    createForm.approvedByUser = row.userId;
+    createApproverDisplay.value = buildApproverLabel(row);
+    createFormRef.value?.clearValidate('approvedByUser');
+  } else {
+    editForm.approvedByUser = row.userId;
+    editApproverDisplay.value = buildApproverLabel(row);
+    editFormRef.value?.clearValidate('approvedByUser');
+  }
+  approverLabelCache[row.userId] = buildApproverLabel(row);
+  selectorState.visible = false;
+  ElMessage.success('已指定审核员');
+};
+
+const handleSelect = (row) => {
+  selectorSelectedId.value = row.userId;
+  selectorSelectedRow.value = row;
+  applySelection(row);
+};
+
+const handleRadioChange = (row, val) => {
+  selectorSelectedId.value = val ?? row.userId;
+  selectorSelectedRow.value = row;
+};
+
+const confirmSelector = () => {
+  if (!selectorSelectedRow.value) {
+    ElMessage.warning('请先选择审核员');
+    return;
+  }
+  applySelection(selectorSelectedRow.value);
+};
+
+const handleSelectorPageChange = (page) => {
+  selectorState.query.pageNumber = page;
+  fetchSelectorData();
+};
+
+const handleSelectorSearch = () => {
+  selectorState.query.pageNumber = 1;
+  fetchSelectorData();
+};
+
+const handleSelectorReset = () => {
+  selectorState.query.keyword = '';
+  selectorState.query.searchType = 'UserName';
+  selectorState.query.pageNumber = 1;
+  fetchSelectorData();
+};
+
+const refreshSelectedRowAfterFetch = () => {
+  if (selectorSelectedId.value == null) return;
+  const found = selectorState.data.find((r) => r.userId === selectorSelectedId.value);
+  if (found) {
+    selectorSelectedRow.value = found;
+    const label = buildApproverLabel(found);
+    approverLabelCache[found.userId] = label;
+    if (selectorContext.value === 'edit') {
+      editApproverDisplay.value = label;
+    } else {
+      createApproverDisplay.value = label;
+    }
+  }
+};
+
+const ensureApproverLabel = async (userId, context) => {
+  if (!userId) return;
+  if (approverLabelCache[userId]) {
+    if (context === 'edit') {
+      editApproverDisplay.value = approverLabelCache[userId];
+    } else {
+      createApproverDisplay.value = approverLabelCache[userId];
+    }
+    return;
+  }
+  try {
+    const res = await listUserSelector({ pageNumber: 1, pageSize: 1, userId });
+    const item = res?.items?.[0];
+    if (item) {
+      const label = buildApproverLabel(item);
+      approverLabelCache[userId] = label;
+      if (context === 'edit') {
+        editApproverDisplay.value = label;
+      } else {
+        createApproverDisplay.value = label;
+      }
+    }
+  } catch {
+    /* 忽略单次回填失败 */
+  }
 };
 
 onMounted(loadData);
@@ -899,13 +1064,17 @@ onMounted(loadData);
                   <el-option label="年租" :value="3" />
                 </el-select>
               </el-form-item>
-              <el-form-item class="grid-item" label="审核员ID" prop="approvedByUser">
-                <el-input-number
-                  v-model="createForm.approvedByUser"
-                  :controls="false"
-                  placeholder="请输入用户ID"
-                  style="width: 100%;"
-                />
+              <el-form-item class="grid-item" label="审核员" prop="approvedByUser">
+                <div class="selector-trigger" @click="openSelector('create')">
+                  <el-input
+                    v-model="createApproverDisplay"
+                    readonly
+                    placeholder="请指派审核员（必填）"
+                    :suffix-icon="Search"
+                  />
+                  <div class="click-mask"></div>
+                </div>
+                <input type="hidden" :value="createForm.approvedByUser">
               </el-form-item>
             </div>
           </div>
@@ -1083,13 +1252,17 @@ onMounted(loadData);
                   <el-option label="年租" :value="3" />
                 </el-select>
               </el-form-item>
-              <el-form-item class="grid-item" label="审核员ID" prop="approvedByUser">
-                <el-input-number
-                  v-model="editForm.approvedByUser"
-                  :controls="false"
-                  placeholder="请输入用户ID"
-                  style="width: 100%;"
-                />
+              <el-form-item class="grid-item" label="审核员" prop="approvedByUser">
+                <div class="selector-trigger" @click="openSelector('edit')">
+                  <el-input
+                    v-model="editApproverDisplay"
+                    readonly
+                    placeholder="请指派审核员（必填）"
+                    :suffix-icon="Search"
+                  />
+                  <div class="click-mask"></div>
+                </div>
+                <input type="hidden" :value="editForm.approvedByUser">
               </el-form-item>
               <el-form-item class="grid-item" label="可入住时间" prop="availableDate">
                 <el-date-picker
@@ -1115,6 +1288,88 @@ onMounted(loadData);
         </div>
       </div>
     </el-drawer>
+
+    <el-dialog
+      v-model="selectorState.visible"
+      title="选择审核员"
+      width="720px"
+      append-to-body
+      align-center
+      class="selector-dialog"
+    >
+      <div class="selector-body">
+        <div class="selector-filter">
+          <el-select v-model="selectorState.query.searchType" class="selector-select">
+            <el-option v-for="t in searchTypes" :key="t.value" :label="t.label" :value="t.value" />
+          </el-select>
+          <el-input
+            v-model="selectorState.query.keyword"
+            class="selector-input"
+            placeholder="输入关键词搜索..."
+            clearable
+            @keyup.enter="handleSelectorSearch"
+          >
+            <template #append>
+              <el-button :icon="Search" @click="handleSelectorSearch" />
+            </template>
+          </el-input>
+          <el-button :icon="Refresh" @click="handleSelectorReset">重置</el-button>
+        </div>
+
+        <div class="selector-table">
+          <el-table :data="selectorState.data" v-loading="selectorState.loading" border stripe height="360px" size="small">
+            <el-table-column label="" width="60" align="center">
+              <template #default="{ row }">
+                <el-radio v-model="selectorSelectedId" :label="row.userId" @change="(val) => handleRadioChange(row, val)" />
+              </template>
+            </el-table-column>
+            <el-table-column label="用户" min-width="180">
+              <template #default="{ row }">
+                <div class="user-cell-name">{{ row.realName }}</div>
+                <div class="user-cell-username">@{{ row.userName }}</div>
+                <div class="user-cell-phone" v-if="row.phone">{{ row.phone }}</div>
+              </template>
+            </el-table-column>
+            <el-table-column label="角色" min-width="220">
+              <template #default="{ row }">
+                <el-space wrap :size="4">
+                  <el-tag
+                    v-for="role in row.roleNames"
+                    :key="role"
+                    size="small"
+                    type="info"
+                    effect="plain"
+                  >
+                    {{ role }}
+                  </el-tag>
+                </el-space>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" width="90" align="center" fixed="right">
+              <template #default="{ row }">
+                <el-button type="primary" link @click="handleSelect(row)">选择</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+
+        <div class="selector-footer">
+          <el-pagination
+            v-model:current-page="selectorState.query.pageNumber"
+            :page-size="selectorState.query.pageSize"
+            :total="selectorState.total"
+            layout="total, prev, pager, next"
+            small
+            background
+            @current-change="handleSelectorPageChange"
+          />
+          <div class="selector-actions">
+            <el-button @click="selectorState.visible = false">取消</el-button>
+            <el-button type="primary" @click="confirmSelector">确认</el-button>
+          </div>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -1225,6 +1480,113 @@ onMounted(loadData);
   display: flex;
   justify-content: flex-end;
   gap: 12px;
+}
+.selector-dialog :deep(.el-dialog__body) {
+  padding: 10px 12px 14px;
+}
+.selector-body {
+  background: linear-gradient(135deg, #f9fbff 0%, #f3f6fb 100%);
+  border: 1px solid #e5edff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 6px 20px rgba(31, 123, 253, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.selector-trigger {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+}
+.selector-trigger :deep(.el-input__wrapper) {
+  cursor: pointer;
+}
+.click-mask {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  cursor: pointer;
+}
+.selector-filter {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+  background: #fff;
+  border: 1px solid #e8ecf5;
+  border-radius: 10px;
+  padding: 10px;
+  flex-wrap: nowrap;
+}
+.selector-filter :deep(.el-input__wrapper) {
+  box-shadow: none;
+  border-radius: 8px;
+  border: 1px solid #dcdfe6;
+}
+.selector-filter :deep(.el-input-group__append) {
+  padding: 0;
+  background: #f5f7fa;
+  border-left: 1px solid #dcdfe6;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.selector-filter :deep(.el-input-group__append .el-button) {
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  height: 100%;
+  margin: 0;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.selector-select {
+  flex: 0 0 130px;
+}
+.selector-input {
+  flex: 1;
+  min-width: 200px;
+}
+.selector-table {
+  border: 1px solid #e5e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+.selector-dialog :deep(.el-table th) {
+  background: #f7f9fc;
+  color: #1f2d3d;
+  font-weight: 600;
+}
+.selector-dialog :deep(.el-table__body-wrapper) {
+  background: #fff;
+}
+.selector-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  gap: 10px;
+}
+.selector-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.user-cell-name {
+  font-weight: 600;
+}
+.user-cell-username {
+  font-size: 12px;
+  color: #666;
+}
+.user-cell-phone {
+  font-size: 12px;
+  color: #999;
 }
 .create-form {
   display: flex;

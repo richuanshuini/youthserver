@@ -19,4 +19,5 @@ public interface IUserService
     Task<List<User>> GetUserWithNoRoleAsync();
     Task<PagedResult<User>> GetUsersNoRolesPagedAsync(int pageNumber, int pageSize);
     // 高级筛选已移除：不再提供未分配角色的多条件分页查询
+    Task<PagedResult<User>> GetSelectorListAsync(UserSelectorQueryDto query);
 }

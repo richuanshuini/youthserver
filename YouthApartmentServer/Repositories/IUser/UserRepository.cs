@@ -1,3 +1,4 @@
+using System;
 using FreeSql;
 using YouthApartmentServer.Model.UserPermissionModel;
 using YouthApartmentServer.ModelDto;
@@ -194,7 +195,41 @@ namespace YouthApartmentServer.Repositories.IUser
             var items = await select.Page(pageNumber, pageSize).ToListAsync();
             return (items, total);
         }
-        
-        
+
+        public async Task<(List<User> Items, long Total)> GetSelectorListAsync(UserSelectorQueryDto q)
+        {
+            const string requiredRoleName = "房源审核员";
+            var select = Select
+                .IncludeMany(u => u.UserRoles, then => then.Include(ur => ur.Role))
+                .Where(u => u.UserRoles.AsSelect().Any(ur => ur.Role != null && ur.Role.RoleName == requiredRoleName));
+
+            if (q.UserId.HasValue)
+            {
+                select = select.Where(u => u.UserId == q.UserId.Value);
+            }
+
+            if (!string.IsNullOrWhiteSpace(q.Keyword))
+            {
+                var key = q.Keyword.Trim();
+                var searchType = q.SearchType?.Trim() ?? "UserName";
+
+                if (searchType.Equals("RoleName", StringComparison.OrdinalIgnoreCase))
+                {
+                    select = select.Where(u => u.UserRoles.AsSelect().Any(ur => ur.Role != null && ur.Role.RoleName.Contains(key)));
+                }
+                else if (searchType.Equals("RealName", StringComparison.OrdinalIgnoreCase))
+                {
+                    select = select.Where(u => u.RealName != null && u.RealName.Contains(key));
+                }
+                else
+                {
+                    select = select.Where(u => u.UserName != null && u.UserName.Contains(key));
+                }
+            }
+
+            var total = await select.CountAsync();
+            var items = await select.Page(q.PageNumber, q.PageSize).ToListAsync();
+            return (items, total);
+        }
     }
 }

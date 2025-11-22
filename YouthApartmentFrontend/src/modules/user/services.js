@@ -11,3 +11,6 @@ export const updateUser = (id, payload) => {
 
 // 单条件查询：POST /api/Users/search，传入 UserQueryParams 中的一个字段
 export const searchUsers = (payload) => http.post('/api/Users/search', payload);
+
+// 用户选择器：查询可分配为审核员的用户（包含角色信息）
+export const listUserSelector = (payload) => http.post('/api/Users/selector', payload);
