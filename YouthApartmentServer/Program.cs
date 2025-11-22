@@ -72,6 +72,8 @@ builder.Services.AddConventionServices(Assembly.GetExecutingAssembly());
 YouthApartmentServer.Profiles.UserProfile.Register(TypeAdapterConfig.GlobalSettings);
 // 注册 UserRole 的映射配置
 YouthApartmentServer.Profiles.UserRoleProfile.Register(TypeAdapterConfig.GlobalSettings);
+//注册Property映射
+YouthApartmentServer.Profiles.PropertyProfile.Register(TypeAdapterConfig.GlobalSettings);
 #endregion
 
 var app = builder.Build();

@@ -698,8 +698,8 @@ onMounted(loadData);
                 <div class="meta-value">{{ detailData.regionId ?? '--' }}</div>
               </div>
               <div class="meta-item">
-                <div class="meta-label">审核员 ID</div>
-                <div class="meta-value">{{ detailData.approvedByUser ?? '--' }}</div>
+                <div class="meta-label">审核员</div>
+                <div class="meta-value">{{ detailData.realName || '--' }}</div>
               </div>
               <div class="meta-item">
                 <div class="meta-label">经纬度</div>

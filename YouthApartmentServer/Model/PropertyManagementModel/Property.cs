@@ -1,4 +1,5 @@
-﻿using FreeSql.DataAnnotations;
+﻿using System.Collections;
+using FreeSql.DataAnnotations;
 using System.ComponentModel.DataAnnotations;
 using YouthApartmentServer.Model.UserPermissionModel;
 namespace YouthApartmentServer.Model.PropertyManagementModel;
@@ -33,7 +34,6 @@ public enum LeaseTerm
 public class Property
 {
     [Column(IsPrimary = true, IsIdentity = true)] public int PropertyId { get; set; } //房源ID
-    
     public int? RegionId { get; set; } //区域ID
     public int? ApprovedByUser { get; set; } //审核员ID，作为User表的外键，由管理员手动分配
     
@@ -93,4 +93,9 @@ public class Property
     //Property 1:n UserProperty
     [Navigate(nameof(UserProperty.PropertyId))]
     public virtual ICollection<UserProperty> Users { get; set; } = new List<UserProperty>();
+    
+    //Property 1:n PropertyImage
+    [Navigate(nameof(PropertyImage.ImageId))]
+    public virtual ICollection<PropertyImage> PropertyImages {get;set;} = new List<PropertyImage>();
+    
 }

@@ -69,6 +69,9 @@ public class PropertyDto
     public DateTime? ApprovedAt { get; set; } //审核时间
     public DateTime? DeletedAt { get; set; } //被删除时间，由IsDeleted决定，被软删除时赋值
     public bool IsDeleted { get; set; } //软删除逻辑
+    
+    //其他表查询字段
+    public string RealName{get;set;}
 }
 
 public class InserPropertyDto

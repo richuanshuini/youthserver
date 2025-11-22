@@ -9,7 +9,7 @@ public class PropertyRepository : BaseRepository<Property, int>, IPropertyReposi
     {
     }
 
-    public ISelect<Property> Query() => Select.Where(p => !p.IsDeleted);
+    public ISelect<Property> Query() => Select.Where(p => !p.IsDeleted).Include(u=>u.User);//加载出User的数据，映射到RealName
     public async Task<Property?> GetById(int id)
     {
         return await Select.Where(p=>p.PropertyId == id).FirstAsync();
